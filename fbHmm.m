@@ -21,13 +21,10 @@ function [ gamma, llh ] = fbHmm( x, s, A, E )
     for i = 2:n
         [gamma(:,i),c(i)] = nml((At*gamma(:,i-1)).*M(:,i),1);  % 13.59
     end
-%     beta = ones(k,n);
-%     for i = n-1:-1:1
-%         beta(:,i) = A*(beta(:,i+1).*M(:,i+1))/c(i+1);   % 13.62
-%         gamma(:,i) = gamma(:,i).*beta(:,i);
-%     end
+    beta = ones(k,n);
     for i = n-1:-1:1
-        gamma(:,i) = 
+        beta(:,i) = A*(beta(:,i+1).*M(:,i+1))/c(i+1);   % 13.62
+        gamma(:,i) = gamma(:,i).*beta(:,i);
     end
     llh = sum(log(c));
 end
