@@ -1,4 +1,4 @@
-function [x, s, A, E] = rndHmm(d, k, n)
+function [ x, s, A, E ] = rndHmm( d, k, n )
 % Generate a data sequence from a hidden Markov model.
 % Input:
 %   d: dimension of data

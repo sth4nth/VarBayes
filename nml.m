@@ -1,4 +1,4 @@
-function [Y, c] = nml(X, dim)
+function [ Y, c ] = nml( X, dim )
 % Normalize the vectors to be summing to one
 %   By default dim = 1 (columns).
 % Written by Michael Chen (sth4nth@gmail.com).

@@ -1,6 +1,14 @@
-function [ m, llh ] = abHmm( x, s, A, E )
-%FWDBWD Summary of this function goes here
-%   Detailed explanation goes here
+function [ gamma, llh ] = abHmm( x, s, A, E )
+% Alpha-Beta forward-backward alogrithm for HMM to compute posterior p(z_i|x)
+% Input:
+%   x: 1xn observation
+%   s: kx1 starting probability of p(z_1|s)
+%   A: kxk transition probability
+%   E: kxd emission probability
+% Output:
+%   gamma: 1xn posterier p(z_i|x)
+%   llh: loglikelihood or evidence lnp(x)
+% written by Mo Chen sth4nth@gmail.com
     n = size(x,2);
     [k,d] = size(E);
     X = sparse(x,1:n,1,d,n);
@@ -17,7 +25,7 @@ function [ m, llh ] = abHmm( x, s, A, E )
     for i = n-1:-1:1
         beta(:,i) = A*(beta(:,i+1).*M(:,i+1))/c(i+1);   % 13.62
     end
-    m = alpha.*beta;                  % 13.64
+    gamma = alpha.*beta;                  % 13.64
     llh = sum(log(c));
 end
 
