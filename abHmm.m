@@ -1,5 +1,5 @@
 function [ gamma, llh ] = abHmm( x, s, A, E )
-% Alpha-Beta forward-backward alogrithm for HMM to compute posterior p(z_i|x)
+% Alpha-Beta (beta is not normalized) forward-backward alogrithm for HMM to compute posterior p(z_i|x)
 % Input:
 %   x: 1xn observation
 %   s: kx1 starting probability of p(z_1|s)
@@ -23,9 +23,9 @@ function [ gamma, llh ] = abHmm( x, s, A, E )
     end
     beta = ones(k,n);
     for i = n-1:-1:1
-        beta(:,i) = A*(beta(:,i+1).*M(:,i+1))/c(i+1);   % 13.62
+        beta(:,i) = A*(beta(:,i+1).*M(:,i+1));   % 13.62
     end
-    gamma = alpha.*beta;                  % 13.64
+    gamma = nml(alpha.*beta,1);                  % 13.64
     llh = sum(log(c));
 end
 

@@ -3,5 +3,9 @@ d = 3;
 k = 2;
 n = 500;
 [x, s, A, E] = rndHmm(d, k, n);
-[m1, c] = abHmm(x, s, A, E);
-m2 = bpHmm(x, s, A, E);
+[gamma, llh] = nabHmm(x, s, A, E);
+[gamma1, llh1] = abHmm(x, s, A, E);
+maxdiff(gamma,gamma1)
+[gamma2, llh2] = fbHmm(x, s, A, E);
+maxdiff(gamma,gamma2)
+
