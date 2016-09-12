@@ -28,7 +28,6 @@ function [ gamma, llh ] = bpHmm( x, s, A, E )
         Beta(:,i) = A*(Beta(:,i+1).*M(:,i+1));
     end
     [gamma, c] = nml(Alpha.*Beta.*M,1);
-%     llh = sum(log(c));
-    llh = c;
+    llh = log(c(1));   % all c(i) are equal
 end
 
