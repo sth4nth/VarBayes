@@ -1,5 +1,5 @@
-function [ gamma, llh ] = bpHmm( x, s, A, E )
-% Belief propagation alogrithm for HMM to compute posterior p(z_i|x)
+function [ gamma, llh ] = nbpHmm( x, s, A, E )
+% Normalized belief propagation alogrithm for HMM to compute posterior p(z_i|x)
 %   The algorithm maintain two set of messages, forward \Alpha(z) (downward \pi(z) from parents) and
 %   backward \Beta(z) (upward \lambda(z) from children). 
 % Input:
