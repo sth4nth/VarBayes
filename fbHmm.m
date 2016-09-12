@@ -1,5 +1,5 @@
 function [ gamma, llh ] = fbHmm( x, s, A, E )
-% forward-backward (recursive gamma no alpha-beta) alogrithm for HMM to compute posterior p(z_i|x)
+% Forward-backward (recursive gamma no alpha-beta) alogrithm for HMM to compute posterior p(z_i|x)
 % Input:
 %   x: 1xn observation
 %   s: kx1 starting probability of p(z_1|s)
@@ -21,10 +21,9 @@ function [ gamma, llh ] = fbHmm( x, s, A, E )
     for i = 2:n
         [gamma(:,i),c(i)] = nml((At*gamma(:,i-1)).*M(:,i),1);  % 13.59
     end
-    beta = ones(k,n);
+   
     for i = n-1:-1:1
-        beta(:,i) = A*(beta(:,i+1).*M(:,i+1))/c(i+1);   % 13.62
-        gamma(:,i) = gamma(:,i).*beta(:,i);
+        gamma(:,i) = nml(bsxfun(@times,A,gamma(:,i)),1)*gamma(:,i+1);
     end
     llh = sum(log(c));
 end
