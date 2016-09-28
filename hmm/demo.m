@@ -10,4 +10,5 @@ maxdiff(gamma,gamma1)
 maxdiff(gamma,gamma2)
 [gamma3, llh3] = bpHmm(x, s, A, E);
 maxdiff(gamma,gamma3)
-
+[gamma4, llh4] = nbpHmm(x, s, A, E);
+maxdiff(gamma,gamma3)

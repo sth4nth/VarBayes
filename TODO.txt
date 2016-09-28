@@ -1,3 +1,2 @@
-Belief Propagation HMM
 Mean Field MRF
 BP/EP MRF

@@ -22,12 +22,12 @@ function [ gamma, llh ] = nbpHmm( x, s, A, E )
     Beta(:,n) = 1;
     At = A';
     for i = 2:n
-        Alpha(:,i) = At*(Alpha(:,i-1).*M(:,i-1));
+        Alpha(:,i) = nml(At*(Alpha(:,i-1).*M(:,i-1)),1);
     end
     for i = n-1:-1:1
-        Beta(:,i) = A*(Beta(:,i+1).*M(:,i+1));
+        Beta(:,i) = nml(A*(Beta(:,i+1).*M(:,i+1)),1);
     end
     [gamma, c] = nml(Alpha.*Beta.*M,1);
-    llh = mean(log(c));   % all c(i) are equal
+    llh = sum(log(c));   
 end
 
