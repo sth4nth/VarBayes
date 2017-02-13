@@ -1,14 +1,19 @@
-function [nodePot, edgePot, B] = im2mrf(im)
-A = im2ug(im);
+function [np, ep, B] = im2mrf(X)
+nStates = 2;
+
+A = im2ug(X);
 B = ug2fg(A);
 
-nodePot = zeros(nNodes,nStates);
-nodePot(1,:) = exp(-1-2.5*Xstd(:));
-nodePot(2,:) = 1;         % exp(0*z*w)=1
+[nEdges, nNodes] = size(B);
 
-edgePot = zeros(n,n,m);
-for e = 1:size(B,2)
-    ind B(:,e);
-    pot = exp(1.8 + .3*1/(1+abs(Xstd(n1)-Xstd(n2))));
-    edgePot(:,:,e) = [pot 1;1 pot];  % exp(0*0*w)=1; exp(1*1*w)=pot_same
+ep = zeros(nStates,nStates,nEdges);
+np = zeros(nStates,nNodes);
+
+Xstd = UGM_standardizeCols(reshape(X,[1 1 nNodes]),1);
+np(1,:) = exp(-1-2.5*Xstd(:));
+np(2,:) = 1;
+for e = 1:nEdges
+    idx = find(B(e,:));
+    ps = exp(1.8 + .3*1/(1+abs(Xstd(idx(1))-Xstd(idx(2)))));
+    ep(:,:,e) = [ps 1;1 ps];
 end

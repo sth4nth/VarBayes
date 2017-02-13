@@ -15,4 +15,4 @@ node = [row(:);col(:)];
 edge = [idx(:);idx(:)];
 v = sqrt(w(:));
 v = [v;v];
-B = sparse(node,edge,v,n,m);
+B = sparse(edge,node,v,m,n);
