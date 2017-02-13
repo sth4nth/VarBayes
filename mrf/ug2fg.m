@@ -4,8 +4,8 @@ function B = ug2fg(A)
 % Input:
 %   A: n x n adjacent matrix of undirected graph
 % Output:
-%   B: n x m adjacent matrix of bipartite factor graph 
-%       where n and m are # of nodes and edges
+%   B: m x n adjacent matrix of bipartite factor graph 
+%       where m and n are # of edges and nodes
 % Written by Mo Chen (sth4nth@gmail.com)
 n = size(A,1);
 [row,col,w] = find(tril(A));

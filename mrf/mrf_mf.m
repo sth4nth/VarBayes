@@ -1,3 +1,4 @@
+
 function [nodeBel, Z, L] = mrf_mf(nodePot, edgePot, B)
 % Mean field for MRF (only for undirected graph, not for factor graph)
 % TODO:
@@ -45,3 +46,4 @@ n(:,i) = false;                     % exclude self
 
 ei = find(e);
 [~,ni] = max(n,[],2);
+

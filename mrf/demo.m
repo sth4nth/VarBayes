@@ -36,4 +36,5 @@ dl(~idx)=0;
 plot(dl);
 figure
 plot(L)
+
 title('Mean Field Estimates of Marginals');
