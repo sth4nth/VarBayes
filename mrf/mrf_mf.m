@@ -30,6 +30,12 @@ for t = 1:epoch
 end
 L=L(2:t);
 
+edgeBel = zeros(size(edgePot));
+for e = 1:size(B,1)
+    ni = find(B(e,:));
+    edgeBel(:,:,e) = nodeBel(:,ni(1))*nodeBel(:,ni(2))';
+end
+
 function [ei,ni] = fgn(B,i)
 % factor graph neighbor
 % ei = neighbor edge index
