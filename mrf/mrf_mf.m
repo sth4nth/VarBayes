@@ -1,7 +1,6 @@
 function [nodeBel, L] = mrf_mf(nodePot, edgePot, B)
 % Mean field for MRF (only for undirected graph, not for factor graph)
 % TODO:
-%   1) compute edge belief
 %   2) generalize to factor graph
 %   3) EP style
 %   4) do not precompute potential value but only store weight (w,b)
