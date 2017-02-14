@@ -15,7 +15,7 @@ colormap gray
 title('Noisy X');
 %% MF
 [np,ep,B] = im2mrf(X);
-[nodeBel,lnZ,L] = mrf_mf(np,ep,B);
+[nodeBel,L] = mrf_mf(np,ep,B);
 subplot(2,2,3);
 imagesc(reshape(nodeBel(2,:),nRows,nCols));
 colormap gray

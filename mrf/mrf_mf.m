@@ -1,4 +1,4 @@
-function [nodeBel, lnZ, L] = mrf_mf(nodePot, edgePot, B)
+function [nodeBel, L] = mrf_mf(nodePot, edgePot, B)
 % Mean field for MRF (only for undirected graph, not for factor graph)
 % TODO:
 %   1) compute edge belief
