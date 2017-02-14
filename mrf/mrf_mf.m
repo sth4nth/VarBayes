@@ -3,10 +3,10 @@ function [nodeBel, L] = mrf_mf(nodePot, edgePot, B)
 % TODO:
 %   1) compute edge belief
 %   2) generalize to factor graph
-%   2.5) parallel update
 %   3) EP style
 %   4) do not precompute potential value but only store weight (w,b)
 %   5) deal with arbitray number of states for x and z
+%   6) further improve numerical stability to make lnZ monotonically increase
 B = logical(B);
 tol = 1e-4;
 epoch = 20;
