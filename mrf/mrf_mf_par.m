@@ -1,22 +1,23 @@
-function [nodeBel, L] = mrf_mf(nodePot, edgePot, B)
-% Mean field for MRF (only for undirected graph, not for factor graph)
+function [nodeBel, L] = mrf_mf_par(nodePot, edgePot, B)
+% Parallel mean field for MRF (only for undirected graph, not for factor graph)
+% parallel update does not guarentee convergence, the lower bound of the final 
+% solution may oscillate a little below the optimal value
 % TODO:
-%   1) compute edge belief
-%   2) generalize to factor graph
-%   3) EP style
-%   4) do not precompute potential value but only store weight (w,b)
-%   5) deal with arbitray number of states for x and z
-%   6) further improve numerical stability to make lnZ monotonically increase
+%   1) iterate through edge instead of node (EP style)
 B = logical(B);
 tol = 1e-4;
-epoch = 50;
+epoch = 10;
 L = -inf(1,epoch+1);
 [nodeBel,lnZ] = softmax(nodePot,1);    % init nodeBel
+% [k,n] = size(nodePot);
+% nodeBel = ones(k,n)/k;                      
+% lnZ = zeros(1,n);
 for t = 1:epoch
+    nodeBel0 = nodeBel;
     for i = 1:size(B,2)
         [ej,nj] = fgn(B,i);
         ep = edgePot(:,:,ej);    % edgePot in neighborhood
-        nb = nodeBel(:,nj);      % nodeBel in neighborhood
+        nb = nodeBel0(:,nj);      % nodeBel in neighborhood
 %         m = zeros(size(nb));    % incoming message
 %         for j = 1:length(ej)
 %             m(:,j) = ep(:,:,j)*nb(:,j);
@@ -28,7 +29,7 @@ for t = 1:epoch
     L(t+1) = mean(lnZ);
     if abs(L(t+1)-L(t)) < tol; break; end
 end
-L=L(2:t);
+L=L(2:t-1);
 
 function [ei,ni] = fgn(B,i)
 % factor graph neighbor
