@@ -1,38 +1,32 @@
-
-function [nodeBel, Z, L] = mrf_mf(nodePot, edgePot, B)
+function [nodeBel, lnZ, L] = mrf_mf(nodePot, edgePot, B)
 % Mean field for MRF (only for undirected graph, not for factor graph)
 % TODO:
-%   1) verify lower bound Z
-%   7) compute in log scale
-%   3) compute edge belief
-
+%   1) compute edge belief
 %   2) generalize to factor graph
-%   4) EP style
-%   5) do not precompute potential value but only store weight (w,b)
-%   6) deal with arbitray number of states for x and z
-
+%   2.5) parallel update
+%   3) EP style
+%   4) do not precompute potential value but only store weight (w,b)
+%   5) deal with arbitray number of states for x and z
 B = logical(B);
-epoch = 100;
 tol = 1e-4;
-[nodeBel, Z] = normalize(nodePot,1);
-
+epoch = 20;
 L = -inf(1,epoch+1);
+[nodeBel,lnZ] = softmax(nodePot,1);    % init nodeBel
 for t = 1:epoch
-    oldNodeBel = nodeBel;
     for i = 1:size(B,2)
         [ej,nj] = fgn(B,i);
         ep = edgePot(:,:,ej);    % edgePot in neighborhood
-        np = nodeBel(:,nj);      % nodePot in neighborhood
-%         nb = zeros(size(np));
+        nb = nodeBel(:,nj);      % nodeBel in neighborhood
+%         m = zeros(size(nb));    % incoming message
 %         for j = 1:length(ej)
-%             nb(:,j) = log(ep(:,:,j))*np(:,j);
+%             m(:,j) = ep(:,:,j)*nb(:,j);
 %         end
-%         b = sum(nb,2);
-        b = log(reshape(ep,2,[]))*np(:);
-        [nodeBel(:,i), Z(i)] = normalize(nodePot(:,i).*exp(b));
+%         sm = sum(m,2);
+        sm = reshape(ep,2,[])*nb(:);     % sum of incoming message
+        [nodeBel(:,i),lnZ(i)] = softmax(nodePot(:,i)+sm);
     end
-    L(t+1) = sum(log(Z));
-    if sum(abs(nodeBel(:)-oldNodeBel(:))) < tol; break; end
+    L(t+1) = mean(lnZ);
+    if abs(L(t+1)-L(t)) < tol; break; end
 end
 L=L(2:t);
 
@@ -46,4 +40,3 @@ n(:,i) = false;                     % exclude self
 
 ei = find(e);
 [~,ni] = max(n,[],2);
-
