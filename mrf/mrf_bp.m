@@ -1,0 +1,1 @@
+function [nodeBel, edgeBel, L] = mrf_bp(nodePot, edgePot, B)
