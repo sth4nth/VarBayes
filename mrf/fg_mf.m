@@ -7,7 +7,9 @@ L = -inf(1,epoch+1);
 [nodeBel,lnZ] = softmax(nodePot,1);    % init nodeBel
 for t = 1:epoch
     for i = 1:size(B,2)
-        e = B(:,i);                         % edge indcies in the neighborhood
+        for l = find(B(:,i))
+            
+        end
         n = B(e,:);                         % node indecis in the neighborhood
         n(:,i) = false;                     % exclude self
         
