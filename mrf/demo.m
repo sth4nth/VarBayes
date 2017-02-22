@@ -1,14 +1,15 @@
 %% Make noisy X
 clear; close all;
 load X.mat
-[nRows,nCols] = size(X);
-X = X + randn(size(X))/2;
 
 figure
 subplot(2,2,1);
 imagesc(X);
 colormap gray
 title('Original X');
+
+[nRows,nCols] = size(X);
+X = X + randn(size(X))/2;
 subplot(2,2,2);
 imagesc(X);
 colormap gray
