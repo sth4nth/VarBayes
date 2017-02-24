@@ -10,10 +10,19 @@ nodeBel = cellmap(@softmax,nodePot);    % init nodeBel
 lnZ = zeros(1,n);
 for t = 1:epoch
 %     for i = 1:size(B,2)
-%         [ej,nj] = fgn(B,i);
-%         ep = edgePot(ej);    % edgePot in neighborhood
+%         e = B(:,i);  % neighbor factor indicator vector
+%         J = B(e,:);  % neighbor node indcator matrix
+%         J(:,i) = false; % exclude self
+% 
+%         factorIdx = find(e);
+%         
+%         
+%         
+%         [~,nj] = max(J,[],2);
+%         
+%         ep = edgePot(factorIdx);    % edgePot in neighborhood
 %         nb = nodeBel(nj);      % nodeBel in neighborhood
-%         nNeis = numel(ej);
+%         nNeis = numel(factorIdx);
 %         nStates = numel(nodeBel{i});
 %         m = zeros(nStates,nNeis);    % incoming message
 %         for j = 1:nNeis
@@ -32,7 +41,7 @@ for t = 1:epoch
             nodeIdx = find(J(k,:));
             fp = edgePot{factorIdx(k)};  
             for j = 1:numel(nodeIdx)
-                nb = nodePot{nodeIdx(j)};
+                nb = nodeBel{nodeIdx(j)};
                 fp = tvp(fp,nb,j);
             end
             m(:,k) = fp(:);
