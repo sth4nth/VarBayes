@@ -1,11 +1,9 @@
 function [nodeBel, L] = mrf_mf(nodePot, edgePot, B)
 % Mean field for MRF (only for undirected graph, not for factor graph)
 % TODO:
-%   2) generalize to factor graph
-%   5) deal with arbitray number of states for x and z
-%   3) EP style
-%   4) do not precompute potential value but only store weight (w,b)
-%   6) further improve numerical stability to make lnZ monotonically increase
+%   1) EP style
+%   2) do not precompute potential value but only store weight (w,b)
+%   3) further improve numerical stability to make lnZ monotonically increase
 B = logical(B);
 tol = 1e-4;
 epoch = 50;
