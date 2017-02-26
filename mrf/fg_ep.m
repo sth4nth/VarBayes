@@ -1,1 +1,0 @@
-function [nodeBel, edgeBel, L] = fg_ep(nodePot, edgePot, B)

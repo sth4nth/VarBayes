@@ -1,4 +1,4 @@
-function [nodeBel, L] = mfSync(B, nodePot, factorPot)
+function [nodeBel, L] = meanFieldSync(B, nodePot, factorPot)
 % Mean field on factor graph
 % TODO:
 %   0) remove nodePot, only use factorPot

@@ -1,0 +1,1 @@
+function [nodeBel, edgeBel, L] = expPropSync(B, nodePot, edgePot)

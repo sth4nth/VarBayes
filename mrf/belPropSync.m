@@ -1,0 +1,1 @@
+function [nodeBel, edgeBel, L] = belPropSync(B, nodePot, edgePot)

@@ -1,5 +1,5 @@
-function [np, ep, B] = im2fg(X)
-% Convert a image to MRF
+function [B, np, ep] = im2fg(X)
+% Convert a image to a factor graph
 A = im2ug(X);
 B = ug2fg(A);
 
