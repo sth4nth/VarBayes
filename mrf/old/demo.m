@@ -24,7 +24,7 @@ title('Mean Field');
 %% Parallel MF
 [nodeBel0,L0] = mrfMfAsync(B,np,ep);
 subplot(2,2,4);
-imagesc(reshape(nodeBel(2,:),nRows,nCols));
+imagesc(reshape(nodeBel0(2,:),nRows,nCols));
 colormap gray
 title('Parallel Mean Field');
 %% Lower bound

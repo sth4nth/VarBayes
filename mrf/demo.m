@@ -23,10 +23,17 @@ imagesc(reshape(nodeBel(2,:),nRows,nCols));
 colormap gray
 title('Mean Field');
 %%
-% [B,np,ep] = im2fg(X);
-% [nb,L0] = meanFieldAsync(B,np,ep);
-% nodeBel = reshape(cell2mat(nb),2,[]);
-% subplot(2,2,4);
-% imagesc(reshape(nodeBel(2,:),nRows,nCols));
-% colormap gray
-% title('Mean Field Async');
+[nb0,L0] = meanFieldAsync(B,np,ep);
+nodeBel0 = reshape(cell2mat(nb0),2,[]);
+subplot(2,2,4);
+imagesc(reshape(nodeBel0(2,:),nRows,nCols));
+colormap gray
+title('Mean Field Async');
+%% Lower bound
+figure
+subplot(2,2,1);
+plot(L)
+title('Mean Field Lower Bound');
+subplot(2,2,2);
+plot(L0)
+title('Mean Field Async Lower Bound');
