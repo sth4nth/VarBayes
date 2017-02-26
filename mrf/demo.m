@@ -14,7 +14,7 @@ subplot(2,2,2);
 imagesc(X);
 colormap gray
 title('Noisy X');
-%%
+%% Mean field on a factor graph
 [B,np,ep] = im2fg(X);
 [nb,L] = meanFieldSync(B,np,ep);
 nodeBel = reshape(cell2mat(nb),2,[]);
@@ -22,7 +22,7 @@ subplot(2,2,3);
 imagesc(reshape(nodeBel(2,:),nRows,nCols));
 colormap gray
 title('Mean Field');
-%%
+%% Mean field on a factor graph with async update
 [nb0,L0] = meanFieldAsync(B,np,ep);
 nodeBel0 = reshape(cell2mat(nb0),2,[]);
 subplot(2,2,4);

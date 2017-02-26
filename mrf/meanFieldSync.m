@@ -3,8 +3,7 @@ function [nodeBel, L] = meanFieldSync(B, nodePot, factorPot)
 % TODO:
 %   0) remove nodePot, only use factorPot
 %   1) EP style
-%   2) do not precompute potential value but only store weight (w,b)
-%   3) further improve numerical stability to make lnZ monotonically increase
+%   2) do not precompute potential value but only store weight
 B = logical(B);
 tol = 1e-4;
 epoch = 50;
@@ -27,7 +26,7 @@ for t = 1:epoch
             fp = factorPot{factorIdx(k)};  
             for j = 1:nNodes
                 nb = nodeBel{nodeIdx(j)};
-                fp = tvp(fp,nb,j);
+                fp = tvp(fp,nb,j);            % tensor vector product
             end
             mess(:,k) = fp(:);
         end
