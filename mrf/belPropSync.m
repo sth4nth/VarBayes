@@ -16,7 +16,7 @@ for t = 1:epoch
 
         factorIdx = find(e);
         nFactors = numel(factorIdx);
-%         mess = zeros(numel(nodeBel{i}),nFactors);    % incoming message        
+%         msg = zeros(numel(nodeBel{i}),nFactors);    % incoming message        
         for k = 1:nFactors
             nodeIdx = find(J(k,:));
             nNodes = numel(nodeIdx);
@@ -25,9 +25,9 @@ for t = 1:epoch
 %                 nb = nodeBel{nodeIdx(j)};
 %                 fp = tvp(fp,nb,j);
             end
-%             mess(:,k) = fp(:);
+%             msg(:,k) = fp(:);
         end
-%         [nodeBel{i},lnZ(i)] = softmax(nodePot{i}+sum(mess,2));
+%         [nodeBel{i},lnZ(i)] = softmax(nodePot{i}+sum(msg,2));
     end
     L(t+1) = mean(lnZ);
     if abs(L(t+1)-L(t)) < tol; break; end    
