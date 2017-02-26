@@ -1,4 +1,4 @@
-function [nodeBel, L] = mrfMfSync(nodePot, edgePot, B)
+function [nodeBel, L] = mrfMfSync(B, nodePot, edgePot)
 % Mean field for MRF (only for undirected graph, not for factor graph)
 % TODO:
 %   1) EP style

@@ -16,10 +16,17 @@ colormap gray
 title('Noisy X');
 %%
 [B,np,ep] = im2fg(X);
-[nb,L] = mfSync(B,np,ep);
+[nb,L] = meanFieldSync(B,np,ep);
 nodeBel = reshape(cell2mat(nb),2,[]);
 subplot(2,2,3);
 imagesc(reshape(nodeBel(2,:),nRows,nCols));
 colormap gray
 title('Mean Field');
 %%
+% [B,np,ep] = im2fg(X);
+% [nb,L0] = meanFieldAsync(B,np,ep);
+% nodeBel = reshape(cell2mat(nb),2,[]);
+% subplot(2,2,4);
+% imagesc(reshape(nodeBel(2,:),nRows,nCols));
+% colormap gray
+% title('Mean Field Async');

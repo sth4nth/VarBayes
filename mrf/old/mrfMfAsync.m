@@ -1,8 +1,7 @@
-function [nodeBel, L] = mrfMfAsync(nodePot, edgePot, B)
+function [nodeBel, L] = mrfMfAsync(B, nodePot, edgePot)
 % Parallel mean field for MRF (only for undirected graph, not for factor graph)
 % parallel update does not guarentee convergence, the lower bound of the final 
 % solution may oscillate a little below the optimal value
-
 B = logical(B);
 tol = 1e-4;
 epoch = 10;

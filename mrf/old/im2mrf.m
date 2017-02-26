@@ -1,4 +1,4 @@
-function [np, ep, B] = im2mrf(X)
+function [B,np, ep] = im2mrf(X)
 % Convert a image to MRF
 nStates = 2;
 A = im2ug(X);

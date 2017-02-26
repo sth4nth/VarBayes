@@ -15,14 +15,14 @@ imagesc(X);
 colormap gray
 title('Noisy X');
 %% MF
-[np,ep,B] = im2mrf(X);
-[nodeBel,L] = mrf_mf(np,ep,B);
+[B,np,ep] = im2mrf(X);
+[nodeBel,L] = mrfMfSync(B,np,ep);
 subplot(2,2,3);
 imagesc(reshape(nodeBel(2,:),nRows,nCols));
 colormap gray
 title('Mean Field');
 %% Parallel MF
-[nodeBel0,L0] = mrf_mf_par(np,ep,B);
+[nodeBel0,L0] = mrfMfAsync(B,np,ep);
 subplot(2,2,4);
 imagesc(reshape(nodeBel(2,:),nRows,nCols));
 colormap gray
