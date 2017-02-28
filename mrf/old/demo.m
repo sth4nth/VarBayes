@@ -16,17 +16,17 @@ colormap gray
 title('Noisy X');
 %% MF
 [B,np,ep] = im2mrf(X);
-[nodeBel,L] = mrfMfSync(B,np,ep);
+[nodeBel,L] = mrfMfAsync(B,np,ep);
 subplot(2,2,3);
 imagesc(reshape(nodeBel(2,:),nRows,nCols));
 colormap gray
 title('Mean Field');
 %% Parallel MF
-[nodeBel0,L0] = mrfMfAsync(B,np,ep);
+[nodeBel0,L0] = mrfMfSync(B,np,ep);
 subplot(2,2,4);
 imagesc(reshape(nodeBel0(2,:),nRows,nCols));
 colormap gray
-title('Parallel Mean Field');
+title('Mean Field Sync');
 %% Lower bound
 figure
 subplot(2,2,1);
@@ -34,7 +34,7 @@ plot(L)
 title('Mean Field Lower Bound');
 subplot(2,2,2);
 plot(L0)
-title('Parallel Mean Field Lower Bound');
+title('Mean Field Sync Lower Bound');
 % 
 % dl = diff(L);
 % idx=dl<0;

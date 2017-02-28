@@ -1,14 +1,17 @@
 function [nodeBel, L] = meanFieldAsync(B, nodePot, factorPot)
-% Mean field on factor graph with async update
+% Mean field on factor graph
+% TODO:
+%   0) remove nodePot, only use factorPot
+%   1) EP style
+%   2) do not precompute potential value but only store weight
 B = logical(B);
 tol = 1e-4;
-epoch = 10;
+epoch = 50;
 L = -inf(1,epoch+1);
 n = numel(nodePot);
 nodeBel = cellmap(@softmax,nodePot);    % init nodeBel
 lnZ = zeros(1,n);
 for t = 1:epoch
-    nodeBel0 = nodeBel;
     for i = 1:n
         e = B(:,i);  % neighbor factor indicator vector
         J = B(e,:);  % neighbor node indcator matrix
@@ -22,8 +25,8 @@ for t = 1:epoch
             nNodes = numel(nodeIdx);
             fp = factorPot{factorIdx(k)};  
             for j = 1:nNodes
-                nb = nodeBel0{nodeIdx(j)};
-                fp = tvp(fp,nb,j);
+                nb = nodeBel{nodeIdx(j)};
+                fp = tvp(fp,nb,j);            % tensor vector product
             end
             msg(:,k) = fp(:);
         end
