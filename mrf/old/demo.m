@@ -21,20 +21,26 @@ subplot(2,2,3);
 imagesc(reshape(nodeBel(2,:),nRows,nCols));
 colormap gray
 title('Mean Field');
-%% Parallel MF
-[nodeBel0,L0] = mrfMfSync(B,np,ep);
+%% Belief Propagation
+[nodeBel] = mrfLbpSync(B,np,ep);
 subplot(2,2,4);
-imagesc(reshape(nodeBel0(2,:),nRows,nCols));
-colormap gray
-title('Mean Field Sync');
-%% Lower bound
-figure
-subplot(2,2,1);
-plot(L)
-title('Mean Field Lower Bound');
-subplot(2,2,2);
-plot(L0)
-title('Mean Field Sync Lower Bound');
+imagesc(reshape(nodeBel(2,:),nRows,nCols));
+
+
+%% Parallel MF
+% [nodeBel0,L0] = mrfMfSync(B,np,ep);
+% subplot(2,2,4);
+% imagesc(reshape(nodeBel0(2,:),nRows,nCols));
+% colormap gray
+% title('Mean Field Sync');
+% %% Lower bound
+% figure
+% subplot(2,2,1);
+% plot(L)
+% title('Mean Field Lower Bound');
+% subplot(2,2,2);
+% plot(L0)
+% title('Mean Field Sync Lower Bound');
 % 
 % dl = diff(L);
 % idx=dl<0;

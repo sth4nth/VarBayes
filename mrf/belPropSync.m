@@ -8,6 +8,10 @@ L = -inf(1,epoch+1);
 n = numel(nodePot);
 % nodeBel = cellmap(@softmax,nodePot);    % init nodeBel
 % lnZ = zeros(1,n);
+nEdges = size(B,1);
+nStates = 2;
+msg = zeros(nStates,2*nEdges)/nStates;
+
 for t = 1:epoch
     for i = 1:n
         e = B(:,i);  % neighbor factor indicator vector
