@@ -1,5 +1,5 @@
-function [nodeBel, edgeBel, L] = mrfLbpSync(B, nodePot,edgePot)
-[nNodes,nStates] = size(nodePot);
+function [nodeBel, edgeBel, L] = mrfLbpAsync(B, nodePot, edgePot)
+[nStates,nNodes] = size(nodePot);
 nEdges = size(edgePot,3);
 
 B = logical(B);

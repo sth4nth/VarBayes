@@ -14,6 +14,8 @@ subplot(2,2,2);
 imagesc(X);
 colormap gray
 title('Noisy X');
+
+
 %% MF
 [B,np,ep] = im2mrf(X);
 [nodeBel,L] = mrfMfAsync(B,np,ep);
@@ -22,9 +24,10 @@ imagesc(reshape(nodeBel(2,:),nRows,nCols));
 colormap gray
 title('Mean Field');
 %% Belief Propagation
-[nodeBel] = mrfLbpSync(B,np,ep);
+[nodeBel,edgeBel] = mrfLbpAsync(B,exp(np),exp(ep));
 subplot(2,2,4);
 imagesc(reshape(nodeBel(2,:),nRows,nCols));
+title('Belief Propagation');
 
 
 %% Parallel MF
