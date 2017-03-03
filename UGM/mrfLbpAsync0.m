@@ -38,7 +38,7 @@ for i = 1:n
     nodeBel(:,i) = nodePot(:,i).*prod(mu(:,in),2);
 end
 nodeBel = normalize(nodeBel,1);
-% 
+
 % edgeBel = zeros(k,k,m);
 % for e = 1:m
 %     nodes = find(B(e,:));
