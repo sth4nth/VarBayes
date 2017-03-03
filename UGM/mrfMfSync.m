@@ -1,41 +1,31 @@
-function [nodeBel, L] = mrfMfSync(B, nodePot, edgePot)
-% Parallel mean field for MRF (only for undirected graph, not for factor graph)
-% parallel update does not guarentee convergence, the lower bound of the final 
-% solution may oscillate a little below the optimal value
-B = logical(B);
+function [nodeBel, edgeBel, L] = mrfMfSync(A, nodePot, edgePot)
+% Mean field for MRF with sync (parallel) update
+% Input: 
+%   A: n x n adjacent matrix of undirected graph, where value is edge index
+%   nodePot: k x n node potential
+%   edgePot: k x k x m edge potential
+% Output:
+%   nodeBel: k x n node belief
+%   edgeBel: k x k x m edge belief
+%   L: 1 x epoch variational lower bound
+% Written by Mo Chen (sth4nth@gmail.com)
 tol = 1e-4;
 epoch = 10;
 L = -inf(1,epoch+1);
 [nodeBel,lnZ] = softmax(nodePot,1);    % init nodeBel
-% [k,n] = size(nodePot);
-% nodeBel = ones(k,n)/k;                      
-% lnZ = zeros(1,n);
-for t = 1:epoch
+for iter = 1:epoch
     nodeBel0 = nodeBel;
-    for i = 1:size(B,2)
-        [ej,nj] = fgn(B,i);
-        ep = edgePot(:,:,ej);    % edgePot in neighborhood
-        nb = nodeBel0(:,nj);      % nodeBel in neighborhood
-%         msg = zeros(size(nb));    % incoming message
-%         for j = 1:length(ej)
-%             msg(:,j) = ep(:,:,j)*nb(:,j);
-%         end
-%         msgs = sum(msg,2);
-        msgs = reshape(ep,2,[])*nb(:);     % sum of incoming message
-        [nodeBel(:,i),lnZ(i)] = softmax(nodePot(:,i)+msgs);
+    for i = 1:numel(lnZ)
+        [~,j,e] = find(A(i,:));
+        [nodeBel(:,i),lnZ(i)] = softmax(nodePot(:,i)+reshape(edgePot(:,:,e),2,[])*reshape(nodeBel0(:,j),[],1));
     end
-    L(t+1) = mean(lnZ);
-    if abs(L(t+1)-L(t)) < tol; break; end
+    L(iter+1) = mean(lnZ);
+    if abs(L(iter+1)-L(iter)) < tol; break; end
 end
-L=L(2:t-1);
+L=L(2:iter);
 
-function [ei,ni] = fgn(B,i)
-% factor graph neighbor
-% ei = neighbor edge index
-% ni = neighbor node index
-e = B(:,i);                         % edge indcies in the neighborhood
-n = B(e,:);                         % node indecis in the neighborhood
-n(:,i) = false;                     % exclude self
-
-ei = find(e);
-[~,ni] = max(n,[],2);
+[s,t,e] = find(A);
+edgeBel = zeros(size(edgePot));
+for i = 1:numel(e)
+    edgeBel(:,:,e(i)) = nodeBel(:,s(i))*nodeBel(:,t(i))';
+end

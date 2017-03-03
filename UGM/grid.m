@@ -1,17 +1,12 @@
-function G = grid( sz )
+function A = grid( sz )
 % Create grid undirected graph from size parameter
 % Input:
 %   sz: size
 % Output:
 %   G: graph object
 % Written by Mo Chen (sth4nth@gmail.com)
-
-n = prod(sz);
-
 nRows = sz(1);
 nCols = sz(2);
-
-
 
 nNodes = nRows*nCols;
 A = sparse(nNodes,nNodes);
@@ -30,7 +25,3 @@ A(sub2ind([nNodes nNodes],ind,ind+nRows)) = true;
 
 % Add Up/Left Edges
 A = A+A';
-
-G = graph(A);
-end
-

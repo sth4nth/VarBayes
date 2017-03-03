@@ -1,45 +1,30 @@
-function [nodeBel, L] = mrfMfAsync(B, nodePot, edgePot)
-% Mean field for MRF (only for undirected graph, not for factor graph)
-% TODO:
-%   1) EP style
-%   2) do not precompute potential value but only store weight (w,b)
-%   3) further improve numerical stability to make lnZ monotonically increase
-B = logical(B);
+function [nodeBel, edgeBel, L] = mrfMfAsync(A, nodePot, edgePot)
+% Mean field for MRF
+% Input: 
+%   A: n x n adjacent matrix of undirected graph, where value is edge index
+%   nodePot: k x n node potential
+%   edgePot: k x k x m edge potential
+% Output:
+%   nodeBel: k x n node belief
+%   edgeBel: k x k x m edge belief
+%   L: 1 x epoch variational lower bound
+% Written by Mo Chen (sth4nth@gmail.com)
 tol = 1e-4;
 epoch = 50;
 L = -inf(1,epoch+1);
 [nodeBel,lnZ] = softmax(nodePot,1);    % init nodeBel
-for t = 1:epoch
-    for i = 1:size(B,2)
-        [ej,nj] = fgn(B,i);
-        ep = edgePot(:,:,ej);    % edgePot in neighborhood
-        nb = nodeBel(:,nj);      % nodeBel in neighborhood
-%         msg = zeros(size(nb));    % incoming message
-%         for j = 1:length(ej)
-%             msg(:,j) = ep(:,:,j)*nb(:,j);
-%         end
-%         msgs = sum(msg,2);
-        msgs = reshape(ep,2,[])*reshape(nb,[],1);     % sum of incoming message
-        [nodeBel(:,i),lnZ(i)] = softmax(nodePot(:,i)+msgs);
+for iter = 1:epoch
+    for i = 1:numel(lnZ)
+        [~,j,e] = find(A(i,:));
+        [nodeBel(:,i),lnZ(i)] = softmax(nodePot(:,i)+reshape(edgePot(:,:,e),2,[])*reshape(nodeBel(:,j),[],1));
     end
-    L(t+1) = mean(lnZ);
-    if abs(L(t+1)-L(t)) < tol; break; end
+    L(iter+1) = mean(lnZ);
+    if abs(L(iter+1)-L(iter)) < tol; break; end
 end
-L=L(2:t);
+L=L(2:iter);
 
+[s,t,e] = find(A);
 edgeBel = zeros(size(edgePot));
-for e = 1:size(B,1)
-    ni = find(B(e,:));
-    edgeBel(:,:,e) = nodeBel(:,ni(1))*nodeBel(:,ni(2))';
+for i = 1:numel(e)
+    edgeBel(:,:,e(i)) = nodeBel(:,s(i))*nodeBel(:,t(i))';
 end
-
-function [ei,ni] = fgn(B,i)
-% factor graph neighbor
-% ei = neighbor edge index
-% ni = neighbor node index
-e = B(:,i);                         % edge indcies in the neighborhood
-n = B(e,:);                         % node indecis in the neighborhood
-n(:,i) = false;                     % exclude self
-
-ei = find(e);
-[~,ni] = max(n,[],2);
