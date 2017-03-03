@@ -20,10 +20,16 @@ subplot(2,2,3);
 imagesc(reshape(nodeBel(2,:),nRows,nCols));
 colormap gray
 title('Mean Field');
+%% Mean Field Parallel
+% [B,np,ep] = im2fg(X);
+% [nodeBel, edgeBel] = mrfLbpAsync(B, exp(np), exp(ep));
+% subplot(2,2,4);
+% imagesc(reshape(nodeBel(2,:),nRows,nCols));
+% colormap gray
+% title('Mean Field Parallel');
 %% Belief Propagation
-[B,np,ep] = im2fg(X);
-[nodeBel, edgeBel] = mrfLbpAsync(B, exp(np), exp(ep));
+[nodeBel] = mrfLbpAsync0(A, exp(np), exp(ep));
 subplot(2,2,4);
 imagesc(reshape(nodeBel(2,:),nRows,nCols));
 colormap gray
-title('Mean Field Parallel');
+title('Mean Field');

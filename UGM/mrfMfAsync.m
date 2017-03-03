@@ -7,7 +7,7 @@ function [nodeBel, edgeBel, L] = mrfMfAsync(A, nodePot, edgePot)
 % Output:
 %   nodeBel: k x n node belief
 %   edgeBel: k x k x m edge belief
-%   L: 1 x epoch variational lower bound
+%   L: variational lower bound
 % Written by Mo Chen (sth4nth@gmail.com)
 tol = 1e-4;
 epoch = 50;
@@ -15,7 +15,7 @@ L = -inf(1,epoch+1);
 [nodeBel,lnZ] = softmax(nodePot,1);    % init nodeBel
 for iter = 1:epoch
     for i = 1:numel(lnZ)
-        [~,j,e] = find(A(i,:));
+        [~,j,e] = find(A(i,:));             % neighbors
         [nodeBel(:,i),lnZ(i)] = softmax(nodePot(:,i)+reshape(edgePot(:,:,e),2,[])*reshape(nodeBel(:,j),[],1));
     end
     L(iter+1) = mean(lnZ);
