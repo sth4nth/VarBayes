@@ -19,7 +19,7 @@ for t = 1:epoch
 %             msg(:,j) = ep(:,:,j)*nb(:,j);
 %         end
 %         msgs = sum(msg,2);
-        msgs = reshape(ep,2,[])*nb(:);     % sum of incoming message
+        msgs = reshape(ep,2,[])*reshape(nb,[],1);     % sum of incoming message
         [nodeBel(:,i),lnZ(i)] = softmax(nodePot(:,i)+msgs);
     end
     L(t+1) = mean(lnZ);

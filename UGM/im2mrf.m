@@ -5,11 +5,9 @@ A = im2ug(X);
 B = ug2fg(A);
 
 [s,t,w] = find(tril(A));
+m = numel(w);
+w = 1:numel(w);
 G = graph(s,t,w);
-n = numnodes(G);
-m = numedges(G);
-k = 2;
-[s,t] = findedge(G);
 
 npp = zeros(k,n);
 epp = zeros(k,k,m);
