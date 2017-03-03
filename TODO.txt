@@ -1,2 +1,23 @@
-Mean Field MRF
-BP/EP MRF
+BP MRF
+BP FG
+Bethe energy for MF/BP/EP
+EP MRF
+EP FG
+MF(EP style)
+VBR MRF
+VBR FG
+VBR (1 layer)
+VBR (k layer)
+
+MF GP
+EP GP
+VBR GP
+
+MF LDA
+EP LDA
+EP GMM
+VBR LDA
+VBR GMM
+VBR HMM
+
+VBR DL
