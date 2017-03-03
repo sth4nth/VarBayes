@@ -14,12 +14,12 @@ imagesc(X);
 colormap gray
 title('Noisy X');
 %% Mean Field
-[A,np,ep] = im2mrf(X);
-[nodeBel, edgeBel, L] = mrfMfAsync(A, np, ep);
-subplot(2,2,3);
-imagesc(reshape(nodeBel(2,:),nRows,nCols));
-colormap gray
-title('Mean Field');
+% [A,np,ep] = im2mrf(X);
+% [nodeBel, edgeBel, L] = mrfMfAsync(A, np, ep);
+% subplot(2,2,3);
+% imagesc(reshape(nodeBel(2,:),nRows,nCols));
+% colormap gray
+% title('Mean Field');
 %% Mean Field Parallel
 % [B,np,ep] = im2fg(X);
 % [nodeBel, edgeBel] = mrfLbpAsync(B, exp(np), exp(ep));
@@ -28,7 +28,15 @@ title('Mean Field');
 % colormap gray
 % title('Mean Field Parallel');
 %% Belief Propagation
-[nodeBel] = mrfLbpAsync0(A, exp(np), exp(ep));
+[A,np,ep] = im2mrf(X);
+[nodeBel,edgeBel] = belProp(A, exp(np), exp(ep));
+subplot(2,2,3);
+imagesc(reshape(nodeBel(2,:),nRows,nCols));
+colormap gray
+title('Mean Field');
+%% Belief Propagation
+[B,np,ep] = im2fg(X);
+[nodeBel0, edgeBel0] = mrfLbpAsync(B, exp(np), exp(ep));
 subplot(2,2,4);
 imagesc(reshape(nodeBel(2,:),nRows,nCols));
 colormap gray

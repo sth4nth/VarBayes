@@ -1,5 +1,5 @@
-function [nodeBel, edgeBel, L] = mrfMfSync(A, nodePot, edgePot)
-% Mean field for MRF with sync (parallel) update
+function [nodeBel, edgeBel, L] = meanField(A, nodePot, edgePot)
+% Mean field for MRF
 % Input: 
 %   A: n x n adjacent matrix of undirected graph, where value is edge index
 %   nodePot: k x n node potential
@@ -7,17 +7,16 @@ function [nodeBel, edgeBel, L] = mrfMfSync(A, nodePot, edgePot)
 % Output:
 %   nodeBel: k x n node belief
 %   edgeBel: k x k x m edge belief
-%   L: 1 x epoch variational lower bound
+%   L: variational lower bound
 % Written by Mo Chen (sth4nth@gmail.com)
 tol = 1e-4;
-epoch = 10;
+epoch = 50;
 L = -inf(1,epoch+1);
 [nodeBel,lnZ] = softmax(nodePot,1);    % init nodeBel
 for iter = 1:epoch
-    nodeBel0 = nodeBel;
     for i = 1:numel(lnZ)
-        [~,j,e] = find(A(i,:));
-        [nodeBel(:,i),lnZ(i)] = softmax(nodePot(:,i)+reshape(edgePot(:,:,e),2,[])*reshape(nodeBel0(:,j),[],1));
+        [~,j,e] = find(A(i,:));             % neighbors
+        [nodeBel(:,i),lnZ(i)] = softmax(nodePot(:,i)+reshape(edgePot(:,:,e),2,[])*reshape(nodeBel(:,j),[],1));
     end
     L(iter+1) = mean(lnZ);
     if abs(L(iter+1)-L(iter)) < tol; break; end
