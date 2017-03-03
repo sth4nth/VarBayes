@@ -1,5 +1,5 @@
-function [nodeBel, edgeBel, L] = belProp(A, nodePot, edgePot)
-% Belief propagation for MRF
+function [nodeBel, edgeBel, L] = expProp(A, nodePot, edgePot)
+% Expectation propagation for MRF
 % Input: 
 %   A: n x n adjacent matrix of undirected graph, where value is edge index
 %   nodePot: k x n node potential
@@ -40,12 +40,14 @@ for i = 1:n
 end
 nodeBel = normalize(nodeBel,1);
 
-[s,t,e] = find(tril(A));
 edgeBel = zeros(k,k,m);
-for i = 1:m
-    nb1 = nodeBel(:,s(i))./mu(:,M(s(i),t(i)));
-    nb2 = nodeBel(:,t(i))./mu(:,M(t(i),s(i)));
-    eb = (nb1*nb2').*edgePot(:,:,e(i));
-    edgeBel(:,:,e(i)) = eb./sum(eb(:));
+for e = 1:m
+    nodes = find(B(e,:));
+    n1 = nodes(1);
+    n2 = nodes(2);
+    nb1 = nodeBel(:,n1)./mu(:,e+m);
+    nb2 = nodeBel(:,n2)./mu(:,e);
+    eb = (nb1*nb2').*edgePot(:,:,e);
+    edgeBel(:,:,e) = eb./sum(eb(:));
 end
 
