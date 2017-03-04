@@ -1,7 +1,7 @@
-BP MRF
 Bethe energy for MF/BP/EP
-BP FG
+lnZ BP
 EP MRF
+BP FG
 EP FG
 MF(EP style)
 VBR MRF

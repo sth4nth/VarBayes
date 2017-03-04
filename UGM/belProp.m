@@ -43,9 +43,9 @@ nodeBel = normalize(nodeBel,1);
 [s,t,e] = find(tril(A));
 edgeBel = zeros(k,k,m);
 for i = 1:m
-    nb1 = nodeBel(:,s(i))./mu(:,M(s(i),t(i)));
-    nb2 = nodeBel(:,t(i))./mu(:,M(t(i),s(i)));
-    eb = (nb1*nb2').*edgePot(:,:,e(i));
+    nbt = nodeBel(:,t(i))./mu(:,M(s(i),t(i)));
+    nbs = nodeBel(:,s(i))./mu(:,M(t(i),s(i)));
+    eb = (nbt*nbs').*edgePot(:,:,e(i));
     edgeBel(:,:,e(i)) = eb./sum(eb(:));
 end
 
