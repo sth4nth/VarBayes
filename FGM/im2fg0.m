@@ -1,4 +1,4 @@
-function [B, np, ep] = im2fg(X)
+function [B, np, ep] = im2fg0(X)
 % Convert a image to MRF
 nStates = 2;
 A = grid(size(X));

@@ -1,5 +1,5 @@
 Bethe energy for MF/BP/EP
-lnZ BP
+BP lnZ
 EP MRF
 BP FG
 EP FG
@@ -21,3 +21,6 @@ VBR GMM
 VBR HMM
 
 VBR DL
+
+Algo: MF/BP/EP/VBR
+Model: MRF/FG/GP/GMM/LDA/HMM

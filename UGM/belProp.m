@@ -16,7 +16,7 @@ m = size(edgePot,3);
 
 [s,t] = find(A);
 v = 1:2*m;
-M = sparse(s,t,v(:));       % digraph adjacent matrix, where value is message index
+M = sparse(s,t,v(:),n,n);       % digraph adjacent matrix, where value is message index
 mu = ones(k,2*m)/k;         % message
 for iter = 1:epoch
     mu0 = mu;
@@ -30,7 +30,7 @@ for iter = 1:epoch
             mu(:,out) = normalize(ep*(np.*prod(mu(:,in),2)));
         end
     end
-    if sum(abs(mu(:)-mu0(:))) < tol; break; end
+    if max(abs(mu(:)-mu0(:))) < tol; break; end
 end
 
 nodeBel = zeros(k,n);

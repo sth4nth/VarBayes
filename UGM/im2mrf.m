@@ -4,19 +4,19 @@ A = grid(size(X));
 [s,t,e] = find(tril(A));
 
 nStates = 2;
-nEdges = numel(e);
-nNodes = numel(X);
-e = 1:nEdges;
-A = sparse([s;t],[t;s],[e(:);e(:)]);
+m = numel(e);
+n = numel(X);
+e = 1:m;
+A = sparse([s;t],[t;s],[e(:);e(:)],n,n);
 
 X = X(:);
 X = (X-mean(X))/std(X);
 
-np = zeros(nStates,nNodes);
+np = zeros(nStates,n);
 np(1,:) = -1-2.5*X(:);
 
-ep = zeros(nStates,nStates,nEdges);
-for i = 1:nEdges
+ep = zeros(nStates,nStates,m);
+for i = 1:m
     ps = 1.8 + .3*1/(1+abs(X(s(i))-X(t(i))));
     ep(:,:,e(i)) = [ps, 0; 0, ps];
 end
