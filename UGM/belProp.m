@@ -14,9 +14,8 @@ epoch = 50;
 [k,n] = size(nodePot);
 m = size(edgePot,3);
 
-[s,t] = find(A);
-v = 1:2*m;
-M = sparse(s,t,v(:),n,n);       % digraph adjacent matrix, where value is message index
+[s,t,e] = find(tril(A));
+M = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
 mu = ones(k,2*m)/k;         % message
 for iter = 1:epoch
     mu0 = mu;
@@ -40,12 +39,10 @@ for i = 1:n
 end
 nodeBel = normalize(nodeBel,1);
 
-[s,t,e] = find(tril(A));
 edgeBel = zeros(k,k,m);
-for i = 1:m
-    nbt = nodeBel(:,t(i))./mu(:,M(s(i),t(i)));
-    nbs = nodeBel(:,s(i))./mu(:,M(t(i),s(i)));
-    eb = (nbt*nbs').*edgePot(:,:,e(i));
-    edgeBel(:,:,e(i)) = eb./sum(eb(:));
+for l = 1:m
+    nbt = nodeBel(:,t(l))./mu(:,M(s(l),t(l)));
+    nbs = nodeBel(:,s(l))./mu(:,M(t(l),s(l)));
+    eb = (nbt*nbs').*edgePot(:,:,e(l));
+    edgeBel(:,:,e(l)) = eb./sum(eb(:));
 end
-

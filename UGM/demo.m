@@ -22,6 +22,7 @@ colormap gray
 title('Mean Field');
 %% Belief Propagation
 [nbbp,ebbp] = belProp(A, exp(np), exp(ep));
+% [nbbp,ebbp] = expProp(A, exp(np), exp(ep));
 subplot(2,2,4);
 imagesc(reshape(nbbp(2,:),nRows,nCols));
 colormap gray
