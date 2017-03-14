@@ -1,4 +1,4 @@
-function lnZ = betheEnergy(A, nodeBel, edgeBel, nodePot, edgePot)
+function lnZ = betheEnergy0(A, nodeBel, edgeBel, nodePot, edgePot)
 % Compute Bethe free energy
 d = full(sum(A,2));
 Ex = nodeBel.*log(nodePot);
