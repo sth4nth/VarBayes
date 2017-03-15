@@ -34,8 +34,7 @@ end
 
 nodeBel = zeros(k,n);
 for i = 1:n
-    [~,~,in] = find(M(:,i));
-    nodeBel(:,i) = nodePot(:,i).*prod(mu(:,in),2);
+    nodeBel(:,i) = nodePot(:,i).*prod(mu(:,nonzeros(M(:,i))),2);
 end
 nodeBel = normalize(nodeBel,1);
 

@@ -15,18 +15,27 @@ epoch = 50;
 m = size(edgePot,3);
 
 [s,t,e] = find(tril(A));
-A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
+M = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
 mu = ones(k,2*m)/k;         % message
+
+% nodeBel = normalize(nodePot,1);
+% edgeBel = reshape(normalize(reshape(edgePot,[],m),1),k,k,[]);
+
 for iter = 1:epoch
     mu0 = mu;
     for i = 1:n
         np = nodePot(:,i);
-        ne = find(A(i,:));             % neighbors
-        for j = ne
-            ep = edgePot(:,:,mod(A(i,j),m));
-            out = A(i,j);
-            in = A(setdiff(ne,j),i);
-            mu(:,out) = normalize(ep*(np.*prod(mu(:,in),2)));
+        out = nonzeros(M(i,:));             % out going edge indices
+        in = rd(out,m);          % in comming edge indices        
+%         in = nonzeros(M(:,i));
+        e = ud(out);
+%         e = un(in);
+        for j = 1:numel(e)
+            ep = edgePot(:,:,e(j));
+            
+            out_j = out(j);
+            in_j = setdiff(in,rd(out_j));
+            mu(:,out_j) = normalize(ep*(np.*prod(mu(:,in_j),2)));
         end
     end
     if max(abs(mu(:)-mu0(:))) < tol; break; end
@@ -34,8 +43,7 @@ end
 
 nodeBel = zeros(k,n);
 for i = 1:n
-    [~,~,in] = find(M(:,i));
-    nodeBel(:,i) = nodePot(:,i).*prod(mu(:,in),2);
+    nodeBel(:,i) = nodePot(:,i).*prod(mu(:,nonzeros(M(:,i))),2);
 end
 nodeBel = normalize(nodeBel,1);
 
@@ -46,3 +54,12 @@ for l = 1:m
     eb = (nbt*nbs').*edgePot(:,:,e(l));
     edgeBel(:,:,e(l)) = eb./sum(eb(:));
 end
+
+
+function i = rd(i, m)
+% reverse direction edge indeices
+i = mod(i+m,2*m);
+
+function i = ud(i, m)
+% undirected edge indices
+i = mod(i,m);
