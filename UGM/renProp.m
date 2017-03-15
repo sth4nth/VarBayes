@@ -1,5 +1,5 @@
-function [nodeBel, edgeBel, L] = belProp0(A, nodePot, edgePot)
-% Belief propagation for MRF
+function [nodeBel, edgeBel, L] = renProp(A, nodePot, edgePot)
+% Renormalized Belief propagation for MRF
 % Input: 
 %   A: n x n adjacent matrix of undirected graph, where value is edge index
 %   nodePot: k x n node potential
@@ -17,15 +17,19 @@ m = size(edgePot,3);
 [s,t,e] = find(tril(A));
 A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
 mu = ones(k,2*m)/k;         % message
+nodeBel = normalize(nodePot,1);
 for iter = 1:epoch
     mu0 = mu;
     for i = 1:n
-        np = nodePot(:,i);
-        in = nonzeros(A(:,i))';
-        nb = prod(mu(:,in),2);
-        for l = in
+        [ne,~,in] = find(A(:,i));
+        for l = numel(ne)
             ep = edgePot(:,:,ud(l,m));
-            mu(:,rd(l,m)) = normalize(ep*(np.*nb./mu(:,l)));
+            j = ne(l);
+            eji = in(l);
+            eij = rd(eji,m);
+            nodeBel(:,j) = nodeBel(:,j)./mu(:,eij);
+            mu(:,eij) = normalize(ep*(nodeBel(:,i)./mu(:,eji)));
+            nodeBel(:,j) = nodeBel(:,j).*mu(:,eij);
         end
     end
     if max(abs(mu(:)-mu0(:))) < tol; break; end

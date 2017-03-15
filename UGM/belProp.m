@@ -16,16 +16,15 @@ m = size(edgePot,3);
 
 [s,t,e] = find(tril(A));
 A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
-mu = ones(k,2*m)/k;         % message
+mu = ones(k,2*m)/k;                     % message
 for iter = 1:epoch
     mu0 = mu;
     for i = 1:n
-        np = nodePot(:,i);
-        in = nonzeros(A(:,i))';
-        nb = prod(mu(:,in),2);
-        for l = in
+        in = nonzeros(A(:,i));                      % incoming message index
+        nb = nodePot(:,i).*prod(mu(:,in),2);                       % product of incoming message
+        for l = in'
             ep = edgePot(:,:,ud(l,m));
-            mu(:,rd(l,m)) = normalize(ep*(np.*nb./mu(:,l)));
+            mu(:,rd(l,m)) = normalize(ep*(nb./mu(:,l)));
         end
     end
     if max(abs(mu(:)-mu0(:))) < tol; break; end
@@ -47,9 +46,9 @@ end
 
 
 function i = rd(i, m)
-% reverse direction edge indeices
+% reverse direction edge index
 i = mod(i+m-1,2*m)+1;
 
 function i = ud(i, m)
-% undirected edge indices
+% undirected edge index
 i = mod(i-1,m)+1;
