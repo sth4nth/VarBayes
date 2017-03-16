@@ -1,0 +1,48 @@
+function [nodeBel, edgeBel, L] = expProp0(A, nodePot, edgePot)
+% Expectation propagation for MRF
+% Another implementation with precompute nodeBel and update during iterations
+% Input: 
+%   A: n x n adjacent matrix of undirected graph, where value is edge index
+%   nodePot: k x n node potential
+%   edgePot: k x k x m edge potential
+% Output:
+%   nodeBel: k x n node belief
+%   edgeBel: k x k x m edge belief
+%   L: variational lower bound (Bethe energy)
+% Written by Mo Chen (sth4nth@gmail.com)
+tol = 1e-4;
+epoch = 50;
+[k,n] = size(nodePot);
+m = size(edgePot,3);
+
+[s,t,e] = find(tril(A));
+mu = ones(k,2*m)/k;         % message
+nodeBel = normalize(nodePot,1);
+for iter = 1:epoch
+    mu0 = mu;
+    for l = 1:m
+        i = s(l);
+        j = t(l);
+        eij = e(l);
+        eji = eij+m;
+        ep = edgePot(:,:,eij);
+
+        nodeBel(:,j) = nodeBel(:,j)./mu(:,eij);
+        mu(:,eij) = normalize(ep*(nodeBel(:,i)./mu(:,eji)));
+        nodeBel(:,j) = normalize(nodeBel(:,j).*mu(:,eij));
+        
+        nodeBel(:,i) = nodeBel(:,i)./mu(:,eji);
+        mu(:,eji) = normalize(ep*(nodeBel(:,j)./mu(:,eij)));
+        nodeBel(:,i) = normalize(nodeBel(:,i).*mu(:,eji));
+    end
+    if sum(abs(mu(:)-mu0(:))) < tol; break; end
+end
+
+A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
+edgeBel = zeros(k,k,m);
+for l = 1:m
+    nbt = nodeBel(:,t(l))./mu(:,A(s(l),t(l)));
+    nbs = nodeBel(:,s(l))./mu(:,A(t(l),s(l)));
+    eb = (nbt*nbs').*edgePot(:,:,e(l));
+    edgeBel(:,:,e(l)) = eb./sum(eb(:));
+end
