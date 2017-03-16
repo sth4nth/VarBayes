@@ -23,7 +23,7 @@ for iter = 1:epoch
 end
 L=L(2:iter);
 
-[s,t,e] = find(A);
+[s,t,e] = find(tril(A));
 edgeBel = zeros(size(edgePot));
 for i = 1:numel(e)
     edgeBel(:,:,e(i)) = nodeBel(:,s(i))*nodeBel(:,t(i))';
