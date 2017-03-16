@@ -1,5 +1,6 @@
 function [nodeBel, edgeBel, L] = belProp0(A, nodePot, edgePot)
-% Renormalized Belief propagation for MRF
+% Belief propagation for MRF
+% Another implementation with precompute nodeBel and update during iterations
 % Input: 
 %   A: n x n adjacent matrix of undirected graph, where value is edge index
 %   nodePot: k x n node potential

@@ -22,7 +22,7 @@ title('Noisy X');
 % title('Mean Field');
 %% Belief Propagation
 tic;
-[nbbp,ebbp] = belProp(A, exp(np), exp(ep));
+[nbbp,ebbp] = expProp(A, exp(np), exp(ep));
 toc;
 subplot(2,2,3);
 imagesc(reshape(nbbp(2,:),nRows,nCols));
@@ -30,7 +30,7 @@ colormap gray
 title('Belief Propagation');
 %%
 tic;
-[nbep,ebep] = expProp(A, exp(np), exp(ep));
+[nbep,ebep] = expProp0(A, exp(np), exp(ep));
 toc;
 subplot(2,2,4);
 imagesc(reshape(nbbp(2,:),nRows,nCols));
