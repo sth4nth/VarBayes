@@ -1,6 +1,6 @@
 function lnZ = betheEnergy(A, nodeBel, edgeBel, nodePot, edgePot)
 % Compute Bethe free energy
-d = full(sum(A,2));
+d = full(sum(logical(A),1));
 nb = (d-1).*nodeBel;
 H1 = dot(nb(:),log(nodeBel(:)));
 E1 = - dot(nodeBel(:),log(nodePot(:)));
