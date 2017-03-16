@@ -44,11 +44,10 @@ for l = 1:m
     edgeBel(:,:,e(l)) = eb./sum(eb(:));
 end
 
-
 function i = rd(i, m)
-% reverse direction edge indeices
+% reverse direction edge index
 i = mod(i+m-1,2*m)+1;
 
 function i = ud(i, m)
-% undirected edge indices
+% undirected edge index
 i = mod(i-1,m)+1;

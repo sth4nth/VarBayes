@@ -44,7 +44,6 @@ for l = 1:m
     edgeBel(:,:,e(l)) = eb./sum(eb(:));
 end
 
-
 function i = rd(i, m)
 % reverse direction edge index
 i = mod(i+m-1,2*m)+1;
