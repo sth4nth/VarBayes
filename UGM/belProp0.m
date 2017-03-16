@@ -1,4 +1,4 @@
-function [nodeBel, edgeBel, L] = renProp(A, nodePot, edgePot)
+function [nodeBel, edgeBel, L] = belProp0(A, nodePot, edgePot)
 % Renormalized Belief propagation for MRF
 % Input: 
 %   A: n x n adjacent matrix of undirected graph, where value is edge index
@@ -22,24 +22,19 @@ for iter = 1:epoch
     mu0 = mu;
     for i = 1:n
         [ne,~,in] = find(A(:,i));
-        for l = numel(ne)
-            ep = edgePot(:,:,ud(l,m));
+        for l = 1:numel(ne)
             j = ne(l);
             eji = in(l);
             eij = rd(eji,m);
+
+            ep = edgePot(:,:,ud(eji,m));
             nodeBel(:,j) = nodeBel(:,j)./mu(:,eij);
             mu(:,eij) = normalize(ep*(nodeBel(:,i)./mu(:,eji)));
-            nodeBel(:,j) = nodeBel(:,j).*mu(:,eij);
+            nodeBel(:,j) = normalize(nodeBel(:,j).*mu(:,eij));
         end
     end
     if max(abs(mu(:)-mu0(:))) < tol; break; end
 end
-
-nodeBel = zeros(k,n);
-for i = 1:n
-    nodeBel(:,i) = nodePot(:,i).*prod(mu(:,nonzeros(A(:,i))),2);
-end
-nodeBel = normalize(nodeBel,1);
 
 edgeBel = zeros(k,k,m);
 for l = 1:m

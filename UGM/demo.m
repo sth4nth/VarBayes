@@ -22,7 +22,7 @@ title('Noisy X');
 % title('Mean Field');
 %%
 tic;
-[nbbp0,ebbp0] = belProp0(A, exp(np), exp(ep));
+[nbbp0,ebbp0] = renProp(A, exp(np), exp(ep));
 toc;
 subplot(2,2,4);
 imagesc(reshape(nbbp0(2,:),nRows,nCols));
