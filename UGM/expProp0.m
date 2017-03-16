@@ -12,7 +12,7 @@ function [nodeBel, edgeBel, L] = expProp0(A, nodePot, edgePot)
 % Written by Mo Chen (sth4nth@gmail.com)
 tol = 1e-4;
 epoch = 50;
-[k,n] = size(nodePot);
+k = size(nodePot,1);
 m = size(edgePot,3);
 
 [s,t,e] = find(tril(A));
@@ -38,11 +38,13 @@ for iter = 1:epoch
     if sum(abs(mu(:)-mu0(:))) < tol; break; end
 end
 
-A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
 edgeBel = zeros(k,k,m);
 for l = 1:m
-    nbt = nodeBel(:,t(l))./mu(:,A(s(l),t(l)));
-    nbs = nodeBel(:,s(l))./mu(:,A(t(l),s(l)));
-    eb = (nbt*nbs').*edgePot(:,:,e(l));
-    edgeBel(:,:,e(l)) = eb./sum(eb(:));
+    eij = e(l);
+    eji = eij+m;
+    ep = edgePot(:,:,eij);
+    nbt = nodeBel(:,t(l))./mu(:,eij);
+    nbs = nodeBel(:,s(l))./mu(:,eji);
+    eb = (nbt*nbs').*ep;
+    edgeBel(:,:,eij) = eb./sum(eb(:));
 end

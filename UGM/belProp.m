@@ -38,12 +38,14 @@ nodeBel = normalize(nodeBel,1);
 
 edgeBel = zeros(k,k,m);
 for l = 1:m
-    nbt = nodeBel(:,t(l))./mu(:,A(s(l),t(l)));
-    nbs = nodeBel(:,s(l))./mu(:,A(t(l),s(l)));
-    eb = (nbt*nbs').*edgePot(:,:,e(l));
-    edgeBel(:,:,e(l)) = eb./sum(eb(:));
+    eij = e(l);
+    eji = eij+m;
+    ep = edgePot(:,:,eij);
+    nbt = nodeBel(:,t(l))./mu(:,eij);
+    nbs = nodeBel(:,s(l))./mu(:,eji);
+    eb = (nbt*nbs').*ep;
+    edgeBel(:,:,eij) = eb./sum(eb(:));
 end
-
 function i = rd(i, m)
 % reverse direction edge index
 i = mod(i+m-1,2*m)+1;
