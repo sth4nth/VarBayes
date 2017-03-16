@@ -25,6 +25,6 @@ L=L(2:iter);
 
 [s,t,e] = find(tril(A));
 edgeBel = zeros(size(edgePot));
-for i = 1:numel(e)
-    edgeBel(:,:,e(i)) = nodeBel(:,s(i))*nodeBel(:,t(i))';
+for l = 1:numel(e)
+    edgeBel(:,:,e(l)) = nodeBel(:,s(l))*nodeBel(:,t(l))';
 end
