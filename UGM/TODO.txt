@@ -1,3 +1,2 @@
-edgeBel: remove the dependence on A
 edgeBel: update both nb and eb during iteration, and proper normalize mu?
 refine bethe
