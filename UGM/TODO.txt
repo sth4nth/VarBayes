@@ -1,2 +1,3 @@
 edgeBel: update both nb and eb during iteration, and proper normalize mu?
 refine bethe
+convert mean field back to non-log scale
