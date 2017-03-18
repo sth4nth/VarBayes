@@ -1,9 +1,7 @@
 Bethe energy for MF/BP/EP
 BP lnZ
-EP MRF
 BP FG
 EP FG
-MF(EP style)
 VBR MRF
 VBR FG
 VBR (1 layer)

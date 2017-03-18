@@ -15,6 +15,7 @@ colormap gray
 title('Noisy X');
 %% Mean Field
 [A,np,ep] = im2mrf(X);
+[A0,np0,ep0] = im2mrf0(X);
 % [nbmf, ebmf, L] = meanField(A, np, ep);
 % subplot(2,2,3);
 % imagesc(reshape(nbmf(2,:),nRows,nCols));

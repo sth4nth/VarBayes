@@ -1,24 +1,17 @@
 function [A, np, ep] = im2mrf(X)
 % Convert a image to MRF
+
 A = grid(size(X));
 [s,t,e] = find(tril(A));
+e(:) = 1:numel(e);
+A = sparse([s;t],[t;s],[e;e]);
 
-nStates = 2;
-m = numel(e);
-n = numel(X);
-e = 1:m;
-A = sparse([s;t],[t;s],[e(:);e(:)],n,n);
-
-X = X(:);
+X = reshape(X,1,[]);
 X = (X-mean(X))/std(X);
 
-np = zeros(nStates,n);
-np(1,:) = -1-2.5*X(:);
+np = -1-2.5*X;
+ep = 1.8+0.3./(1+abs(X(s)-X(t)));
 
-ep = zeros(nStates,nStates,m);
-for i = 1:m
-    ps = 1.8 + .3*1/(1+abs(X(s(i))-X(t(i))));
-    ep(:,:,e(i)) = [ps, 0; 0, ps];
-end
-
-
+np = [1;0]*np;
+ep = [1;0;0;1]*ep;
+ep = reshape(ep,2,2,[]);
