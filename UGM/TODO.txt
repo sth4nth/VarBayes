@@ -1,6 +1,5 @@
 verify:
 bp
-mf energy (lnZ = bethe = gibbs)
-bp, ep (lnZ = bethe)
+bp, ep, mf (lnZ = bethe)
 marginal (lnp(x) = lnZ+C)
 HMM bp and marginal

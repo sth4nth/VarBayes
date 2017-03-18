@@ -1,6 +1,6 @@
 function lnZ = betheEnergy(A, nodePot, edgePot, nodeBel, edgeBel)
 % Compute Bethe free energy
-% TBD: deal with log(0)
+% TBD: deal with log(0) for entropy
 edgePot = reshape(edgePot,[],size(edgePot,3));
 edgeBel = reshape(edgeBel,[],size(edgeBel,3));
 Ex = dot(nodeBel,nodePot,1);
