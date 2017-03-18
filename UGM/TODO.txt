@@ -1,4 +1,3 @@
 refine and verify bethe
 verify bp
 verify mf energy
-convert mean field back to non-log scale (verify nodeBel init)
