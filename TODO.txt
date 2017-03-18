@@ -1,4 +1,3 @@
-Bethe energy for MF/BP/EP
 BP lnZ
 BP FG
 EP FG
