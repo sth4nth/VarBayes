@@ -1,2 +1,5 @@
-verify bp
-verify mf energy
+verify:
+bp, mf
+mf energy (lnZ = bethe = gibbs)
+bp, ep (lnZ = bethe)
+marginal (lnp(x) = lnZ+C)
