@@ -1,5 +1,6 @@
 function [nodeBel, edgeBel, L] = belProp0(A, nodePot, edgePot)
 % Belief propagation for MRF
+% Assuming egdePot is symmetric
 % Another implementation with precompute nodeBel and update during iterations
 % Input: 
 %   A: n x n adjacent matrix of undirected graph, where value is edge index

@@ -1,5 +1,6 @@
 function [nodeBel, edgeBel, L] = expProp0(A, nodePot, edgePot)
 % Expectation propagation for MRF
+% Assuming egdePot is symmetric
 % Another implementation with precompute nodeBel and update during iterations
 % Input: 
 %   A: n x n adjacent matrix of undirected graph, where value is edge index

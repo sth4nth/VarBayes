@@ -1,5 +1,6 @@
 function [nodeBel, edgeBel, L] = meanField(A, nodePot, edgePot)
 % Mean field for MRF
+% Assuming egdePot is symmetric
 % Input: 
 %   A: n x n adjacent matrix of undirected graph, where value is edge index
 %   nodePot: k x n node potential

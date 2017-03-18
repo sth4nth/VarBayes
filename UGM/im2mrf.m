@@ -1,5 +1,7 @@
 function [A, nodePot, edgePot] = im2mrf(X)
 % Convert a image to MRF
+% nodePot and edgePot are potential energy 
+% corresponding mrf is p(x)=exp(sum(nodePot)+sum(edgePot)-lnZ)
 
 A = grid(size(X));
 [s,t,e] = find(tril(A));
