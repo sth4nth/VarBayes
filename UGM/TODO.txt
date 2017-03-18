@@ -1,3 +1,2 @@
-refine and verify bethe
 verify bp
 verify mf energy
