@@ -1,6 +1,7 @@
 function [nodeBel, edgeBel, L] = expProp(A, nodePot, edgePot)
 % Expectation propagation for MRF
 % Assuming egdePot is symmetric
+% Another implementation with precompute nodeBel and update during iterations
 % Input: 
 %   A: n x n adjacent matrix of undirected graph, where value is edge index
 %   nodePot: k x n node potential
@@ -15,12 +16,12 @@ edgePot = exp(edgePot);
 
 tol = 1e-4;
 epoch = 50;
-[k,n] = size(nodePot);
+k = size(nodePot,1);
 m = size(edgePot,3);
 
 [s,t,e] = find(tril(A));
-A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
 mu = ones(k,2*m)/k;         % message
+nodeBel = normalize(nodePot,1);
 for iter = 1:epoch
     mu0 = mu;
     for l = 1:m
@@ -30,20 +31,16 @@ for iter = 1:epoch
         eji = eij+m;
         ep = edgePot(:,:,eij);
 
-        nb = nodePot(:,i).*prod(mu(:,nonzeros(A(:,i))),2);
-        mu(:,eij) = normalize(ep*(nb./mu(:,eji)));
-
-        nb = nodePot(:,j).*prod(mu(:,nonzeros(A(:,j))),2);
-        mu(:,eji) = normalize(ep*(nb./mu(:,eij)));
+        nodeBel(:,j) = nodeBel(:,j)./mu(:,eij);
+        mu(:,eij) = normalize(ep*(nodeBel(:,i)./mu(:,eji)));
+        nodeBel(:,j) = normalize(nodeBel(:,j).*mu(:,eij));
+        
+        nodeBel(:,i) = nodeBel(:,i)./mu(:,eji);
+        mu(:,eji) = normalize(ep*(nodeBel(:,j)./mu(:,eij)));
+        nodeBel(:,i) = normalize(nodeBel(:,i).*mu(:,eji));
     end
-    if sum(abs(mu(:)-mu0(:))) < tol; break; end
+    if max(abs(mu(:)-mu0(:))) < tol; break; end
 end
-
-nodeBel = zeros(k,n);
-for i = 1:n
-    nodeBel(:,i) = nodePot(:,i).*prod(mu(:,nonzeros(A(:,i))),2);
-end
-nodeBel = normalize(nodeBel,1);
 
 edgeBel = zeros(k,k,m);
 for l = 1:m
