@@ -1,4 +1,3 @@
 verify:
-bp, ep, mf (lnZ = bethe)
-marginal (lnp(x) = lnZ+C)
-HMM bp and marginal
+mf marginal (lnp(x) = lnZ+C)
+bp, ep HMM marginal
