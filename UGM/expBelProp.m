@@ -1,7 +1,11 @@
-function [nodeBel, edgeBel, L] = belProp0(A, nodePot, edgePot)
-% Belief propagation for MRF
+function [nodeBel, edgeBel, L] = expBelProp(A, nodePot, edgePot)
+% Expectation Belief propagation for MRF 
 % Assuming egdePot is symmetric
-% Another implementation with precompute nodeBel and update during iterations
+% 
+% This is something between expectation propagation and belief propagation.
+% Expectation propagation updates (two) messages for each edge and computes (two) node beliefs in each step.
+% Belief propagation updates messages async and does not care about node belief.
+% This function update messages async and compute node beliefs in each step
 % Input: 
 %   A: n x n adjacent matrix of undirected graph, where value is edge index
 %   nodePot: k x n node potential
@@ -31,8 +35,8 @@ for iter = 1:epoch
             j = ne(l);
             eji = in(l);
             eij = rd(eji,m);
-
             ep = edgePot(:,:,ud(eji,m));
+            
             nodeBel(:,j) = nodeBel(:,j)./mu(:,eij);
             mu(:,eij) = normalize(ep*(nodeBel(:,i)./mu(:,eji)));
             nodeBel(:,j) = normalize(nodeBel(:,j).*mu(:,eij));
