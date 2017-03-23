@@ -34,9 +34,6 @@ colormap gray
 title('EP');
 %% EP-BP
 [nbebp,ebebp] = expBelProp(A, np, ep);
-[nbebp0,ebebp0] = expBelProp0(A, np, ep);
-maxdiff(nbebp0,nbebp)
-maxdiff(ebebp0,ebebp)
 subplot(3,3,6);
 imagesc(reshape(nbebp(2,:),nRows,nCols));
 colormap gray
