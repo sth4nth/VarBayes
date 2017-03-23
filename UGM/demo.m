@@ -21,25 +21,16 @@ imagesc(reshape(nbmf(2,:),nRows,nCols));
 colormap gray
 title('MF');
 %% Belief Propagation
-tic
 [nbbp,ebbp] = belProp(A, np, ep);
-toc
 subplot(3,3,4);
 imagesc(reshape(nbbp(2,:),nRows,nCols));
 colormap gray
 title('BP');
-
-tic
-[nbbp0,ebbp0] = belProp0(A, np, ep);
-toc
-maxdiff(nbbp0,nbbp)
-maxdiff(ebbp0,ebbp)
-% subplot(3,3,4);
-% imagesc(reshape(nbbp(2,:),nRows,nCols));
-% colormap gray
-% title('BP');
 %% Expectation Propagation
 [nbep,ebep] = expProp(A, np, ep);
+[nbep0,ebep0] = expProp0(A, np, ep);
+maxdiff(nbep0,nbep)
+maxdiff(ebep0,ebep)
 subplot(3,3,5);
 imagesc(reshape(nbep(2,:),nRows,nCols));
 colormap gray
@@ -50,7 +41,3 @@ subplot(3,3,6);
 imagesc(reshape(nbebp(2,:),nRows,nCols));
 colormap gray
 title('EBP');
-
-% maxdiff(nbbp,nbep)
-% maxdiff(ebbp,ebep)
-
