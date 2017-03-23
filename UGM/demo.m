@@ -28,15 +28,15 @@ colormap gray
 title('BP');
 %% Expectation Propagation
 [nbep,ebep] = expProp(A, np, ep);
-[nbep0,ebep0] = expProp0(A, np, ep);
-maxdiff(nbep0,nbep)
-maxdiff(ebep0,ebep)
 subplot(3,3,5);
 imagesc(reshape(nbep(2,:),nRows,nCols));
 colormap gray
 title('EP');
 %% EP-BP
 [nbebp,ebebp] = expBelProp(A, np, ep);
+[nbebp0,ebebp0] = expBelProp0(A, np, ep);
+maxdiff(nbebp0,nbebp)
+maxdiff(ebebp0,ebebp)
 subplot(3,3,6);
 imagesc(reshape(nbebp(2,:),nRows,nCols));
 colormap gray

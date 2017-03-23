@@ -1,5 +1,5 @@
 function [nodeBel, edgeBel, L] = expProp0(A, nodePot, edgePot)
-% Expectation propagation for MRF
+% Expectation propagation for MRF, calculation in log scale
 % Assuming egdePot is symmetric
 % Another implementation with precompute nodeBel and update during iterations
 % Input: 
