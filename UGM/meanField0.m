@@ -1,4 +1,4 @@
-function [nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot)
+function [nodeBel, edgeBel, lnZ] = meanField0(A, nodePot, edgePot)
 % Mean field for MRF
 % Assuming egdePot is symmetric
 % Input: 
@@ -13,14 +13,14 @@ function [nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot)
 tol = 1e-4;
 epoch = 50;
 lnZ = -inf(1,epoch+1);
-[nodeBel,L] = softmax(nodePot,1);    % init nodeBel          
+[nodeBel,L] = softmax(-nodePot,1);    % init nodeBel          
 for iter = 1:epoch
     for i = 1:numel(L)
         [~,j,e] = find(A(i,:));             % neighbors
         np = nodePot(:,i);
-        [lnp ,lnz] = lognormexp(np+reshape(edgePot(:,:,e),2,[])*reshape(nodeBel(:,j),[],1));
+        [lnp ,lnz] = lognormexp(-np-reshape(edgePot(:,:,e),2,[])*reshape(nodeBel(:,j),[],1));
         p = exp(lnp);
-        L(i) = lnz-dot(p,lnp-np);
+        L(i) = lnz-dot(p,lnp+np);
         nodeBel(:,i) = p;
     end
     lnZ(iter+1) = sum(L)/2;
