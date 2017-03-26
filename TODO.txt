@@ -1,3 +1,5 @@
+BP/EP HMM marginal
+
 BP lnZ
 BP FG
 EP FG
