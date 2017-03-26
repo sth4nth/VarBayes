@@ -1,4 +1,5 @@
 calculate Gibbs energy in each iteration to see whether it increase or not
+ising model
 BP/EP HMM marginal
 
 BP lnZ

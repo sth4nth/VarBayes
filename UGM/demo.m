@@ -15,7 +15,7 @@ colormap gray
 title('Noisy X');
 %% Mean Field
 [A,np,ep] = im2mrf0(X);
-[nbmf, ebmf, lnZ] = meanField0(A, np, ep);
+[nbmf, ebmf, lnZ,lnZ0] = meanField0(A, np, ep);
 subplot(3,3,3);
 imagesc(reshape(nbmf(2,:),nRows,nCols));
 colormap gray
@@ -23,9 +23,11 @@ title('MF');
 %%
 figure
 plot(lnZ)
-lnZ0 = gibbsEnergy0(np, ep, nbmf, ebmf);
-lnZ(end)
-lnZ0
+figure
+plot(lnZ0)
+% lnZ0 = gibbsEnergy0(np, ep, nbmf, ebmf);
+% lnZ(end)
+% lnZ0
 % %% Belief Propagation
 % [nbbp,ebbp] = belProp(A, np, ep);
 % subplot(3,3,4);
