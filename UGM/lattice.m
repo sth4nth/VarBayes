@@ -1,4 +1,4 @@
-function A = grid( sz )
+function A = lattice( sz )
 % Create grid undirected graph from size parameter
 % Input:
 %   sz: size
