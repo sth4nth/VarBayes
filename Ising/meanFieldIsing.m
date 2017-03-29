@@ -1,4 +1,4 @@
-function mu = meanFieldIsingGrid0(logodds, J)
+function mu = meanFieldIsing(logodds, J)
 epoch = 10;
 [M,N] = size(logodds);
 mu = 2*sigmoid(logodds)-1;               % init

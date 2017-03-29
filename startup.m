@@ -1,4 +1,4 @@
 init
-cd UGM
-open demo.m
-open belProp.m
+% cd UGM
+% open demo.m
+% open belProp.m
