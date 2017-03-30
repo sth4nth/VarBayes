@@ -1,14 +1,15 @@
 function mu = meanFieldIsing(logodds, J)
 epoch = 10;
-[M,N] = size(logodds);
-mu = 2*sigmoid(logodds)-1;               % init
+mu = zeros(size(logodds)+2);                        % padding
+[m,n] = size(mu);
+mu(2:m-1,2:n-1) = 2*sigmoid(logodds)-1;               % init
+step = [-1,1,-m,m];
 for t = 1:epoch
-    for i = 1:M
-        for j = 1:N
-            pos = i + M*(j-1);
-            ne = pos + [-1,1,-M,M];
-            ne([i,i,j,j] == [1,M,1,N]) = [];
-            mu(i,j) = tanh(J*sum(mu(ne)) + 0.5*logodds(i,j));
+    for i = 2:m-1
+        for j = 2:n-1
+            ne = i + m*(j-1) + step;
+            mu(i,j) = tanh(J*sum(mu(ne)) + 0.5*logodds(i-1,j-1));
         end
     end
 end
+mu = mu(2:m-1,2:n-1);
