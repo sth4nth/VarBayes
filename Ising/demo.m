@@ -14,13 +14,13 @@ z = [1;-1];
 J = 1;
 
 figure;
-subplot(3,2,1);
+subplot(2,3,1);
 imagesc(img);
 title('original image');
 axis image;
 colormap gray;
 
-subplot(3,2,2);
+subplot(2,3,2);
 imagesc(y);
 title('noisy image');
 axis image;
@@ -36,7 +36,7 @@ logodds = reshape(diff(nodePot),M,N);
 J = 1;
 mu0 = meanFieldIsingGrid(logodds, J, epoch);
 
-subplot(3,2,3);
+subplot(2,3,3);
 imagesc(mu0)
 title('MLAPP mean field');
 axis image;
@@ -47,18 +47,18 @@ J = 1; % coupling strength
 mu = isingMeanField(h, J, epoch);
 maxdiff(mu0,mu)
 
-subplot(3,2,4);
+subplot(2,3,4);
 imagesc(mu)
 title('Ising mean field');
 axis image;
 colormap gray;
 
 %% Image mean field
-nodeBel = imageMeanField(M, N, nodePot, edgePot, epoch);
-maxdiff(reshape(mu,1,[]),z'*nodeBel)
+nodeBel0 = imageMeanField(M, N, nodePot, edgePot, epoch);
+maxdiff(reshape(mu0,1,[]),z'*nodeBel0)
 
-subplot(3,2,5);
-imagesc(reshape(nodeBel(1,:),M,N))
+subplot(2,3,5);
+imagesc(reshape(nodeBel0(1,:),M,N))
 title('Image mean field');
 axis image;
 colormap gray;
@@ -66,17 +66,14 @@ colormap gray;
 %% graph mean field
 A = lattice([M,N]);
 edgePot = repmat(edgePot,[1, 1, nnz(tril(A))]);
-[nodeBel0, lnZ] = meanField(A, nodePot, edgePot, epoch);
+[nodeBel, lnZ] = meanField(A, nodePot, edgePot, epoch);
 maxdiff(nodeBel0,nodeBel)
 
-subplot(3,2,6);
-imagesc(reshape(nodeBel0(1,:),M,N))
+subplot(2,3,6);
+imagesc(reshape(nodeBel(1,:),M,N))
 title('Image mean field');
 axis image;
 colormap gray;
-
-%%
-% y = reshape(y, M, N);
 
 
 
