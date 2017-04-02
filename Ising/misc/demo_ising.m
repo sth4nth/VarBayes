@@ -15,8 +15,11 @@ lnp1m = logGauss(y(:)',-1,sigma^2);
 logodds = reshape(lnp1p-lnp1m,M,N);
 
 mu = meanFieldIsingGrid(J, CPDs, @gaussLogprob, y);
-mu0 = meanFieldIsing(logodds, J);
-maxdiff(mu0,mu)
+mu0 = meanFieldIsingGrid0(logodds, J);
+mu1 = meanFieldIsingGrid1(logodds, J);
+
+maxdiff(mu0,mu1)
+
 
 %%
 figure;

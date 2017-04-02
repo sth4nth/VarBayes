@@ -1,4 +1,4 @@
-function [nodeBel, lnZ] = meanField(A, nodePot, edgePot)
+function [nodeBel, lnZ] = meanField(A, nodePot, edgePot, epoch)
 % Mean field for MRF
 % Assuming egdePot is symmetric
 % Input: 
@@ -10,8 +10,10 @@ function [nodeBel, lnZ] = meanField(A, nodePot, edgePot)
 %   edgeBel: k x k x m edge belief
 %   L: variational lower bound
 % Written by Mo Chen (sth4nth@gmail.com)
+if nargin < 4
+    epoch = 10;
+end
 tol = 1e-4;
-epoch = 10;
 lnZ = -inf(1,epoch+1);
 [nodeBel,L] = softmax(-nodePot,1);    % init nodeBel    
 for iter = 1:epoch
