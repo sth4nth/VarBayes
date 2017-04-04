@@ -10,10 +10,11 @@ function [nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot, epoch)
 %   edgeBel: k x k x m edge belief
 %   L: variational lower bound
 % Written by Mo Chen (sth4nth@gmail.com)
+tol = 0;
 if nargin < 4
     epoch = 10;
+    tol = 1e-4;
 end
-tol = 1e-4;
 lnZ = -inf(1,epoch+1);
 [nodeBel,L] = softmax(-nodePot,1);    % init nodeBel    
 for iter = 1:epoch

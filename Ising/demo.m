@@ -1,17 +1,13 @@
-% clear; close all; clc;
-close all; clear;
+clear; close all;
 % load letterA.mat;
 % X = A;
 load letterX.mat
-%%
+%% Original image
 [M, N] = size(X); 
 K = 2;
 sigma  = 1; % noise level
 img    = double(X);
 img = sign(img-mean(img(:)));
-y = img + sigma*randn(M,N); %y = noisy signal
-z = [1;-1];
-J = 1;
 
 figure;
 subplot(2,3,1);
@@ -19,19 +15,22 @@ imagesc(img);
 title('original image');
 axis image;
 colormap gray;
+%% Noisy image
+y = img + sigma*randn(M,N); %y = noisy signal
 
 subplot(2,3,2);
 imagesc(y);
 title('noisy image');
 axis image;
 colormap gray;
-
-%%
+%% Parameter
 epoch = 50;
+z = [1;-1];
 y = reshape(y,1,[]);
 nodePot = (y-z).^2/(2*sigma^2);
+J = 1;
 edgePot = -J*(z*z');
-%% original
+%% MLAPP
 logodds = reshape(diff(nodePot),M,N);
 J = 1;
 mu0 = meanFieldIsingGrid(logodds, J, epoch);
@@ -41,7 +40,6 @@ imagesc(mu0)
 title('MLAPP mean field');
 axis image;
 colormap gray;
-
 %% Ising mean field 
 h = reshape(0.5*diff(nodePot),M,N);
 J = 1; % coupling strength
@@ -81,11 +79,7 @@ title('Image mean field');
 axis image;
 colormap gray;
 
-% lnZ0 = gibbsEnergy0(nodePot, edgePot, nodeBel, edgeBel);
-
+%% Lower bound
 figure;
 plot(lnZ)
-
-%%
-% lnZ = verify(A, nodePot, edgePot, nodeBel, edgeBel);
 
