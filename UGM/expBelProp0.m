@@ -23,7 +23,7 @@ m = size(edgePot,3);
 [s,t,e] = find(tril(A));
 A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
 mu = zeros(k,2*m)-log(k);    
-nodeBel = nodePot-logsumexp(nodePot,1);
+nodeBel = -nodePot-logsumexp(-nodePot,1);
 for iter = 1:epoch
     mu0 = mu;
     for i = 1:n
@@ -35,7 +35,7 @@ for iter = 1:epoch
             ep = edgePot(:,:,ud(eji,m));
             
             nodeBel(:,j) = nodeBel(:,j)-mu(:,eij);
-            mut = logsumexp(ep+(nodeBel(:,i)-mu(:,eji)),1);
+            mut = logsumexp(-ep+(nodeBel(:,i)-mu(:,eji)),1);
             mu(:,eij) = mut-logsumexp(mut);
             nb = nodeBel(:,j)+mu(:,eij);
             nodeBel(:,j) = nb-logsumexp(nb);
@@ -51,7 +51,7 @@ for l = 1:m
     ep = edgePot(:,:,eij);
     nbt = nodeBel(:,t(l))-mu(:,eij);
     nbs = nodeBel(:,s(l))-mu(:,eji);
-    eb = (nbt+nbs')+ep;
+    eb = (nbt+nbs')-ep;
     edgeBel(:,:,eij) = eb-logsumexp(eb(:));
 end
 nodeBel = exp(nodeBel);

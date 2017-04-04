@@ -38,6 +38,11 @@ axis image;
 colormap gray;
 %% Belief Propagation
 [nodeBel,edgeBel] = belProp(A, nodePot, edgePot);
+
+[nodeBel0,edgeBel0] = belProp0(A, nodePot, edgePot);
+maxdiff(nodeBel,nodeBel0)
+maxdiff(edgeBel,edgeBel0)
+
 subplot(2,3,4);
 imagesc(reshape(nodeBel(1,:),size(img)));
 title('BP');
@@ -45,13 +50,23 @@ axis image;
 colormap gray;
 %% Expectation Propagation
 [nodeBel,edgeBel] = expProp(A, nodePot, edgePot);
+
+[nodeBel0,edgeBel0] = expProp0(A, nodePot, edgePot);
+maxdiff(nodeBel,nodeBel0)
+maxdiff(edgeBel,edgeBel0)
+
 subplot(2,3,5);
 imagesc(reshape(nodeBel(1,:),size(img)));
 title('EP');
 axis image;
 colormap gray;
-%% EP-BP
+% %% EP-BP
 [nodeBel,edgeBel] = expBelProp(A, nodePot, edgePot);
+
+[nodeBel0,edgeBel0] = expBelProp0(A, nodePot, edgePot);
+maxdiff(nodeBel,nodeBel0)
+maxdiff(edgeBel,edgeBel0)
+
 subplot(2,3,6);
 imagesc(reshape(nodeBel(1,:),size(img)));
 title('EBP');

@@ -1,5 +1,5 @@
 function [A, nodePot, edgePot] = im2mrf(im, sigma, J)
-% Convert a image to Ising MRF
+% Convert a image to Ising MRF with distribution p(x)=exp(-sum(nodePot)-sum(edgePot)-lnZ)
 % Input:
 %   im: row x col image
 %   sigma: variance of Gaussian node potential
@@ -7,7 +7,6 @@ function [A, nodePot, edgePot] = im2mrf(im, sigma, J)
 % Output:
 %   nodePot: 2 x n node potential
 %   edgePot: 2 x 2 x m edge potential
-% corresponding mrf is p(x)=exp(sum(nodePot)+sum(edgePot)-lnZ)
 
 A = lattice(size(im));
 [s,t,e] = find(tril(A));

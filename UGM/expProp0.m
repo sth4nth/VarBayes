@@ -18,7 +18,7 @@ m = size(edgePot,3);
 
 [s,t,e] = find(tril(A));
 mu = zeros(k,2*m)-log(k);    
-nodeBel = nodePot-logsumexp(nodePot,1);
+nodeBel = -nodePot-logsumexp(-nodePot,1);
 for iter = 1:epoch
     mu0 = mu;
     for l = 1:m
@@ -29,13 +29,13 @@ for iter = 1:epoch
         ep = edgePot(:,:,eij);
 
         nodeBel(:,j) = nodeBel(:,j)-mu(:,eij);
-        mut = logsumexp(ep+(nodeBel(:,i)-mu(:,eji)),1);
+        mut = logsumexp(-ep+(nodeBel(:,i)-mu(:,eji)),1);
         mu(:,eij) = mut-logsumexp(mut);
         nb = nodeBel(:,j)+mu(:,eij);
         nodeBel(:,j) = nb-logsumexp(nb);
         
         nodeBel(:,i) = nodeBel(:,i)-mu(:,eji);
-        mut = logsumexp(ep+(nodeBel(:,j)-mu(:,eij)),1);
+        mut = logsumexp(-ep+(nodeBel(:,j)-mu(:,eij)),1);
         mu(:,eji) = mut-logsumexp(mut);
         nb = nodeBel(:,i)+mu(:,eji);
         nodeBel(:,i) = nb-logsumexp(nb);
@@ -50,7 +50,7 @@ for l = 1:m
     ep = edgePot(:,:,eij);
     nbt = nodeBel(:,t(l))-mu(:,eij);
     nbs = nodeBel(:,s(l))-mu(:,eji);
-    eb = (nbt+nbs')+ep;
+    eb = (nbt+nbs')-ep;
     edgeBel(:,:,eij) = eb-logsumexp(eb(:));
 end
 nodeBel = exp(nodeBel);
