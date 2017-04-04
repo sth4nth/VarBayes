@@ -4,7 +4,6 @@ clear; close all;
 load letterX.mat
 %% Original image
 [M, N] = size(X); 
-K = 2;
 sigma  = 1; % noise level
 img    = double(X);
 img = sign(img-mean(img(:)));

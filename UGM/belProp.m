@@ -10,8 +10,10 @@ function [nodeBel, edgeBel, L] = belProp(A, nodePot, edgePot)
 %   edgeBel: k x k x m edge belief
 %   L: variational lower bound (Bethe energy)
 % Written by Mo Chen (sth4nth@gmail.com)
-nodePot = exp(nodePot);
-edgePot = exp(edgePot);
+
+% working in exp domain
+nodePot = exp(-nodePot);  
+edgePot = exp(-edgePot);
 
 tol = 1e-4;
 epoch = 50;
