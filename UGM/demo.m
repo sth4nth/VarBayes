@@ -1,4 +1,8 @@
 clear; close all;
+% load letterA.mat;
+% X = A;
+load letterX.mat
+
 %% Original Image
 load X.mat
 figure
