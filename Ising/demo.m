@@ -27,7 +27,7 @@ axis image;
 colormap gray;
 
 %%
-epoch = 10;
+epoch = 50;
 y = reshape(y,1,[]);
 nodePot = (y-z).^2/(2*sigma^2);
 edgePot = -J*(z*z');
@@ -41,6 +41,7 @@ imagesc(mu0)
 title('MLAPP mean field');
 axis image;
 colormap gray;
+
 %% Ising mean field 
 h = reshape(0.5*diff(nodePot),M,N);
 J = 1; % coupling strength
@@ -65,9 +66,14 @@ colormap gray;
 
 %% graph mean field
 A = lattice([M,N]);
+[s,t,e] = find(tril(A));
+e(:) = 1:numel(e);
+A = sparse([s;t],[t;s],[e;e]);
 edgePot = repmat(edgePot,[1, 1, nnz(tril(A))]);
-[nodeBel, lnZ] = meanField(A, nodePot, edgePot, epoch);
+[nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot, epoch);
 maxdiff(nodeBel0,nodeBel)
+lnZ0 = gibbsEnergy(nodePot, edgePot, nodeBel, edgeBel);
+maxdiff(lnZ0,lnZ(end))/(M*N)
 
 subplot(2,3,6);
 imagesc(reshape(nodeBel(1,:),M,N))
@@ -75,7 +81,11 @@ title('Image mean field');
 axis image;
 colormap gray;
 
+% lnZ0 = gibbsEnergy0(nodePot, edgePot, nodeBel, edgeBel);
 
+figure;
+plot(lnZ)
 
-
+%%
+% lnZ = verify(A, nodePot, edgePot, nodeBel, edgeBel);
 

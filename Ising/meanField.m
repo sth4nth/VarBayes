@@ -1,4 +1,4 @@
-function [nodeBel, lnZ] = meanField(A, nodePot, edgePot, epoch)
+function [nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot, epoch)
 % Mean field for MRF
 % Assuming egdePot is symmetric
 % Input: 
@@ -26,6 +26,12 @@ for iter = 1:epoch
         nodeBel(:,i) = p;
     end
     lnZ(iter+1) = sum(L)/2;
-%     if abs(lnZ(iter+1)-lnZ(iter))/abs(lnZ(iter)) < tol; break; end
+    if abs(lnZ(iter+1)-lnZ(iter))/abs(lnZ(iter)) < tol; break; end
 end
 lnZ = lnZ(2:iter);
+
+[s,t,e] = find(tril(A));
+edgeBel = zeros(size(edgePot));
+for l = 1:numel(e)
+    edgeBel(:,:,e(l)) = nodeBel(:,s(l))*nodeBel(:,t(l))';
+end
