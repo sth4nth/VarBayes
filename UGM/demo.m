@@ -5,9 +5,9 @@ load letterX.mat
 %% Original image
 epoch = 50;
 J = 1;   % ising parameter
-sigma  = 1; % noise level
+sigma = 1; % noise level
 
-img    = double(X);
+img = double(X);
 img = sign(img-mean(img(:)));
 
 figure;
