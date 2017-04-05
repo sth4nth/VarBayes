@@ -1,14 +1,13 @@
-function [nodeBel, L] = meanFieldSync(B, nodePot, factorPot)
-% Mean field on factor graph with async update
+function [nodeBel, L] = meanField(B, nodePot, factorPot)
+% Mean field on factor graph
 B = logical(B);
 tol = 1e-4;
-epoch = 10;
+epoch = 50;
 L = -inf(1,epoch+1);
 n = numel(nodePot);
 nodeBel = cellmap(@softmax,nodePot);    % init nodeBel
 lnZ = zeros(1,n);
 for t = 1:epoch
-    nodeBel0 = nodeBel;
     for i = 1:n
         e = B(:,i);  % neighbor factor indicator vector
         J = B(e,:);  % neighbor node indcator matrix
@@ -22,8 +21,8 @@ for t = 1:epoch
             nNodes = numel(nodeIdx);
             fp = factorPot{factorIdx(k)};  
             for j = 1:nNodes
-                nb = nodeBel0{nodeIdx(j)};
-                fp = tvp(fp,nb,j);
+                nb = nodeBel{nodeIdx(j)};
+                fp = tvp(fp,nb,j);            % tensor vector product
             end
             msg(:,k) = fp(:);
         end
