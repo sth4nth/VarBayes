@@ -1,3 +1,2 @@
 verify:
 mf marginal (lnp(x) = lnZ+C)
-bp, ep HMM marginal
