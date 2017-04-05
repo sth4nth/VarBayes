@@ -1,4 +1,4 @@
-function [nodeBel, factorBel, L] = belPropSync(B, nodePot, factorPot)
+function [nodeBel, factorBel, L] = belProp(B, nodePot, factorPot)
 % Belief propagation on factor graph
 
 B = logical(B);
