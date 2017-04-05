@@ -1,44 +1,74 @@
 clear; close all;
-%% Original Image
-load X.mat
-figure
-subplot(3,3,1);
-imagesc(X);
-colormap gray
-title('Original X');
-%% Noisy Image
-[nRows,nCols] = size(X);
-X = X + randn(size(X))/2;
-subplot(3,3,2);
-imagesc(X);
-colormap gray
-title('Noisy X');
+% load letterA.mat;
+% X = A;
+load letterX.mat
+%% Original image
+epoch = 50;
+J = 1;   % ising parameter
+sigma  = 1; % noise level
+
+img    = double(X);
+img = sign(img-mean(img(:)));
+
+figure;
+subplot(2,3,1);
+imagesc(img);
+title('Original image');
+axis image;
+colormap gray;
+%% Noisy image
+y = img + sigma*randn(size(img)); %y = noisy signal
+subplot(2,3,2);
+imagesc(y);
+title('Noisy image');
+axis image;
+colormap gray;
 %% Mean Field
-[A,np,ep] = im2mrf(X);
-[nbmf, ebmf, L] = meanField(A, np, ep);
-subplot(3,3,3);
-imagesc(reshape(nbmf(2,:),nRows,nCols));
-colormap gray
+[A, nodePot, edgePot] = im2mrf(y, sigma, J);
+[nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot);
+lnZ0 = gibbsEnergy(nodePot, edgePot, nodeBel, edgeBel);
+lnZ1 = betheEnergy(A, nodePot, edgePot, nodeBel, edgeBel);
+maxdiff(lnZ0, lnZ(end))
+maxdiff(lnZ0, lnZ1)
+
+subplot(2,3,3);
+imagesc(reshape(nodeBel(1,:),size(img)));
 title('MF');
+axis image;
+colormap gray;
 %% Belief Propagation
-[nbbp,ebbp] = belProp(A, np, ep);
-subplot(3,3,4);
-imagesc(reshape(nbbp(2,:),nRows,nCols));
-colormap gray
+[nodeBel,edgeBel] = belProp(A, nodePot, edgePot);
+
+[nodeBel0,edgeBel0] = belProp0(A, nodePot, edgePot);
+maxdiff(nodeBel,nodeBel0)
+maxdiff(edgeBel,edgeBel0)
+
+subplot(2,3,4);
+imagesc(reshape(nodeBel(1,:),size(img)));
 title('BP');
+axis image;
+colormap gray;
 %% Expectation Propagation
-[nbep,ebep] = expProp(A, np, ep);
-subplot(3,3,5);
-imagesc(reshape(nbep(2,:),nRows,nCols));
-colormap gray
+[nodeBel,edgeBel] = expProp(A, nodePot, edgePot);
+
+[nodeBel0,edgeBel0] = expProp0(A, nodePot, edgePot);
+maxdiff(nodeBel,nodeBel0)
+maxdiff(edgeBel,edgeBel0)
+
+subplot(2,3,5);
+imagesc(reshape(nodeBel(1,:),size(img)));
 title('EP');
-%% EP-BP
-[nbebp,ebebp] = expBelProp(A, np, ep);
-subplot(3,3,6);
-imagesc(reshape(nbebp(2,:),nRows,nCols));
-colormap gray
+axis image;
+colormap gray;
+% %% EP-BP
+[nodeBel,edgeBel] = expBelProp(A, nodePot, edgePot);
+
+[nodeBel0,edgeBel0] = expBelProp0(A, nodePot, edgePot);
+maxdiff(nodeBel,nodeBel0)
+maxdiff(edgeBel,edgeBel0)
+
+subplot(2,3,6);
+imagesc(reshape(nodeBel(1,:),size(img)));
 title('EBP');
-
-% maxdiff(nbbp,nbep)
-% maxdiff(ebbp,ebep)
-
+axis image;
+colormap gray;

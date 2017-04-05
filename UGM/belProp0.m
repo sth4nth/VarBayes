@@ -1,5 +1,5 @@
-function [nodeBel, edgeBel, L] = belProp(A, nodePot, edgePot)
-% Belief propagation for MRF
+function [nodeBel, edgeBel, L] = belProp0(A, nodePot, edgePot)
+% Belief propagation for MRF, calculation in log scale
 % Assuming egdePot is symmetric
 % Input: 
 %   A: n x n adjacent matrix of undirected graph, where value is edge index
@@ -10,11 +10,6 @@ function [nodeBel, edgeBel, L] = belProp(A, nodePot, edgePot)
 %   edgeBel: k x k x m edge belief
 %   L: variational lower bound (Bethe energy)
 % Written by Mo Chen (sth4nth@gmail.com)
-
-% working in exp domain
-nodePot = exp(-nodePot);  
-edgePot = exp(-edgePot);
-
 tol = 1e-4;
 epoch = 50;
 [k,n] = size(nodePot);
@@ -22,15 +17,16 @@ m = size(edgePot,3);
 
 [s,t,e] = find(tril(A));
 A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
-mu = ones(k,2*m)/k;                     % message
+mu = zeros(k,2*m)-log(k);              % message
 for iter = 1:epoch
     mu0 = mu;
     for i = 1:n
         in = nonzeros(A(:,i));                      % incoming message index
-        nb = nodePot(:,i).*prod(mu(:,in),2);                       % product of incoming message
+        nb = -nodePot(:,i)+sum(mu(:,in),2);                       % product of incoming message
         for l = in'
             ep = edgePot(:,:,ud(l,m));
-            mu(:,rd(l,m)) = normalize(ep*(nb./mu(:,l)));
+            mut = logsumexp(-ep+(nb-mu(:,l)),1);
+            mu(:,rd(l,m)) = mut-logsumexp(mut);
         end
     end
     if max(abs(mu(:)-mu0(:))) < tol; break; end
@@ -38,20 +34,22 @@ end
 
 nodeBel = zeros(k,n);
 for i = 1:n
-    nodeBel(:,i) = nodePot(:,i).*prod(mu(:,nonzeros(A(:,i))),2);
+    nb = -nodePot(:,i)+sum(mu(:,nonzeros(A(:,i))),2);
+    nodeBel(:,i) = nb-logsumexp(nb);
 end
-nodeBel = normalize(nodeBel,1);
 
 edgeBel = zeros(k,k,m);
 for l = 1:m
     eij = e(l);
     eji = eij+m;
     ep = edgePot(:,:,eij);
-    nbt = nodeBel(:,t(l))./mu(:,eij);
-    nbs = nodeBel(:,s(l))./mu(:,eji);
-    eb = (nbt*nbs').*ep;
-    edgeBel(:,:,eij) = eb./sum(eb(:));
+    nbt = nodeBel(:,t(l))-mu(:,eij);
+    nbs = nodeBel(:,s(l))-mu(:,eji);
+    eb = (nbt+nbs')-ep;
+    edgeBel(:,:,eij) = eb-logsumexp(eb(:));
 end
+nodeBel = exp(nodeBel);
+edgeBel = exp(edgeBel);
 
 function i = rd(i, m)
 % reverse direction edge index

@@ -1,2 +1,0 @@
-verify:
-mf marginal (lnp(x) = lnZ+C)

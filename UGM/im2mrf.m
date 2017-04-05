@@ -1,19 +1,20 @@
-function [A, nodePot, edgePot] = im2mrf(X)
-% Convert a image to MRF
-% nodePot and edgePot are potential energy 
-% corresponding mrf is p(x)=exp(sum(nodePot)+sum(edgePot)-lnZ)
+function [A, nodePot, edgePot] = im2mrf(im, sigma, J)
+% Convert a image to Ising MRF with distribution p(x)=exp(-sum(nodePot)-sum(edgePot)-lnZ)
+% Input:
+%   im: row x col image
+%   sigma: variance of Gaussian node potential
+%   J: parameter of Ising edge
+% Output:
+%   nodePot: 2 x n node potential
+%   edgePot: 2 x 2 x m edge potential
 
-A = grid(size(X));
+A = lattice(size(im));
 [s,t,e] = find(tril(A));
-e(:) = 1:numel(e);
+nEdge = numel(e);
+e(:) = 1:nEdge;
 A = sparse([s;t],[t;s],[e;e]);
 
-X = reshape(X,1,[]);
-X = (X-mean(X))/std(X);
-
-nodePot = -1-2.5*X;
-edgePot = 1.8+0.3./(1+abs(X(s)-X(t)));
-
-nodePot = [1;0]*nodePot;
-edgePot = [1;0;0;1]*edgePot;
-edgePot = reshape(edgePot,2,2,[]);
+z = [1;-1];
+y = reshape(im,1,[]);
+nodePot = (y-z).^2/(2*sigma^2);
+edgePot = repmat(-J*(z*z'),[1, 1, nEdge]);
