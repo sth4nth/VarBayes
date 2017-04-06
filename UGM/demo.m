@@ -51,6 +51,8 @@ colormap gray;
 %% Expectation Propagation
 [nodeBel,edgeBel] = expProp(A, nodePot, edgePot);
 
+lnZ0 = betheEnergy(A, nodePot, edgePot, nodeBel, edgeBel);
+
 [nodeBel0,edgeBel0] = expProp0(A, nodePot, edgePot);
 maxdiff(nodeBel,nodeBel0)
 maxdiff(edgeBel,edgeBel0)
@@ -60,7 +62,7 @@ imagesc(reshape(nodeBel(1,:),size(img)));
 title('EP');
 axis image;
 colormap gray;
-% %% EP-BP
+%% EP-BP
 [nodeBel,edgeBel] = expBelProp(A, nodePot, edgePot);
 
 [nodeBel0,edgeBel0] = expBelProp0(A, nodePot, edgePot);
