@@ -1,4 +1,4 @@
-function [nodeBel, edgeBel, L] = expBelProp(A, nodePot, edgePot)
+function [nodeBel, edgeBel] = expBelProp(A, nodePot, edgePot)
 % Expectation Belief propagation for MRF 
 % Assuming egdePot is symmetric
 % 

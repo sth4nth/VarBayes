@@ -1,4 +1,4 @@
-function [nodeBel, edgeBel, L] = belProp0(A, nodePot, edgePot)
+function [nodeBel, edgeBel] = belProp0(A, nodePot, edgePot)
 % Belief propagation for MRF, calculation in log scale
 % Assuming egdePot is symmetric
 % Input: 
