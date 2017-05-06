@@ -1,4 +1,5 @@
-function mu = meanFieldIsingGrid(logodds, J, epoch)
+function mu = isingMeanField0(logodds, J, epoch)
+% use padding trick
 if nargin < 3
     epoch = 10;
 end
