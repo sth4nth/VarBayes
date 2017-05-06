@@ -1,19 +1,18 @@
-function [nodeBel, edgeBel, lnZ] = meanField0(A, nodePot, edgePot)
+function [p, L] = meanField0(x, A, b)
 % Mean field for MRF
 % Assuming egdePot is symmetric
 % Input: 
-%   A: n x n adjacent matrix of undirected graph, where value is edge index
-%   nodePot: k x n node potential
-%   edgePot: k x k x m edge potential
+%   x: k x 1 possible value
+%   A: n x n edge weight of an undirected graph
+%   b: 1 x n node weight of an undirected graph
 % Output:
-%   nodeBel: k x n node belief
-%   edgeBel: k x k x m edge belief
+%   p: k x n probability
 %   L: variational lower bound
 % Written by Mo Chen (sth4nth@gmail.com)
 epoch = 50;
 tol = 1e-4;
 lnZ = -inf(1,epoch+1);
-[nodeBel,L] = softmax(-nodePot,1);    % init nodeBel    
+h = b;
 for iter = 1:epoch
     for i = 1:numel(L)
         [~,j,e] = find(A(i,:));             % neighbors

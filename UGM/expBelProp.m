@@ -1,4 +1,4 @@
-function [nodeBel, edgeBel] = expBelProp(A, nodePot, edgePot)
+function [nodeBel, edgeBel] = expBelProp(A, nodePot, edgePot, epoch)
 % Expectation Belief propagation for MRF 
 % Assuming egdePot is symmetric
 % 
@@ -15,13 +15,14 @@ function [nodeBel, edgeBel] = expBelProp(A, nodePot, edgePot)
 %   edgeBel: k x k x m edge belief
 %   L: variational lower bound (Bethe energy)
 % Written by Mo Chen (sth4nth@gmail.com)
-
-% working in exp domain
 nodePot = exp(-nodePot);  
 edgePot = exp(-edgePot);
 
-tol = 1e-4;
-epoch = 50;
+tol = 0;
+if nargin < 4
+    epoch = 10;
+    tol = 1e-4;
+end
 [k,n] = size(nodePot);
 m = size(edgePot,3);
 

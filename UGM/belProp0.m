@@ -1,4 +1,4 @@
-function [nodeBel, edgeBel] = belProp0(A, nodePot, edgePot)
+function [nodeBel, edgeBel] = belProp0(A, nodePot, edgePot, epoch)
 % Belief propagation for MRF, calculation in log scale
 % Assuming egdePot is symmetric
 % Input: 
@@ -10,8 +10,11 @@ function [nodeBel, edgeBel] = belProp0(A, nodePot, edgePot)
 %   edgeBel: k x k x m edge belief
 %   L: variational lower bound (Bethe energy)
 % Written by Mo Chen (sth4nth@gmail.com)
-tol = 1e-4;
-epoch = 50;
+tol = 0;
+if nargin < 4
+    epoch = 10;
+    tol = 1e-4;
+end
 [k,n] = size(nodePot);
 m = size(edgePot,3);
 

@@ -1,4 +1,4 @@
-function [nodeBel, edgeBel] = expProp(A, nodePot, edgePot)
+function [nodeBel, edgeBel] = expProp(A, nodePot, edgePot, epoch)
 % Expectation propagation for MRF
 % Assuming egdePot is symmetric
 % Another implementation with precompute nodeBel and update during iterations
@@ -16,8 +16,11 @@ function [nodeBel, edgeBel] = expProp(A, nodePot, edgePot)
 nodePot = exp(-nodePot);  
 edgePot = exp(-edgePot);
 
-tol = 1e-4;
-epoch = 50;
+tol = 0;
+if nargin < 4
+    epoch = 10;
+    tol = 1e-4;
+end
 k = size(nodePot,1);
 m = size(edgePot,3);
 
