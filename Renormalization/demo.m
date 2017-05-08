@@ -23,3 +23,7 @@ imagesc(y);
 title('Noisy image');
 axis image;
 colormap gray;
+
+
+
+h = reshape(0.5*diff(nodePot),M,N);

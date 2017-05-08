@@ -1,5 +1,7 @@
 function [p, L] = meanField0(x, A, b)
-% Mean field for MRF
+% Parametric (fixed formed) Mean field for MRF. 
+% This function working on parameter of distribution instead of directly
+% working on probability.
 % Assuming egdePot is symmetric
 % Input: 
 %   x: k x 1 possible value
