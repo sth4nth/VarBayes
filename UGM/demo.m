@@ -17,7 +17,7 @@ title('Original image');
 axis image;
 colormap gray;
 %% Noisy image
-y = img + sigma*randn(size(img)); %y = noisy signal
+y = img + sigma*randn(size(img)); % noisy signal
 subplot(2,3,2);
 imagesc(y);
 title('Noisy image');
