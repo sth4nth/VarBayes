@@ -32,7 +32,7 @@ edgePot = -J*(z*z');
 %% MLAPP
 logodds = reshape(diff(nodePot),M,N);
 J = 1;
-mu0 = meanFieldIsingGrid(logodds, J, epoch);
+mu0 = isingMeanField0(logodds, J, epoch);
 
 subplot(2,3,3);
 imagesc(mu0)
