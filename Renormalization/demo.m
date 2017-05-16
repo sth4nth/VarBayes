@@ -28,6 +28,11 @@ z = [1;-1];
 y = reshape(y,1,[]);
 nodePot = (y-z).^2/(2*sigma^2);
 edgePot = -J*(z*z');
-h = reshape(0.5*diff(nodePot),M,N);
+
+
+A = lattice([M,N]);
+[s,t] = find(A);
+A = sparse(s,t,-J);
+h = 0.5*diff(nodePot);
 %% mean field
-[p, L] = meanField0(z, A, b);
+p = meanFieldAb(z, A, b);
