@@ -30,8 +30,7 @@ nodePot = (y-z).^2/(2*sigma^2);
 edgePot = -J*(z*z');
 h = reshape(0.5*diff(nodePot),M,N);
 %% MLAPP
-logodds = reshape(diff(nodePot),M,N);
-mu0 = isingMeanField0(logodds, J, epoch);
+mu0 = isingMeanField0(J, h, epoch);
 
 subplot(2,3,3);
 imagesc(mu0)
@@ -39,7 +38,7 @@ title('MLAPP mean field');
 axis image;
 colormap gray;
 %% Ising mean field 
-mu = isingMeanField(h, J, epoch);
+mu = isingMeanField(J, h, epoch);
 maxdiff(mu0,mu)
 
 subplot(2,3,4);

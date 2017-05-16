@@ -1,4 +1,4 @@
-function mu = isingMeanField(h, J, epoch)
+function mu = isingMeanField(J, h, epoch)
 if nargin < 3
     epoch = 10;
 end
