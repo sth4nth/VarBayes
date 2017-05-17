@@ -29,10 +29,25 @@ y = reshape(y,1,[]);
 nodePot = (y-z).^2/(2*sigma^2);
 edgePot = -J*(z*z');
 
-
-A = lattice([M,N]);
-[s,t] = find(A);
+[s,t] = find(lattice(size(X)));
 A = sparse(s,t,-J);
-h = 0.5*diff(nodePot);
+b = 0.5*diff(nodePot);
+
+h = reshape(0.5*diff(nodePot),M,N);
+%% Ising mean field 
+mu = isingMeanField(J, h, epoch);
+subplot(2,3,3);
+imagesc(mu)
+title('Ising mean field');
+axis image;
+colormap gray;
+
 %% mean field
-p = meanFieldAb(z, A, b);
+mu0 = meanFieldAb(A, b);
+% maxdiff(mu0,mu)
+
+subplot(2,3,4);
+imagesc(reshape(mu0,M,N))
+title('Ising mean field');
+axis image;
+colormap gray;

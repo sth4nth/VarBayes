@@ -1,4 +1,4 @@
-function mu = meanFieldAb(x, A, b, epoch)
+function mu = meanFieldAb(A, b, epoch)
 % Parametric (fixed form) mean field for MRF. 
 % This function optimizes wrt parameter of distribution instead of probability.
 % Input: 
@@ -13,9 +13,10 @@ if nargin < 4
     epoch = 10;
 end
 mu = tanh(b);
-for iter = 1:epoch
+for t = 1:epoch
     for i = 1:numel(b)
-        [~,j,a] = find(A(i,:));             % neighbors
-        lnp = lognormexp(-np-reshape(edgePot(:,:,e),2,[])*reshape(nodeBel(:,j),[],1));
+        [~,j,a] = find(A(i,:));
+        mu(i) = tanh(-dot(a,mu(j))+b(i));
     end
-end
+end 
+
