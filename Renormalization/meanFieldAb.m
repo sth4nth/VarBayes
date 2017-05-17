@@ -9,7 +9,7 @@ function mu = meanFieldAb(A, b, epoch)
 %   p: k x n probability
 %   h: 1 x n parameter vector
 % Written by Mo Chen (sth4nth@gmail.com)
-if nargin < 4
+if nargin < 3
     epoch = 10;
 end
 mu = tanh(-b);
