@@ -43,19 +43,12 @@ colormap gray;
 %% Image mean field
 nodeBel = imageMeanField(M, N, nodePot, edgePot, epoch);
 maxdiff(mu,z'*nodeBel)
-
+%% TBD
+maxdiff(nodeBel(1,:),normalize(exp(-z*mu)))
+%%
 subplot(2,3,4);
 imagesc(reshape(nodeBel(1,:),M,N))
 title('Image mean field');
-axis image;
-colormap gray;
-%% Ising mean field 
-h = reshape(0.5*diff(nodePot),M,N);
-mu0 = isingMeanField(J, h, epoch);
-maxdiff(mu,reshape(mu0,1,[]))
-subplot(2,3,5);
-imagesc(mu0)
-title('Ising mean field');
 axis image;
 colormap gray;
 
