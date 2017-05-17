@@ -12,11 +12,10 @@ function mu = meanFieldAb(A, b, epoch)
 if nargin < 4
     epoch = 10;
 end
-mu = tanh(b);
+mu = tanh(-b);
 for t = 1:epoch
     for i = 1:numel(b)
         [~,j,a] = find(A(i,:));
-        mu(i) = tanh(-dot(a,mu(j))+b(i));
+        mu(i) = tanh(-dot(a,mu(j))-b(i));
     end
-end 
-
+end
