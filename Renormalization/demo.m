@@ -43,8 +43,7 @@ colormap gray;
 %% Image mean field
 nodeBel = imageMeanField(M, N, nodePot, edgePot, epoch);
 maxdiff(mu,z'*nodeBel)
-%% TBD
-maxdiff(nodeBel(1,:),normalize(exp(-z*mu)))
+maxdiff(nodeBel,0.5*(1+z*mu))
 %%
 subplot(2,3,4);
 imagesc(reshape(nodeBel(1,:),M,N))
