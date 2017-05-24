@@ -33,9 +33,17 @@ edgePot = -J*(z*z');
 A = sparse(s,t,-J);
 b = -0.5*diff(nodePot);
 %% mean field
-mu = meanFieldAb(A, b, epoch);
+mu = isingMeanFieldFix(A, b, epoch);
 % maxdiff(mu0,mu)
 subplot(2,3,3);
+imagesc(reshape(mu,M,N))
+title('parametric ising mean field');
+axis image;
+colormap gray;
+%% mean field
+mu0 = meanFieldFix(A, b, z, epoch);
+maxdiff(mu0,mu)
+subplot(2,3,4);
 imagesc(reshape(mu,M,N))
 title('parametric mean field');
 axis image;
@@ -44,8 +52,10 @@ colormap gray;
 nodeBel = imageMeanField(M, N, nodePot, edgePot, epoch);
 maxdiff(mu,z'*nodeBel)
 maxdiff(nodeBel,0.5*(1+z*mu))
-%%
-subplot(2,3,4);
+theta = atanh(mu);
+maxdiff(nodeBel,normalize(exp(z*theta)))
+
+subplot(2,3,5);
 imagesc(reshape(nodeBel(1,:),M,N))
 title('Image mean field');
 axis image;

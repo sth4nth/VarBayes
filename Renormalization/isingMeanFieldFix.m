@@ -1,5 +1,5 @@
-function mu = meanFieldAb(A, b, epoch)
-% Parametric (fixed form) mean field for MRF. 
+function mu = isingMeanFieldFix(A, b, epoch)
+% Parametric (fixed form) mean field for ising. 
 % This function optimizes wrt parameter of distribution instead of probability.
 % Input: 
 %   x: k x 1 possible value
