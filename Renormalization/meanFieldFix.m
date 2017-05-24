@@ -20,8 +20,8 @@ for t = 1:epoch
     for i = 1:numel(b)
         [~,j,a] = find(A(i,:));
         theta = -dot(a,mu(j))-b(i);
-        q = normalize(exp(x*theta));
-%         q = softmax(x*theta,1);
-        mu(i) = dot(x,q);
+%         q = normalize(exp(x*theta));
+        q = softmax(x*theta);
+        mu(i) = x'*q;
     end
 end
