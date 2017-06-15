@@ -29,9 +29,13 @@ y = reshape(y,1,[]);
 nodePot = (y-z).^2/(2*sigma^2);
 edgePot = -J*(z*z');
 
+
+
 [s,t] = find(lattice(size(X)));
 A = sparse(s,t,-J);
 b = -0.5*diff(nodePot);
+
+
 %% mean field
 mu = isingMeanFieldFix(A, b, epoch);
 % maxdiff(mu0,mu)
@@ -49,7 +53,9 @@ title('parametric mean field');
 axis image;
 colormap gray;
 %% Image mean field
-nodeBel = imageMeanField(M, N, nodePot, edgePot, epoch);
+nodeBel0 = renMeanField(A, nodePot, edgePot);
+
+nodeBel = imageMeanField(M, N, nodePot, repmat(edgePot,1,1,n), epoch);
 maxdiff(mu,z'*nodeBel)
 maxdiff(nodeBel,0.5*(1+z*mu))
 theta = atanh(mu);

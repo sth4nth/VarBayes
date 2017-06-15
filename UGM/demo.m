@@ -26,6 +26,7 @@ colormap gray;
 %% Mean Field
 [A, nodePot, edgePot] = im2mrf(y, sigma, J);
 [nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot, epoch);
+
 lnZ0 = gibbsEnergy(nodePot, edgePot, nodeBel, edgeBel);
 lnZ1 = betheEnergy(A, nodePot, edgePot, nodeBel, edgeBel);
 maxdiff(lnZ0, lnZ(end))
