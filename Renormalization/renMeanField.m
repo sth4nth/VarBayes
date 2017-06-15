@@ -18,6 +18,7 @@ end
 
 [k,n] = size(nodePot);
 
+rzx = zeros(k,k,n);
 qxz = zeros(k,k,n);
 qz = zeros(k,n);
 [nodeBel,L] = softmax(-nodePot,1);    % init nodeBel    
