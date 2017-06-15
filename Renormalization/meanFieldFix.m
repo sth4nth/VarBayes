@@ -13,14 +13,12 @@ if nargin < 3
     epoch = 10;
 end
 theta = -b;
-% q = normalize(exp(x*theta),1);
 q = softmax(x*theta,1);
 mu = x'*q;
 for t = 1:epoch
     for i = 1:numel(b)
         [~,j,a] = find(A(i,:));
         theta = -dot(a,mu(j))-b(i);
-%         q = normalize(exp(x*theta));
         q = softmax(x*theta);
         mu(i) = x'*q;
     end
