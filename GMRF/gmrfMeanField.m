@@ -1,4 +1,4 @@
-function [nodeBel, edgeBel] = gmrfMeanField(A, nodePot, edgePot, epoch)
+function mu = gmrfMeanField(L, h, epoch)
 % Mean field for MRF
 % Assuming egdePot is symmetric
 % Input: 
