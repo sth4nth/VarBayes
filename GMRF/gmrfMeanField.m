@@ -1,13 +1,11 @@
-function mu = gmrfMeanField(L, h, epoch)
-% Mean field for MRF
+function mu = gmrfMeanField(L, x, epoch)
+% Mean field for latent Gaussian MRF
 % Assuming egdePot is symmetric
 % Input: 
-%   A: n x n adjacent matrix of undirected graph, where value is edge index
-%   nodePot: k x n node potential
-%   edgePot: k x k x m edge potential
+%   L: n x n precision matrix of prior
+%   h: 1 x n lambda*x
 % Output:
-%   nodeBel: k x n node belief
-%   edgeBel: k x k x m edge belief
+%   mu: 1 x n mean parameter
 %   L: variational lower bound
 % Written by Mo Chen (sth4nth@gmail.com)
 tol = 0;
@@ -15,18 +13,14 @@ if nargin < 4
     epoch = 10;
     tol = 1e-4;
 end
-[nodeBel,L] = softmax(-nodePot,1);    % init nodeBel    
+l = diag(L);
+L = L-spdiags(l);
+mu = h;
 for iter = 1:epoch
-    nodeBel0 = nodeBel;
+    mu0 = mu;
     for i = 1:numel(L)
-        [~,j,e] = find(A(i,:));             % neighbors
-        nodeBel(:,i) = softmax(-nodePot(:,i)-reshape(edgePot(:,:,e),2,[])*reshape(nodeBel(:,j),[],1));
+        [~,j,e] = find(L(i,:));             % neighbors
+        mu(i) = (h(i)+dot(mu(j),e))/l(i);
     end
-    if max(abs(nodeBel(:)-nodeBel0(:))) < tol; break; end
-end
-
-[s,t,e] = find(tril(A));
-edgeBel = zeros(size(edgePot));
-for l = 1:numel(e)
-    edgeBel(:,:,e(l)) = nodeBel(:,s(l))*nodeBel(:,t(l))';
+    if max(abs(mu-mu0(:))) < tol; break; end
 end
