@@ -22,7 +22,6 @@ colormap gray;
 epoch = 50;
 Lij = -1;
 Lii = 4;
-
 %% Image Gaussian MRF Mean Field
 mu = imageGmrfMeanField(x, lambda, Lij, Lii, epoch);
 
@@ -35,14 +34,13 @@ colormap gray;
 Lij = -lattice(size(x));
 Lii = 4*ones(numel(x),1);
 mu0 = gmrfMeanField(x, lambda, Lij, Lii, epoch);
-
 maxdiff(mu,mu0)
-subplot(2,3,4);
-imagesc(mu0);
-title('GMRF MF');
-axis image;
-colormap gray;
 
+% subplot(2,3,4);
+% imagesc(mu0);
+% title('GMRF MF');
+% axis image;
+% colormap gray;
 %% Gaussian Posterior
 n = numel(x);
 Lambda = spdiags(Lii+lambda,0,n,n)+Lij;
