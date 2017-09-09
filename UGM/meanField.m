@@ -1,4 +1,4 @@
-function [nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot, epoch)
+function [nodeBel, edgeBel, L] = meanField(A, nodePot, edgePot, epoch)
 % Mean field for MRF
 % Assuming egdePot is symmetric
 % Input: 
@@ -15,24 +15,24 @@ if nargin < 4
     epoch = 10;
     tol = 1e-4;
 end
-lnZ = -inf(1,epoch+1);
-[nodeBel,L] = softmax(-nodePot,1);    % init nodeBel    
+L = -inf(1,epoch+1);
+[nodeBel,lnZ] = softmax(-nodePot,1);    % init nodeBel    
 for iter = 1:epoch
-    for i = 1:numel(L)
+    for i = 1:numel(lnZ)
         [~,j,e] = find(A(i,:));             % neighbors
-        np = nodePot(:,i);
-        [lnp ,lnz] = lognormexp(-np-reshape(edgePot(:,:,e),2,[])*reshape(nodeBel(:,j),[],1));
-        p = exp(lnp);
-        L(i) = -dot(p,lnp+np)+lnz; %
-        nodeBel(:,i) = p;
+        [nodeBel(:,i) ,lnZ(i)] = softmax(-nodePot(:,i)-reshape(edgePot(:,:,e),2,[])*reshape(nodeBel(:,j),[],1));
     end
-    lnZ(iter+1) = sum(L)/2;
-    if abs(lnZ(iter+1)-lnZ(iter))/abs(lnZ(iter)) < tol; break; end
+    H = -dot(nodeBel,log(nodeBel),1);
+    E = dot(nodeBel,nodePot,1);
+    L(iter+1) = sum(lnZ+H-E)/2;
+    if abs(L(iter+1)-L(iter))/abs(L(iter)) < tol; break; end
 end
-lnZ = lnZ(2:iter);
+L = L(2:iter);
 
 [s,t,e] = find(tril(A));
 edgeBel = zeros(size(edgePot));
 for l = 1:numel(e)
     edgeBel(:,:,e(l)) = nodeBel(:,s(l))*nodeBel(:,t(l))';
 end
+% L0 = sum(lnZ)+dot(edgeBel(:),edgePot(:));
+% maxdiff(L0,L(end))

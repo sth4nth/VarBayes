@@ -3,7 +3,7 @@ clear; close all;
 % X = A;
 load letterX.mat
 %% Original image
-epoch = 50;
+epoch = 100;
 J = 1;   % ising parameter
 sigma = 1; % noise level
 
@@ -25,12 +25,12 @@ axis image;
 colormap gray;
 %% Mean Field
 [A, nodePot, edgePot] = im2mrf(y, sigma, J);
-[nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot, epoch);
+[nodeBel, edgeBel, L] = meanField(A, nodePot, edgePot, epoch);
 
-lnZ0 = gibbsEnergy(nodePot, edgePot, nodeBel, edgeBel);
-lnZ1 = betheEnergy(A, nodePot, edgePot, nodeBel, edgeBel);
-maxdiff(lnZ0, lnZ(end))
-maxdiff(lnZ0, lnZ1)
+L0 = gibbsEnergy(nodePot, edgePot, nodeBel, edgeBel);
+L1 = betheEnergy(A, nodePot, edgePot, nodeBel, edgeBel);
+maxdiff(L0, L(end))
+maxdiff(L0, L1)
 
 subplot(2,3,3);
 imagesc(reshape(nodeBel(1,:),size(img)));
