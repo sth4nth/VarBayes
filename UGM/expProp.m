@@ -16,10 +16,8 @@ function [nodeBel, edgeBel] = expProp(A, nodePot, edgePot, epoch)
 nodePot = exp(-nodePot);  
 edgePot = exp(-edgePot);
 
-tol = 0;
 if nargin < 4
     epoch = 10;
-    tol = 1e-4;
 end
 k = size(nodePot,1);
 m = size(edgePot,3);
@@ -28,7 +26,6 @@ m = size(edgePot,3);
 mu = ones(k,2*m)/k;         % message
 nodeBel = normalize(nodePot,1);
 for iter = 1:epoch
-    mu0 = mu;
     for l = 1:m
         i = s(l);
         j = t(l);
@@ -44,7 +41,6 @@ for iter = 1:epoch
         mu(:,eji) = normalize(ep*(nodeBel(:,j)./mu(:,eij)));
         nodeBel(:,i) = normalize(nodeBel(:,i).*mu(:,eji));
     end
-    if max(abs(mu(:)-mu0(:))) < tol; break; end
 end
 
 edgeBel = zeros(k,k,m);

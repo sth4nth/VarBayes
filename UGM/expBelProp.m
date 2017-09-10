@@ -18,10 +18,8 @@ function [nodeBel, edgeBel] = expBelProp(A, nodePot, edgePot, epoch)
 nodePot = exp(-nodePot);  
 edgePot = exp(-edgePot);
 
-tol = 0;
 if nargin < 4
     epoch = 10;
-    tol = 1e-4;
 end
 [k,n] = size(nodePot);
 m = size(edgePot,3);
@@ -31,7 +29,6 @@ A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is
 mu = ones(k,2*m)/k;         % message
 nodeBel = normalize(nodePot,1);
 for iter = 1:epoch
-    mu0 = mu;
     for i = 1:n
         [ne,~,in] = find(A(:,i));
         for l = 1:numel(ne)
@@ -45,7 +42,6 @@ for iter = 1:epoch
             nodeBel(:,j) = normalize(nodeBel(:,j).*mu(:,eij));
         end
     end
-    if max(abs(mu(:)-mu0(:))) < tol; break; end
 end
 
 edgeBel = zeros(k,k,m);

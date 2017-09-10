@@ -15,10 +15,8 @@ function [nodeBel, edgeBel] = expBelProp0(A, nodePot, edgePot, epoch)
 %   edgeBel: k x k x m edge belief
 %   L: variational lower bound (Bethe energy)
 % Written by Mo Chen (sth4nth@gmail.com)
-tol = 0;
 if nargin < 4
     epoch = 10;
-    tol = 1e-4;
 end
 [k,n] = size(nodePot);
 m = size(edgePot,3);
@@ -28,7 +26,6 @@ A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is
 mu = zeros(k,2*m)-log(k);    
 nodeBel = -nodePot-logsumexp(-nodePot,1);
 for iter = 1:epoch
-    mu0 = mu;
     for i = 1:n
         [ne,~,in] = find(A(:,i));
         for l = 1:numel(ne)
@@ -44,7 +41,6 @@ for iter = 1:epoch
             nodeBel(:,j) = nb-logsumexp(nb);
         end
     end
-    if max(abs(mu(:)-mu0(:))) < tol; break; end
 end
 
 edgeBel = zeros(k,k,m);
