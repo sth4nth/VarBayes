@@ -37,41 +37,41 @@ colormap gray;
 % title('MF');
 % axis image;
 % colormap gray;
-%% Belief Propagation
-[nodeBel,edgeBel] = belProp(A, nodePot, edgePot, epoch);
+% %% Belief Propagation
+% [nodeBel,edgeBel] = belProp(A, nodePot, edgePot, epoch);
+% 
+% [nodeBel0,edgeBel0] = belProp0(A, nodePot, edgePot, epoch);
+% maxdiff(nodeBel,nodeBel0)
+% maxdiff(edgeBel,edgeBel0)
+% 
+% subplot(2,3,4);
+% imagesc(reshape(nodeBel(1,:),size(img)));
+% title('BP');
+% axis image;
+% colormap gray;
+%% Expectation Propagation
+[nodeBel,edgeBel] = expProp(A, nodePot, edgePot, epoch);
 
-[nodeBel0,edgeBel0] = belProp0(A, nodePot, edgePot, epoch);
+lnZ0 = betheEnergy(A, nodePot, edgePot, nodeBel, edgeBel);
+
+[nodeBel0,edgeBel0] = expProp0(A, nodePot, edgePot, epoch);
 maxdiff(nodeBel,nodeBel0)
 maxdiff(edgeBel,edgeBel0)
 
-subplot(2,3,4);
+subplot(2,3,5);
 imagesc(reshape(nodeBel(1,:),size(img)));
-title('BP');
+title('EP');
 axis image;
 colormap gray;
-% %% Expectation Propagation
-% [nodeBel,edgeBel] = expProp(A, nodePot, edgePot, epoch);
-% 
-% lnZ0 = betheEnergy(A, nodePot, edgePot, nodeBel, edgeBel);
-% 
-% [nodeBel0,edgeBel0] = expProp0(A, nodePot, edgePot, epoch);
-% maxdiff(nodeBel,nodeBel0)
-% maxdiff(edgeBel,edgeBel0)
-% 
-% subplot(2,3,5);
-% imagesc(reshape(nodeBel(1,:),size(img)));
-% title('EP');
-% axis image;
-% colormap gray;
-% %% EP-BP
-% [nodeBel,edgeBel] = expBelProp(A, nodePot, edgePot, epoch);
-% 
-% [nodeBel0,edgeBel0] = expBelProp0(A, nodePot, edgePot, epoch);
-% maxdiff(nodeBel,nodeBel0)
-% maxdiff(edgeBel,edgeBel0)
-% 
-% subplot(2,3,6);
-% imagesc(reshape(nodeBel(1,:),size(img)));
-% title('EBP');
-% axis image;
-% colormap gray;
+%% EP-BP
+[nodeBel,edgeBel] = expBelProp(A, nodePot, edgePot, epoch);
+
+[nodeBel0,edgeBel0] = expBelProp0(A, nodePot, edgePot, epoch);
+maxdiff(nodeBel,nodeBel0)
+maxdiff(edgeBel,edgeBel0)
+
+subplot(2,3,6);
+imagesc(reshape(nodeBel(1,:),size(img)));
+title('EBP');
+axis image;
+colormap gray;

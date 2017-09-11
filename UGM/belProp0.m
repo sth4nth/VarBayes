@@ -25,7 +25,8 @@ for iter = 1:epoch
         nb = -nodePot(:,i)+sum(mu(:,in),2);                       % product of incoming message
         for l = in'
             ep = edgePot(:,:,ud(l,m));
-            mu(:,rd(l,m)) = lognormexp(logsumexp(-ep+(nb-mu(:,l))));
+            mut = logsumexp(-ep+(nb-mu(:,l)),1);
+            mu(:,rd(l,m)) = mut-logsumexp(mut);
         end
     end
 end
