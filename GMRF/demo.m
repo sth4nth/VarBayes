@@ -19,14 +19,14 @@ axis image;
 colormap gray;
 %% Parameters
 epoch = 50;
+x = img;
+n = numel(x);
 a = 1;                       % edge weight: L(i,j) = -a
 A = a*lattice(size(img));    % adjacent matrix
 d = full(sum(A,1));          % node degree: L(i,i) = d(i)
-D = d*speye(numel(img));     % degree matrix
+D = sparse(1:n,1:n,d,n,n,n); % degree matrix
 L = D-A;                     % Laplacian matrix
-
-Lij = -1;
-Lii = 4;
+d = reshape(d,size(img));
 %% Image Gaussian MRF Mean Field
 mu = imageGmrfMeanField(img, lambda, d, -a, epoch);
 
@@ -36,10 +36,7 @@ title('Image GMRF MF');
 axis image;
 colormap gray;
 %% Gaussian MRF Mean Field
-x = img;
-Lij = -lattice(size(x));
-Lii = 4*ones(size(x));
-[mu0, L] = gmrfMeanField(x, lambda, Lij, Lii, epoch);
+mu0 = gmrfMeanField(x, lambda, L, epoch);
 maxdiff(mu(:),mu0(:))
 
 subplot(2,3,4);
@@ -48,9 +45,12 @@ title('GMRF MF');
 axis image;
 colormap gray;
 %% Gaussian Posterior
-% n = numel(x);
-% Lambda = spdiags(Lii+lambda,0,n,n)+Lij;
-% mu1 = lambda*(Lambda\x(:));
-% maxdiff(mu(:),mu1)
+Lambda = lambda*speye(n)+L;
+mu1 = lambda*(Lambda\x(:));
+maxdiff(mu(:),mu1(:))
 
-
+subplot(2,3,5);
+imagesc(reshape(mu1,size(img)));
+title('Gauss Posterior');
+axis image;
+colormap gray;

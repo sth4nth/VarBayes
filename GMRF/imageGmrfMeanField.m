@@ -1,20 +1,21 @@
-function mu = imageGmrfMeanField(x, lambda, Lij, Lii, epoch)
-% w: L_{ij}
-% L: L_{ii}
-% l: \lambda 
+function mu = imageGmrfMeanField(x, lambda, d, J, epoch)
+% J: L_{ij}
+% d: L_{ii}
 if nargin < 5
     epoch = 10;
 end
-[M,N] = size(x);
+[m,n] = size(x);
+stride = [-1,1,-m,m];
+eta = lambda.*x;
+D = (lambda+d).*ones(m,n);
 mu = x;
-stride = [-1,1,-M,M];
 for t = 1:epoch
-    for j = 1:N
-        for i = 1:M
-            pos = i + M*(j-1);
+    for j = 1:n
+        for i = 1:m
+            pos = i + m*(j-1);
             ne = pos + stride;
-            ne([i,i,j,j] == [1,M,1,N]) = [];
-            mu(i,j) = (lambda*x(i,j)-sum(Lij.*mu(ne)))/(lambda+Lii);
+            ne([i,i,j,j] == [1,m,1,n]) = [];
+            mu(i,j) = (eta(i,j)-sum(J.*mu(ne)))/D(i,j);
         end
     end
 end 
