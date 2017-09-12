@@ -36,7 +36,7 @@ title('Image GMRF MF');
 axis image;
 colormap gray;
 %% Gaussian MRF Mean Field
-mu0 = gmrfMeanField(x, lambda, L, epoch);
+[mu0, LB] = gmrfMeanField(x, lambda, L, epoch);
 maxdiff(mu(:),mu0(:))
 
 subplot(2,3,4);
@@ -54,3 +54,5 @@ imagesc(reshape(mu1,size(img)));
 title('Gauss Posterior');
 axis image;
 colormap gray;
+
+figure; plot(LB)
