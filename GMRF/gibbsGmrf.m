@@ -1,6 +1,5 @@
-function lnZ = gibbsGmrf(nodePot, edgePot, nodeBel, edgeBel)
-% Compute Gibbs free energy
-% TBD: deal with log(0) for entropy
+function lnZ = gibbsGmrf(x, lambda, L, mu)
+% Compute Gibbs free energy of Gaussian MRF
 edgePot = reshape(edgePot,[],size(edgePot,3));
 edgeBel = reshape(edgeBel,[],size(edgeBel,3));
 Ex = dot(nodeBel,nodePot,1);
