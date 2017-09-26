@@ -4,23 +4,20 @@ function mu = gmrfBelProp(Lambda, eta, epoch)
 if nargin < 3
     epoch = 10;
 end
-
-J = Lambda;
-h = Lambda;
+n = numel(eta);
+J = sparse(1:n,1:n,diag(Lambda));                            
+h = sparse(1:n,1:n,eta);
 for iter = 1:epoch
     for i = 1:n
-        in = nonzeros(Lambda(:,i));                      % incoming message index
-        for l = in'
-
+        ne = find(Lambda(i,:));                      % incoming message index
+        Jn = sum(J(ne,i));
+        hn = sum(h(ne,i));
+        for j = setdiff(ne,i)
+            Jk = Jn-J(j,i);
+            hk = hn-h(j,i);
+            J(i,j) = -Lambda(j,i)*Lambda(i,j)/Jk;
+            h(i,j) = -Lambda(j,i)*hk/Jk;
         end
     end
 end
-
-
-function i = rd(i, m)
-% reverse direction edge index
-i = mod(i+m-1,2*m)+1;
-
-function i = ud(i, m)
-% undirected edge index
-i = mod(i-1,m)+1;
+mu = full(sum(h,1))./full(sum(J,1));

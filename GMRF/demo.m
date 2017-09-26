@@ -58,5 +58,8 @@ colormap gray;
 eta = lambda*x;
 LB = gibbsGmrf(Lambda, eta, mu);
 maxdiff(LB,LB0(end))
-
 figure; plot(LB0);
+%% GaBP
+mu2 = gmrfBelProp(Lambda, eta, epoch);
+maxdiff(mu1(:),mu2(:))
+
