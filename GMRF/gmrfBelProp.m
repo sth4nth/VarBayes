@@ -10,31 +10,13 @@ h = Lambda;
                    % message
 for iter = 1:epoch
     for i = 1:n
-        in = nonzeros(A(:,i));                      % incoming message index
-        nb = nodePot(:,i).*prod(mu(:,in),2);                       % product of incoming message
+        in = nonzeros(Lambda(:,i));                      % incoming message index
         for l = in'
-            ep = edgePot(:,:,ud(l,m));
-            mu(:,rd(l,m)) = normalize(ep*(nb./mu(:,l)));
+
         end
     end
 end
 
-nodeBel = zeros(k,n);
-for i = 1:n
-    nodeBel(:,i) = nodePot(:,i).*prod(mu(:,nonzeros(A(:,i))),2);
-end
-nodeBel = normalize(nodeBel,1);
-
-edgeBel = zeros(k,k,m);
-for l = 1:m
-    eij = e(l);
-    eji = eij+m;
-    ep = edgePot(:,:,eij);
-    nbt = nodeBel(:,t(l))./mu(:,eij);
-    nbs = nodeBel(:,s(l))./mu(:,eji);
-    eb = (nbt*nbs').*ep;
-    edgeBel(:,:,eij) = eb./sum(eb(:));
-end
 
 function i = rd(i, m)
 % reverse direction edge index
