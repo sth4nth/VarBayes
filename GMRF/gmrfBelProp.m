@@ -5,11 +5,22 @@ if nargin < 3
     epoch = 10;
 end
 
-J
-h
+J = Lambda;
+h = Lambda;
 for iter = 1:epoch
-    for i = 1:numel(mu)
-        [~,j,e] = find(Lij(i,:));             % neighbors
-%         mu(i) = (lambda*x(i)-sum(e.*mu(j)))/(lambda+Lii(i));
+    for i = 1:n
+        in = nonzeros(Lambda(:,i));                      % incoming message index
+        for l = in'
+
+        end
     end
 end
+
+
+function i = rd(i, m)
+% reverse direction edge index
+i = mod(i+m-1,2*m)+1;
+
+function i = ud(i, m)
+% undirected edge index
+i = mod(i-1,m)+1;
