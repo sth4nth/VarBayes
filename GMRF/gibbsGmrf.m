@@ -1,7 +1,10 @@
-function lnZ = gibbsGmrf(Lambda, eta, mu)
+function lnZ = gibbsGmrf(mu, Lambda, eta)
 % Compute Gibbs free energy of Gaussian MRF
+%   mu: mean field result
+%   Lambda, eta: Ga MRF parameters
+% Written by Mo Chen (sth4nth@gmail.com)
 mu = mu(:);
 eta = eta(:);
-n = numel(mu);
-c = 0.5*(n*log(2*pi)-sum(log(diag(Lambda))));
-lnZ = 0.5*mu'*Lambda*mu-mu'*eta+c;
+sigma = 1./diag(Lambda);
+c = 0.5*sum(log(2*pi*sigma));
+lnZ = -0.5*mu'*Lambda*mu+eta'*mu+c;
