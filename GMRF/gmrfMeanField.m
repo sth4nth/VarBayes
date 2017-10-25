@@ -11,7 +11,6 @@ dg = diag(Lambda);
 L(sub2ind([n,n],1:n,1:n)) = 0;              % remove diagonal elements
 mu = x;
 lb = -inf(1,epoch+1);
-% c = 0.5*(n*log(2*pi)-sum(log(dg(:))));
 for iter = 1:epoch
     for i = 1:numel(mu)
         [~,j,w] = find(L(i,:));             % j~i
