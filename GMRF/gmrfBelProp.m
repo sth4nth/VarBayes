@@ -1,4 +1,4 @@
-function mu = gmrfBelProp(Lambda, eta, epoch)
+function [mu, J, h] = gmrfBelProp(Lambda, eta, epoch)
 % Belief propagation for latent Gaussian MRF
 % Written by Mo Chen (sth4nth@gmail.com)
 if nargin < 3

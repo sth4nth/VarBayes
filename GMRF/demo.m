@@ -36,25 +36,25 @@ imagesc(reshape(mu,size(img)));
 title('Closed form');
 axis image;
 colormap gray;
-%% Image Gaussian MRF Mean Field
-d = reshape(d,size(img));
-mu0 = imageGmrfMeanField(img, lambda, d, -a, epoch);
-maxdiff(mu(:),mu0(:))
-
-subplot(2,3,4);
-imagesc(mu0);
-title('Image GMRF MF');
-axis image;
-colormap gray;
-%% General Gaussian MRF Mean Field
-[mu1, lb1] = gmrfMeanField(x, lambda, L, epoch);
-maxdiff(mu(:),mu1(:))
-
-subplot(2,3,5);
-imagesc(reshape(mu1,size(img)));
-title('GMRF MF');
-axis image;
-colormap gray;
+% %% Image Gaussian MRF Mean Field
+% d = reshape(d,size(img));
+% mu0 = imageGmrfMeanField(img, lambda, d, -a, epoch);
+% maxdiff(mu(:),mu0(:))
+% 
+% subplot(2,3,4);
+% imagesc(mu0);
+% title('Image GMRF MF');
+% axis image;
+% colormap gray;
+% %% General Gaussian MRF Mean Field
+% [mu1, lb1] = gmrfMeanField(x, lambda, L, epoch);
+% maxdiff(mu(:),mu1(:))
+% 
+% subplot(2,3,5);
+% imagesc(reshape(mu1,size(img)));
+% title('GMRF MF');
+% axis image;
+% colormap gray;
 %% Gaussian MRF Belief Propagation
 mu2 = gmrfBelProp(Lambda, eta, epoch);
 maxdiff(mu(:),mu2(:))
@@ -64,6 +64,9 @@ imagesc(reshape(mu2,size(img)));
 title('GMRF BP');
 axis image;
 colormap gray;
-%% Lower bound
-figure; plot(lb1); 
-% lb = gibbsGmrf(mu, Lambda, eta);
+% %% Lower bound
+% figure; plot(lb1); 
+% % lb = gibbsGmrf(mu, Lambda, eta);
+
+%% Gaussian free energy
+lnZ = eta*(Lambda\eta')-logdet(Lambda)+0.5*n*log(2*pi);
