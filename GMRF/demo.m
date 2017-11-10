@@ -18,7 +18,7 @@ title('Noisy image');
 axis image;
 colormap gray;
 %% Parameters
-epoch = 100;
+epoch = 10;
 n = numel(img);
 a = 1;                       % edge weight: L(i,j) = -a
 A = a*lattice(size(img));    % adjacent matrix
@@ -56,7 +56,7 @@ colormap gray;
 % axis image;
 % colormap gray;
 %% Gaussian MRF Belief Propagation
-mu2 = gmrfBelProp(Lambda, eta, epoch);
+[mu2, J, h] = gmrfBelProp(Lambda, eta, epoch);
 maxdiff(mu(:),mu2(:))
 
 subplot(2,3,6);
@@ -70,3 +70,7 @@ colormap gray;
 
 %% Gaussian free energy
 lnZ = eta*(Lambda\eta')-logdet(Lambda)+0.5*n*log(2*pi);
+
+%% Bethe energy
+lnZ = betheGmrf(Lambda, eta, J, h);
+
