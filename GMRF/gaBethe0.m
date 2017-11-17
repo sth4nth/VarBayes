@@ -1,5 +1,5 @@
 function [lnZ, E, H] = gaBethe0(eta, Lambda, h, J)
-% Bethe energy of Gaussian MRF
+% Bethe energy of Gaussian MRF, valid for itermedia solution during iterations
 % Written by Mo Chen (sth4nth@gmail.com)
 hn = full(sum(h,1));
 Jn = full(sum(J,1));
