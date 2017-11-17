@@ -1,7 +1,8 @@
-function v = gaussBetheEntropy(Sigma)
+function s = gaBetheEntropy(Sigma)
 % Bethe entropy for Gaussian distribution
+% Written by Mo Chen (sth4nth@gmail.com)
 sigma = diag(Sigma);
 n = numel(sigma);
 c = 0.5*n*log(2*pi*exp(1));
 rho = ones(n,n)-Sigma.^2./(sigma.*sigma')+diag(sigma.^2);
-v = c+sum(log(rho(:)))/4;
+s = c+sum(log(rho(:)))/4;

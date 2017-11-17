@@ -1,6 +1,8 @@
 function mu = imageGmrfMeanField(x, lambda, d, J, epoch)
-% J: L_{ij}
-% d: L_{ii}
+% Image Gaussian mean field
+%   J: L_{ij}
+%   d: L_{ii}
+% Written by Mo Chen (sth4nth@gmail.com)
 if nargin < 5
     epoch = 10;
 end

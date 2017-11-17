@@ -18,7 +18,7 @@ title('Noisy image');
 axis image;
 colormap gray;
 %% Parameters
-epoch = 50;
+epoch = 10;
 n = numel(img);
 a = 1;                       % edge weight: L(i,j) = -a
 A = a*lattice(size(img));    % adjacent matrix
@@ -29,40 +29,29 @@ L = D-A;                     % Laplacian matrix
 x = reshape(img,1,[]);
 Lambda = lambda*speye(n)+L;
 eta = lambda*x;
-mu0 = eta/Lambda;
+mu = eta/Lambda;
 
 subplot(2,3,3);
-imagesc(reshape(mu0,size(img)));
+imagesc(reshape(mu,size(img)));
 title('Closed form');
 axis image;
 colormap gray;
+%% Image Gaussian MRF Mean Field
+d = reshape(d,size(img));
+mu0 = imageGmrfMeanField(img, lambda, d, -a, epoch);
+maxdiff(mu(:),mu0(:))
+
+subplot(2,3,4);
+imagesc(mu0);
+title('Image GMRF MF');
+axis image;
+colormap gray;
 %% General Gaussian MRF Mean Field
-[mu1, lb1] = gaMf(eta, Lambda, epoch);
-maxdiff(mu0(:),mu1(:))
+mu1 = gmrfMeanField(x, lambda, L, epoch);
+maxdiff(mu(:),mu1(:))
 
 subplot(2,3,5);
 imagesc(reshape(mu1,size(img)));
 title('GMRF MF');
 axis image;
 colormap gray;
-%% Gaussian MRF Belief Propagation
-[h, J] = gaBp(eta, Lambda, epoch);
-[mu, Sigma] = gaMarginal(h, J, Lambda);
-maxdiff(mu0(:),mu(:))
-
-subplot(2,3,6);
-imagesc(reshape(mu,size(img)));
-title('GMRF BP');
-axis image;
-colormap gray;
-%% True freee energy
-lnZ0 = gaEnergy(eta, Lambda);
-%% Gibbs energy
-lnZ1 = gaGibbs(eta, Lambda, mu);
-lnZ2 = gaBethe(eta, Lambda, mu, sparse(1:n,1:n,1./diag(Lambda)));
-maxdiff(lnZ1,lnZ2)
-%% Bethe energy
-lnZ = gaBethe(eta, Lambda, mu, Sigma);
-[lnZ0] = gaBethe0(eta, Lambda, h, J);
-maxdiff(lnZ,lnZ0)
-
