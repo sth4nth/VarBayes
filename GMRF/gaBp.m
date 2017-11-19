@@ -10,7 +10,7 @@ J = sparse(1:n,1:n,diag(Lambda),n,n,numel(Lambda));
 
 dg = sub2ind([n,n],1:n,1:n);
 NE = logical(Lambda);
-NE(dg) = 0;                                                % neighbor index matrix
+NE(dg) = false;                                                % neighbor index matrix
 for iter = 1:epoch
     for i = 1:n
         ne = NE(:,i);                                      % incoming message index
