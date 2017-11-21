@@ -7,11 +7,11 @@ function B = ug2fg(A)
 %   B: m x n adjacent matrix of bipartite factor graph 
 %       where m and n are # of edges and nodes
 % Written by Mo Chen (sth4nth@gmail.com)
-n = size(A,1);
-[row,col,w] = find(tril(A));
+[s,t,w] = find(tril(A));
 m = numel(w);
+n = size(A,1);
 idx = 1:m;
-node = [row(:);col(:)];
+node = [s;t];
 edge = [idx(:);idx(:)];
 v = sqrt(w(:));
 v = [v;v];

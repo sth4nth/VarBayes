@@ -1,6 +1,7 @@
 function [B, np, ep] = im2fg(X)
 % Convert a image to a factor graph
-A = im2ug(X);
+A = lattice(size(X));
+% A = im2ug(X);
 B = ug2fg(A);
 
 [nEdges, nNodes] = size(B);
