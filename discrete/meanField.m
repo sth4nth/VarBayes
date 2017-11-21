@@ -20,7 +20,7 @@ L = -inf(1,epoch+1);
 for iter = 1:epoch
     for i = 1:numel(lnZ)
         [~,j,e] = find(A(i,:));             % neighbors
-        [nodeBel(:,i) ,lnZ(i)] = softmax(-nodePot(:,i)-reshape(edgePot(:,:,e),2,[])*reshape(nodeBel(:,j),[],1));
+        [nodeBel(:,i),lnZ(i)] = softmax(-nodePot(:,i)-reshape(edgePot(:,:,e),2,[])*reshape(nodeBel(:,j),[],1));
     end
     H = -dot(nodeBel,log(nodeBel),1);
     E = dot(nodeBel,nodePot,1);
