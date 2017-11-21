@@ -1,40 +1,32 @@
-function [nodeBel, L] = fgMf(B, nodePot, factorPot, epoch)
+function nodeBel = fgMf(B, nodePot, factorPot, epoch)
 % Mean field on factor graph. Done
 %   B: adjacent matrix of bipartite graph\
 %   nodePot: node potential
 %   factorPot: factor potential
 % Written by Mo Chen (sth4nth@gmail.com)
 B = logical(B);
-tol = 1e-4;
-L = -inf(1,epoch+1);
-n = numel(nodePot);
 nodeBel = cellfun(@softmax,nodePot,'UniformOutput',false);    % init nodeBel
-lnZ = zeros(1,n);
 for t = 1:epoch
-    for i = 1:n
+    for i = 1:numel(nodePot)
         e = B(:,i);  % neighbor factor indicator vector
         J = B(e,:);  % neighbor node indcator matrix
         J(:,i) = false; % exclude self
 
+        msg = zeros(numel(nodeBel{i}),1);    % sum of incoming message        
         factorIdx = find(e);
-        nFactors = numel(factorIdx);
-        msg = zeros(numel(nodeBel{i}),nFactors);    % incoming message        
-        for k = 1:nFactors
-            nodeIdx = find(J(k,:));
-            nNodes = numel(nodeIdx);
+        for k = 1:numel(factorIdx)
             fp = factorPot{factorIdx(k)};  
-            for j = 1:nNodes
+            nodeIdx = find(J(k,:));
+            for j = 1:numel(nodeIdx)
                 nb = nodeBel{nodeIdx(j)};
                 fp = tvp(fp,nb,j);            % tensor vector product
             end
-            msg(:,k) = fp(:);
+            msg = msg+fp(:);
         end
-        [nodeBel{i},lnZ(i)] = softmax(nodePot{i}+sum(msg,2));
+        nodeBel{i} = softmax(nodePot{i}+msg);
     end
-    L(t+1) = mean(lnZ);
-    if abs(L(t+1)-L(t)) < tol; break; end    
 end
-L=L(2:t);
+
 
 
 

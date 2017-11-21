@@ -1,17 +1,13 @@
-function [nodeBel, factorBel, L] = fgBp(B, nodePot, factorPot)
+function [nodeBel, factorBel] = fgBp(B, nodePot, factorPot, epoch)
 % Belief propagation on factor graph
-
+%   B: adjacent matrix of bipartite graph\
+%   nodePot: node potential
+%   factorPot: factor potential
+% Written by Mo Chen (sth4nth@gmail.com)
 B = logical(B);
-tol = 1e-4;
-epoch = 50;
-L = -inf(1,epoch+1);
-n = numel(nodePot);
-% nodeBel = cellmap(@softmax,nodePot);    % init nodeBel
-% lnZ = zeros(1,n);
+nodeBel = cellfun(@softmax,nodePot,'UniformOutput',false);    % init nodeBel
 nEdges = size(B,1);
-nStates = 2;
 msg = zeros(nStates,2*nEdges)/nStates;
-
 for t = 1:epoch
     for i = 1:n
         e = B(:,i);  % neighbor factor indicator vector
@@ -33,9 +29,6 @@ for t = 1:epoch
         end
 %         [nodeBel{i},lnZ(i)] = softmax(nodePot{i}+sum(msg,2));
     end
-    L(t+1) = mean(lnZ);
-    if abs(L(t+1)-L(t)) < tol; break; end    
 end
-L=L(2:t);
 
 

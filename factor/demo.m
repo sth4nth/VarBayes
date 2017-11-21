@@ -25,7 +25,7 @@ axis image;
 colormap gray;
 %% Mean field on a factor graph
 [B,np,ep] = im2fg(x);
-[nb,L] = fgMf(B, np, ep, epoch);
+nb = fgMf(B, np, ep, epoch);
 nodeBel = reshape(cell2mat(nb),2,[]);
 subplot(2,2,3);
 imagesc(reshape(nodeBel(2,:),size(img)));
