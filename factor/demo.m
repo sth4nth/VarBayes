@@ -14,7 +14,7 @@ colormap gray;
 %% Parameters
 J = 1;
 sigma = 1;
-epoch = 50;
+epoch = 10;
 %% Noisy image
 x = img + sigma*randn(size(img)); % noisy signal
 subplot(2,2,2);
@@ -34,6 +34,9 @@ title('Mean Field');
 axis image;
 colormap gray;
 %% Mean field on a MRF
+[A, nodePot, edgePot] = im2mrf(x, sigma, J);
+nodeBel0 = meanField(A, nodePot, edgePot, epoch);
+maxdiff(nodeBel, nodeBel0)
 
 %% Belief propagation on a factor graph
 
