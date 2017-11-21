@@ -33,4 +33,5 @@ colormap gray
 title('Mean Field');
 axis image;
 colormap gray;
+%% Belief propagation on a factor graph
 
