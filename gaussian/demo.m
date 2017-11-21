@@ -1,3 +1,5 @@
+%% Done
+
 %% Original image
 clear; close all;
 data = load('letterX.mat');

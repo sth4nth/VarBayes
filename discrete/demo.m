@@ -1,3 +1,4 @@
+% Done!
 clear; close all;
 % load letterA.mat;
 % X = A;
