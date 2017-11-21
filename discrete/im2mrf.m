@@ -1,10 +1,11 @@
 function [A, nodePot, edgePot] = im2mrf(im, sigma, J)
-% Convert a image to Ising MRF with distribution p(x)=exp(-sum(nodePot)-sum(edgePot)-lnZ)
+% Contruct Ising MRF from an image
 % Input:
 %   im: row x col image
 %   sigma: variance of Gaussian node potential
 %   J: parameter of Ising edge
 % Output:
+%   A: n x n adjacent matrix
 %   nodePot: 2 x n node potential
 %   edgePot: 2 x 2 x m edge potential
 % Written by Mo Chen (sth4nth@gmail.com)
