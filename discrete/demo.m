@@ -18,13 +18,13 @@ title('Original image');
 axis image;
 colormap gray;
 %% Noisy image
-y = img + sigma*randn(size(img)); % noisy signal
+x = img + sigma*randn(size(img)); % noisy signal
 subplot(2,3,2);
-imagesc(y);
+imagesc(x);
 title('Noisy image');
 axis image;
 colormap gray;
-[A, nodePot, edgePot] = im2mrf(y, sigma, J);
+[A, nodePot, edgePot] = im2mrf(x, sigma, J);
 %% Mean Field
 [nodeBel, edgeBel, L] = meanField(A, nodePot, edgePot, epoch);
 

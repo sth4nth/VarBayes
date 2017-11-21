@@ -1,4 +1,4 @@
-function [nodeBel, factorBel, L] = fgBelProp(B, nodePot, factorPot)
+function [nodeBel, factorBel, L] = fgBp(B, nodePot, factorPot)
 % Belief propagation on factor graph
 
 B = logical(B);

@@ -1,8 +1,11 @@
-function [nodeBel, L] = fgMeanField(B, nodePot, factorPot)
-% Mean field on factor graph
+function [nodeBel, L] = fgMf(B, nodePot, factorPot, epoch)
+% Mean field on factor graph. Done
+%   B: adjacent matrix of bipartite graph\
+%   nodePot: node potential
+%   factorPot: factor potential
+% Written by Mo Chen (sth4nth@gmail.com)
 B = logical(B);
 tol = 1e-4;
-epoch = 50;
 L = -inf(1,epoch+1);
 n = numel(nodePot);
 nodeBel = cellmap(@softmax,nodePot);    % init nodeBel
