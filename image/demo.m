@@ -1,77 +1,71 @@
-clear; close all;
-% load letterA.mat;
-% X = A;
-load letterX.mat
 %% Original image
-epoch = 50;
-J = 1;   % ising parameter
-sigma = 1; % noise level
-[M, N] = size(X); 
-img = double(X);
+clear; close all;
+data = load('letterX.mat');
+img = double(data.X); 
 img = sign(img-mean(img(:)));
 
-figure;
+figure
 subplot(2,3,1);
 imagesc(img);
+colormap gray
 title('Original image');
 axis image;
 colormap gray;
 %% Noisy image
-y = img + sigma*randn(M,N); %y = noisy signal
+sigma = 1;
+x = img + sigma*randn(size(img)); % noisy signal
 subplot(2,3,2);
-imagesc(y);
-title('noisy image');
+imagesc(x);
+title('Noisy image');
 axis image;
 colormap gray;
 %% Parameter
+epoch = 10;
+J = 1;
 z = [1;-1];
-y = reshape(y,1,[]);
+k = numel(z);
+y = reshape(x,1,[]);
 nodePot = (y-z).^2/(2*sigma^2);
 edgePot = -J*(z*z');
-h = reshape(0.5*diff(nodePot),M,N);
-%% MLAPP
-mu0 = isingMeanField0(J, h, epoch);
+h = reshape(0.5*diff(nodePot),size(img));
+%% Ising image mean field 
+mu = imIsMf(J, h, epoch);
 
 subplot(2,3,3);
-imagesc(mu0)
-title('MLAPP mean field');
+imagesc(mu);
+title('Ising MF');
 axis image;
 colormap gray;
-%% Ising mean field 
-mu = isingMeanField(J, h, epoch);
+%% Ising image mean field with padding
+mu0 = imIsMf0(J, h, epoch);
 maxdiff(mu0,mu)
 
 subplot(2,3,4);
-imagesc(mu)
-title('Ising mean field');
+imagesc(mu0);
+title('Ising MF0');
 axis image;
 colormap gray;
 %% Image mean field
-nodeBel0 = imageMeanField(M, N, nodePot, edgePot, epoch);
-maxdiff(reshape(mu0,1,[]),z'*nodeBel0)
+nodeBel0 = imMf(reshape(nodePot,[k,size(img)]), edgePot, epoch);
+nodeBel0 = reshape(nodeBel0,k,[]);
+maxdiff(reshape(mu,1,[]),z'*nodeBel0);
 
 subplot(2,3,5);
-imagesc(reshape(nodeBel0(1,:),M,N))
+imagesc(reshape(nodeBel0(1,:),size(img)));
 title('Image mean field');
 axis image;
 colormap gray;
-%% graph mean field
-A = lattice([M,N]);
+%% General mean field
+A = lattice(size(img));
 [s,t,e] = find(tril(A));
 e(:) = 1:numel(e);
 A = sparse([s;t],[t;s],[e;e]);
 edgePot = repmat(edgePot,[1, 1, nnz(tril(A))]);
 [nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot, epoch);
 maxdiff(nodeBel0,nodeBel)
-lnZ0 = gibbsEnergy(nodePot, edgePot, nodeBel, edgeBel);
-maxdiff(lnZ0,lnZ(end))/(M*N)
 
 subplot(2,3,6);
-imagesc(reshape(nodeBel(1,:),M,N))
-title('Image mean field');
+imagesc(reshape(nodeBel(1,:),size(img)));
+title('General MF');
 axis image;
 colormap gray;
-%% Lower bound
-figure;
-plot(lnZ)
-

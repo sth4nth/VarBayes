@@ -1,4 +1,4 @@
-function mu = imIsMeanField0(J, h, epoch)
+function mu = imIsMf0(J, h, epoch)
 % Ising image mean field (pad image with 0)\
 % Written by Mo Chen (sth4nth@gmail.com)
 mu = zeros(size(h)+2);                        % padding

@@ -1,4 +1,4 @@
-function mu = imIsMeanField(J, h, epoch)
+function mu = imIsMf(J, h, epoch)
 % Ising image mean field
 % Written by Mo Chen (sth4nth@gmail.com)
 [m,n] = size(h);

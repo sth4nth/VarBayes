@@ -1,4 +1,4 @@
-function nodeBel = imMeanField(nodePot, edgePot, epoch)
+function nodeBel = imMf(nodePot, edgePot, epoch)
 % Image mean field
 %   nodePot: k x m x n node potential
 %   edgePot: k x k edge potential
