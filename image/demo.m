@@ -7,7 +7,6 @@ img = sign(img-mean(img(:)));
 figure
 subplot(2,3,1);
 imagesc(img);
-colormap gray
 title('Original image');
 axis image;
 colormap gray;
