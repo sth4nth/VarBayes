@@ -16,18 +16,18 @@ for t = 1:epoch
 
         factorIdx = find(e);
         nFactors = numel(factorIdx);
-%         msg = zeros(numel(nodeBel{i}),nFactors);    % incoming message        
+        msg = zeros(numel(nodeBel{i}),nFactors);    % incoming message        
         for k = 1:nFactors
             nodeIdx = find(J(k,:));
             nNodes = numel(nodeIdx);
-%             fp = factorPot{factorIdx(k)};  
+            fp = factorPot{factorIdx(k)};  
             for j = 1:nNodes
-%                 nb = nodeBel{nodeIdx(j)};
-%                 fp = tvp(fp,nb,j);
+                nb = nodeBel{nodeIdx(j)};
+                fp = tvp(fp,nb,j);
             end
-%             msg(:,k) = fp(:);
+            msg(:,k) = fp(:);
         end
-%         [nodeBel{i},lnZ(i)] = softmax(nodePot{i}+sum(msg,2));
+        nodeBel{i} = softmax(nodePot{i}+sum(msg,2));
     end
 end
 
