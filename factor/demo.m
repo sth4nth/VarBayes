@@ -23,20 +23,19 @@ colormap gray
 title('Noisy image');
 axis image;
 colormap gray;
-%% Mean field on a factor graph
+%% Construct graph
 [B,np,ep] = im2fg(x,sigma,J);
+[A, nodePot, edgePot] = im2mrf(x, sigma, J);
+%% Mean field on a factor graph
 nb = fgMf(B, np, ep, epoch);
 nodeBel = reshape(cell2mat(nb),2,[]);
+nodeBel0 = meanField(A, nodePot, edgePot, epoch);
+maxdiff(nodeBel, nodeBel0)
+
 subplot(2,2,3);
 imagesc(reshape(nodeBel(1,:),size(img)));
 colormap gray
 title('Mean Field');
 axis image;
 colormap gray;
-%% Mean field on a MRF
-[A, nodePot, edgePot] = im2mrf(x, sigma, J);
-nodeBel0 = meanField(A, nodePot, edgePot, epoch);
-maxdiff(nodeBel, nodeBel0)
-
 %% Belief propagation on a factor graph
-
