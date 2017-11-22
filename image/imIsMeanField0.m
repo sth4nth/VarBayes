@@ -1,12 +1,10 @@
-function mu = isingMeanField0(J, h, epoch)
-% use padding trick
-if nargin < 3
-    epoch = 10;
-end
+function mu = imIsMeanField0(J, h, epoch)
+% Ising image mean field (pad image with 0)\
+% Written by Mo Chen (sth4nth@gmail.com)
 mu = zeros(size(h)+2);                        % padding
 [m,n] = size(mu);
-mu(2:m-1,2:n-1) = tanh(h);               % init
 stride = [-1,1,-m,m];
+mu(2:m-1,2:n-1) = tanh(h);               % init
 for t = 1:epoch
     for j = 2:n-1
         for i = 2:m-1
