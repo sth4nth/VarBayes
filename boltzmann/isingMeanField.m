@@ -1,20 +1,15 @@
-function mu = boltzMeanField(A, b, z, epoch)
-% Mean field for Boltzmann machine. 
+function mu = isingMeanField(A, b, epoch)
+% Mean field for Ising MRF. 
 % Input: 
-%   z: k x 1 possible value
 %   A: n x n edge weight of an undirected graph
 %   b: 1 x n node weight of an undirected graph
 % Output:
 %   mu: k x n expectation value
 % Written by Mo Chen (sth4nth@gmail.com)
-theta = -b;
-q = softmax(z*theta,1);
-mu = z'*q;
+mu = tanh(-b);
 for t = 1:epoch
     for i = 1:numel(b)
         [~,j,a] = find(A(i,:));
-        theta = -dot(a,mu(j))-b(i);
-        q = softmax(z*theta);
-        mu(i) = z'*q;
+        mu(i) = tanh(-dot(a,mu(j))-b(i));
     end
 end

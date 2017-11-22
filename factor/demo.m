@@ -7,7 +7,6 @@ img = sign(img-mean(img(:)));
 figure
 subplot(2,2,1);
 imagesc(img);
-colormap gray
 title('Original image');
 axis image;
 colormap gray;
@@ -19,7 +18,6 @@ epoch = 10;
 x = img + sigma*randn(size(img)); % noisy signal
 subplot(2,2,2);
 imagesc(x);
-colormap gray
 title('Noisy image');
 axis image;
 colormap gray;
@@ -34,7 +32,6 @@ maxdiff(nodeBel, nodeBel0)
 
 subplot(2,2,3);
 imagesc(reshape(nodeBel(1,:),size(img)));
-colormap gray
 title('Mean Field');
 axis image;
 colormap gray;
@@ -42,7 +39,6 @@ colormap gray;
 [nodeBel1,edgeBel1] = belProp(A, nodePot, edgePot, epoch);
 subplot(2,2,4);
 imagesc(reshape(nodeBel1(1,:),size(img)));
-colormap gray
 title('Belief Propagation');
 axis image;
 colormap gray;
