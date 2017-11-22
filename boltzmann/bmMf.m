@@ -1,4 +1,4 @@
-function mu = boltzMeanField(A, b, z, epoch)
+function mu = bmMf(A, b, z, epoch)
 % Mean field for Boltzmann machine. 
 % Input: 
 %   z: k x 1 possible value

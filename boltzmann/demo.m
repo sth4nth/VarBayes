@@ -32,7 +32,7 @@ edgePot = -J*(z*z');
 A = sparse(s,t,-J);
 b = -0.5*diff(nodePot);
 %% Mean field for Boltzmann machine
-mu = boltzMeanField(A, b, z, epoch);
+mu = bmMf(A, b, z, epoch);
 
 subplot(2,3,4);
 imagesc(reshape(mu,size(img)));
@@ -40,7 +40,7 @@ title('Boltzmann MF');
 axis image;
 colormap gray;
 %% Mean field for Ising MRF
-mu0 = isingMeanField(A, b, epoch);
+mu0 = isMf(A, b, epoch);
 maxdiff(mu0,mu)
 subplot(2,3,5);
 

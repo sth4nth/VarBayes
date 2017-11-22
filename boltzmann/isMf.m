@@ -1,4 +1,4 @@
-function mu = isingMeanField(A, b, epoch)
+function mu = isMf(A, b, epoch)
 % Mean field for Ising MRF. 
 % Input: 
 %   A: n x n edge weight of an undirected graph
