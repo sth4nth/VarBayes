@@ -37,10 +37,12 @@ axis image;
 colormap gray;
 %% Belief propagation on a factor graph
 [nodeBel1,edgeBel1] = belProp(A, nodePot, edgePot, epoch);
+[nb1, fb1] = fgBp(B, np, fp, epoch);
+
+
 subplot(2,2,4);
 imagesc(reshape(nodeBel1(1,:),size(img)));
 title('Belief Propagation');
 axis image;
 colormap gray;
-% [nb1, fb1] = fgBp(B, np, fp, epoch);
 

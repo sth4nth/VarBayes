@@ -4,10 +4,13 @@ function [nodeBel, factorBel] = fgBp(B, nodePot, factorPot, epoch)
 %   nodePot: node potential
 %   factorPot: factor potential
 % Written by Mo Chen (sth4nth@gmail.com)
-B = logical(B);
-nodeBel = cellfun(@softmax,nodePot,'UniformOutput',false);    % init nodeBel
-nEdges = size(B,1);
-msg = zeros(nStates,2*nEdges)/nStates;
+nodePot = cellfun(@(x) exp(-x),nodePot,'UniformOutput',false);    
+factorPot = cellfun(@(x) exp(-x),factorPot,'UniformOutput',false);
+
+k = size(nodePot{1},1);
+m = size(B,1);
+mu = ones(k,2*m)/k;                     % message
+
 for t = 1:epoch
     for i = 1:n
         e = B(:,i);  % neighbor factor indicator vector
