@@ -36,7 +36,7 @@ title('Mean Field');
 axis image;
 colormap gray;
 %% Belief propagation on a factor graph
-[nodeBel1,edgeBel1] = belProp(A, nodePot, edgePot, epoch);
+% [nodeBel1,edgeBel1] = belProp(A, nodePot, edgePot, epoch);
 [nb1, fb1] = fgBp(B, np, fp, epoch);
 
 
