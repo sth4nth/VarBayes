@@ -13,7 +13,7 @@ colormap gray;
 %% Parameters
 J = 1;
 sigma = 1;
-epoch = 10;
+epoch = 100;
 %% Noisy image
 x = img + sigma*randn(size(img)); % noisy signal
 subplot(2,2,2);
@@ -35,13 +35,13 @@ title('Mean Field');
 axis image;
 colormap gray;
 %% Belief propagation on a factor graph
-% [nodeBel1,edgeBel1] = belProp(A, nodePot, edgePot, epoch);
-% [nb1, fb1] = fgBp(B, np, fp, epoch);
+nb1 = fgBp(B, np, fp, epoch);
+nodeBel1 = belProp(A, nodePot, edgePot, epoch);
+maxdiff(nb1, nodeBel1)
 % 
-% 
-% subplot(2,2,4);
-% imagesc(reshape(nodeBel1(1,:),size(img)));
-% title('Belief Propagation');
-% axis image;
-% colormap gray;
+subplot(2,2,4);
+imagesc(reshape(nb1(1,:),size(img)));
+title('Belief Propagation');
+axis image;
+colormap gray;
 

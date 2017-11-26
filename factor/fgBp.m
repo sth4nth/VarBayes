@@ -4,37 +4,34 @@ function [nodeBel, factorBel] = fgBp(B, nodePot, factorPot, epoch)
 %   nodePot: node potential
 %   factorPot: factor potential
 % Written by Mo Chen (sth4nth@gmail.com)
-nodePot = cellfun(@(x) exp(-x),nodePot,'UniformOutput',false);    
+nodePot = exp(-nodePot); 
 factorPot = cellfun(@(x) exp(-x),factorPot,'UniformOutput',false);
 [m,n] = size(B);
-k = size(nodePot{1},1);
-mu = ones(k,2*m)/k;                     % message
-nu = ones(k,2*m)/k;                     % message
+k = size(nodePot,1);
+
+[nodeIdx,factorIdx,edge] = find(B);
+nEdge = numel(edge);
+edge(:) = 1:nEdge;
+B = sparse(nodeIdx,factorIdx,edge);
+
+mu = ones(k,nEdge)/k;                     % message
+nu = ones(k,nEdge)/k;                     % message
+
+nodeBel = zeros(k,n);
 for t = 1:epoch
-    for k = 1:m             % iterate through factors
-        [a,b,c] = find(B(k,:));
-        
-        
+    for i = 1:n               % iterate through nodes
+        msgIdx = nonzeros(B(:,i));  
+        nodeBel(:,i) = prod(mu(:,msgIdx),2).*nodePot(:,i);
+        nu(:,msgIdx) = nodeBel(:,i)./mu(:,msgIdx);
     end
     
-    for i = 1:n               % iterate through nodes
-        f = B(:,i);  % neighbor factor indicator vector
-        J = B(f,:);  % neighbor node indcator matrix
-        J(:,i) = false; % exclude self
-
-        factorIdx = find(e);
-        nFactors = numel(factorIdx);
-        for k = 1:nFactors
-            nodeIdx = find(J(k,:));
-            nNodes = numel(nodeIdx);
-            fp = factorPot{factorIdx(k)};  
-            for j = 1:nNodes
-                nb = nodeBel{nodeIdx(j)};
-                fp = tvp(fp,nb,j);
-            end
+    for k = 1:m             % iterate through factors
+        msgIdx = nonzeros(B(k,:));
+        fp = factorPot{k};
+        for j = msgIdx
+            other = setdiff(msgIdx,j);
+            mu(:,j) = marginalize(fp,nu(:,other));
         end
     end
-
 end
-
 
