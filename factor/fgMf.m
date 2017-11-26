@@ -5,28 +5,20 @@ function nodeBel = fgMf(B, nodePot, factorPot, epoch)
 %   factorPot: factor potential
 % Written by Mo Chen (sth4nth@gmail.com)
 B = logical(B);
-nodeBel = cellfun(@(x) softmax(-x),nodePot,'UniformOutput',false);    % init nodeBel
+[k,n] = size(nodePot);
+nodeBel = softmax(-nodePot,1);    % init nodeBel    
 for t = 1:epoch
-    for i = 1:numel(nodePot)
-        e = B(:,i);  % neighbor factor indicator vector
-        J = B(e,:);  % neighbor node indcator matrix
+    for i = 1:n              % iterate through nodes
+        f = B(:,i);  % neighbor factor indicator vector
+        J = B(f,:);  % neighbor node indcator matrix
         J(:,i) = false; % exclude self
 
-        fieldPot = zeros(numel(nodeBel{i}),1);    % sum of incoming message        
-        factorIdx = find(e);
-        for k = 1:numel(factorIdx)
-            fp = factorPot{factorIdx(k)};  
-            nodeIdx = find(J(k,:));
-            for j = 1:numel(nodeIdx)
-                nb = nodeBel{nodeIdx(j)};
-                fp = tvp(fp,nb,j);            % tensor vector product
-            end
-            fieldPot = fieldPot+fp(:);
+        idx = find(f);                % neighbor factor index
+        d = numel(idx);               % number of neighbor factors
+        mu = zeros(k,d);              % message from neighbors
+        for l = 1:d
+            mu(:,l) = marginalize(factorPot{idx(l)},nodeBel(:,J(l,:)));
         end
-        nodeBel{i} = softmax(-nodePot{i}-fieldPot);
+        nodeBel(:,i) = softmax(-nodePot(:,i)-sum(mu,2));
     end
 end
-
-
-
-

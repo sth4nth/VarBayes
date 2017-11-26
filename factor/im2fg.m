@@ -13,5 +13,6 @@ A = lattice(size(im));
 B = ug2fg(A);
 z = [1;-1];
 y = reshape(im,1,[]);
-nodePot = num2cell((y-z).^2/(2*sigma^2),1);
+nodePot = (y-z).^2/(2*sigma^2);
+% nodePot = num2cell((y-z).^2/(2*sigma^2),1);
 edgePot = repmat({-J*(z*z')},1,size(B,1));
