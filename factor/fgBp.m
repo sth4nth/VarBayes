@@ -1,4 +1,4 @@
-function [nodeBel, factorBel] = fgBp(B, nodePot, factorPot, epoch)
+function nodeBel = fgBp(B, nodePot, factorPot, epoch)
 % Belief propagation on factor graph
 %   B: adjacent matrix of bipartite graph\
 %   nodePot: node potential
@@ -21,16 +21,16 @@ nodeBel = zeros(k,n);
 for t = 1:epoch
     for i = 1:n               % iterate through nodes
         msgIdx = nonzeros(B(:,i));  
-        nodeBel(:,i) = prod(mu(:,msgIdx),2).*nodePot(:,i);
+        nodeBel(:,i) = normalize(prod(mu(:,msgIdx),2).*nodePot(:,i),1);
         nu(:,msgIdx) = nodeBel(:,i)./mu(:,msgIdx);
     end
     
     for k = 1:m             % iterate through factors
         msgIdx = nonzeros(B(k,:));
         fp = factorPot{k};
-        for j = msgIdx
+        for j = msgIdx(:)'              
             other = setdiff(msgIdx,j);
-            mu(:,j) = marginalize(fp,nu(:,other));
+            mu(:,j) = normalize(marginalize(fp,nu(:,other)));
         end
     end
 end

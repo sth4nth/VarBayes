@@ -13,7 +13,7 @@ colormap gray;
 %% Parameters
 J = 1;
 sigma = 1;
-epoch = 100;
+epoch = 50;
 %% Noisy image
 x = img + sigma*randn(size(img)); % noisy signal
 subplot(2,2,2);
