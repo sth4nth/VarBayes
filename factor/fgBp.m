@@ -45,11 +45,11 @@ for k = 1:m
     factorBel{k} = fp/sum(fp(:));
 end
 
-function M = tvm(T, v, d)
+function T = tvm(T, v, d)
 % Tensor vector multiplication
 assert(size(v,2)==1 && size(v,1)==size(T,d));
 sz = ones(1,ndims(T));
 sz(d) = numel(v);
-M = T.*reshape(v,sz);
+T = T.*reshape(v,sz);
 
 
