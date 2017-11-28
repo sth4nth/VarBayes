@@ -25,22 +25,26 @@ colormap gray;
 [B,np,fp] = im2fg(x,sigma,J);
 [A, nodePot, edgePot] = im2mrf(x,sigma,J);
 %% Mean field on a factor graph
-nodeBel = fgMf(B, np, fp, epoch);
+nb0 = fgMf(B, np, fp, epoch);
 nodeBel0 = meanField(A, nodePot, edgePot, epoch);
-maxdiff(nodeBel, nodeBel0)
+maxdiff(nb0, nodeBel0)
 
 subplot(2,2,3);
-imagesc(reshape(nodeBel(1,:),size(img)));
+imagesc(reshape(nb0(1,:),size(img)));
 title('Mean Field');
 axis image;
 colormap gray;
 %% Belief propagation on a factor graph
-nb1 = fgBp(B, np, fp, epoch);
-nodeBel1 = belProp(A, nodePot, edgePot, epoch);
-maxdiff(nb1, nodeBel1)
-% 
+[nb,fb] = fgBp(B, np, fp, epoch);
+[nodeBel,edgeBel] = belProp(A, nodePot, edgePot, epoch);
+maxdiff(nb, nodeBel)
+
+lnZ = fgBethe(B, np, fp, nb, fb);
+lnZ0 = bethe(A,nodePot,edgePot,nodeBel,edgeBel);
+maxdiff(lnZ,lnZ0)
+
 subplot(2,2,4);
-imagesc(reshape(nb1(1,:),size(img)));
+imagesc(reshape(nb(1,:),size(img)));
 title('Belief Propagation');
 axis image;
 colormap gray;
