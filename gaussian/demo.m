@@ -57,14 +57,13 @@ imagesc(reshape(mu,size(img)));
 title('GMRF BP');
 axis image;
 colormap gray;
-%% True freee energy
-lnZ0 = gaEnergy(eta, Lambda);
 %% Gibbs energy
-lnZ1 = gaGibbs(eta, Lambda, mu);
-lnZ2 = gaBethe(eta, Lambda, mu, sparse(1:n,1:n,1./diag(Lambda)));
-maxdiff(lnZ1,lnZ2)
+lnZ = gaGibbs(eta, Lambda, mu);
+lnZ0 = gaBethe(eta, Lambda, mu, sparse(1:n,1:n,1./diag(Lambda)));
+maxdiff(lnZ,lnZ0)
 %% Bethe energy
 lnZ = gaBethe(eta, Lambda, mu, Sigma);
 [lnZ0] = gaBethe0(eta, Lambda, h, J);
 maxdiff(lnZ,lnZ0)
-
+%% True freee energy
+lnZ = gaEnergy(eta, Lambda);

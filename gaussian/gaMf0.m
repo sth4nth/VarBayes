@@ -1,5 +1,6 @@
-function mu = gmrfMeanField(x, lambda, L, epoch)
-% Mean field for Gaussian MRF
+function mu = gaMf0(x, lambda, L, epoch)
+% Mean field for Latent Gaussian model, where observations and prior are
+% specified explicitly.
 % Written by Mo Chen (sth4nth@gmail.com)
 if nargin < 4
     epoch = 10;

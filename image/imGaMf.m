@@ -1,4 +1,4 @@
-function mu = imageGmrfMeanField(x, lambda, d, J, epoch)
+function mu = imGaMf(x, lambda, d, J, epoch)
 % Image Gaussian mean field
 %   J: L_{ij}
 %   d: L_{ii}

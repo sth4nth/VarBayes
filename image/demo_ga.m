@@ -38,7 +38,7 @@ axis image;
 colormap gray;
 %% Image Gaussian MRF Mean Field
 d = reshape(d,size(img));
-mu0 = imageGmrfMeanField(img, lambda, d, -a, epoch);
+mu0 = imGaMf(img, lambda, d, -a, epoch);
 maxdiff(mu(:),mu0(:))
 
 subplot(2,3,4);
@@ -47,7 +47,7 @@ title('Image GMRF MF');
 axis image;
 colormap gray;
 %% General Gaussian MRF Mean Field
-mu1 = gmrfMeanField(x, lambda, L, epoch);
+mu1 = gaMf0(x, lambda, L, epoch);
 maxdiff(mu(:),mu1(:))
 
 subplot(2,3,5);
