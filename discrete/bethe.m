@@ -1,6 +1,6 @@
-function lnZ = kikuchiEnergy(A, nodePot, factorPot, nodeBel, factorBel)
-% Compute Kikuchi free energy
-
+function lnZ = bethe(A, nodePot, edgePot, nodeBel, edgeBel)
+% Compute Bethe free energy
+% TBD: deal with log(0) for entropy
 edgePot = reshape(edgePot,[],size(edgePot,3));
 edgeBel = reshape(edgeBel,[],size(edgeBel,3));
 Ex = dot(nodeBel,nodePot,1);
