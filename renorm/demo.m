@@ -9,7 +9,7 @@ n = size(B,1);
 A = reshape(A,[m,1,l]);
 B = reshape(B,[1,n,l]);
 v = reshape(v,[1,1,l]);
-P3 = A.*B.*v;               % P(x,y,z);
+P3 = A.*B.*v;               % p(x,y,z);
 P = sum(P3,3);              % p(x,y)
 maxdiff(P,P2)
 
