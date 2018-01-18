@@ -11,14 +11,15 @@ for i = 1:epoch
     s = s.*exp(diag(U'*M*V));
     s = normalize(s);
     
-    U = reshape(U,[m,1,d]);
-    V = reshape(V,[1,n,d]);
-    S = reshape(s,[1,1,d]);
-    T = U.*V.*S;               % tensor: q(x,z,y)
+    UT = reshape(U,[m,1,d]);
+    VT = reshape(V,[1,n,d]);
+    ST = reshape(s,[1,1,d]);
+    T = UT.*VT.*ST;               % tensor: q(x,z,y)
     
-    M*V
-
-%     U = 
+    MT = reshape(M,[d,d,1]);
+    E2 =  sum(VT.*MT,2);
+    E3 = sum(VT.*log(T),2);
+    UT = exp(E2+E3);
     U = normalize(U,1);
 %     V =
     V = normalize(V,1);
