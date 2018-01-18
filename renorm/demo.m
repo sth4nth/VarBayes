@@ -18,4 +18,26 @@ R = Q3./Q2;                 % r(y|x,z);
 
 P2 = rand(d);
 P2 = P2/sum(P2(:));
-% P3 = R.*
+
+
+%% Ez|y[M(x,z,y)]
+M = rand(d,d,d);
+R = zeros(d,d);
+for x = 1:d
+    for y = 1:d
+        for z = 1:d
+            R(x,y) = R(x,y)+V(z,y)*M(x,y,z);
+        end
+    end
+end
+
+%% Ez|y[M(x,z)]
+M = rand(d,d); 
+R = zeros(d,d);
+for x = 1:d
+    for y = 1:d
+        for z = 1:d
+            R(x,y) = R(x,y)+V(z,y)*M(x,z);
+        end
+    end
+end
