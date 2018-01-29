@@ -43,6 +43,7 @@ for i = 1:epoch
     %% KL divergence
     T = UT.*VT.*ST; 
     Q = sum(T,3);                 
+    
     KL(i) = -sum(sum(Q.*log(P./Q),1),2);
     if KL(i) < tol; break; end
 end
