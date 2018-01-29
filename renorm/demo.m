@@ -1,4 +1,5 @@
 clear;
+%% PSVD: p(x,z)=\sum_y q(x|y)q(z|y)q(y)
 d = 2;
 U0 = normalize(rand(d),1);   % q(x|y)
 V0 = normalize(rand(d),1);   % q(z|y)

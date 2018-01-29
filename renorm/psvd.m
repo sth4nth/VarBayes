@@ -14,7 +14,7 @@ ST = reshape(s,[1,1,d]);
 for i = 1:epoch
     %% s = q(y)
     T = UT.*VT.*ST;               % q(x,z,y)
-    Q = sum(T,3);                 % q(x,z) : Q = U*diag(s)*V';
+    Q = sum(T,3);                 % q(x,z): Q = U*diag(s)*V';
     M  = log(P./Q);
     MT = reshape(M,[d,d,1]);
     
