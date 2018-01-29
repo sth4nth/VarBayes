@@ -8,13 +8,13 @@ d = min(m,n);
 % init
 U = normalize(rand(m,d),1);   % q(x|y)
 V = normalize(rand(n,d),1);   % q(z|y)
-s = normalize(rand(d,1));   % q(y)
+s = normalize(rand(d,1));     % q(y)
 
 UT = reshape(U,[m,1,d]);
 VT = reshape(V,[1,n,d]);
 ST = reshape(s,[1,1,d]);
 for i = 1:epoch
-    %% s = q(y)
+    %% q(y)
     T = UT.*VT.*ST;               % q(x,z,y)
     Q = sum(T,3);                 % q(x,z): Q = U*diag(s)*V';
     M  = P./Q;
@@ -22,7 +22,7 @@ for i = 1:epoch
     
     ST = ST.*exp(sum(sum(UT.*VT.*log(MT),1),2));
     ST = ST./sum(ST,3);
-    %% U = q(x|y)
+    %% q(x|y)
     T = UT.*VT.*ST;
     Q = sum(T,3);
     M = P./Q;
@@ -30,7 +30,7 @@ for i = 1:epoch
     
     UT = exp(sum(VT.*(log(MT)+log(T)),2));
     UT = UT./sum(UT,1);
-    %% V = q(z|y)
+    %% q(z|y)
     T = UT.*VT.*ST; 
     Q = sum(T,3);                 
     M = P./Q;
