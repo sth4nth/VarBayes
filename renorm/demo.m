@@ -9,6 +9,8 @@ Q = U*S*V';          % q(x,z)
 m = size(U,1);
 n = size(V,1);
 UT = reshape(U,[m,1,d]);
+UU = reshape(UT,size(U));
+
 VT = reshape(V,[1,n,d]);
 ST = reshape(s,[1,1,d]);
 QT = UT.*VT.*ST;               % q(x,z,y);
@@ -28,6 +30,8 @@ for x = 1:d
 end
 s = diag(U'*M*V);
 
+MT = reshape(M,[d,d,1]);
+ST = sum(sum(UT.*VT.*MT,1),2);
 %% Ez|y[M(x,z,y)]
 MT = rand(d,d,d);
 E = zeros(d,d);
