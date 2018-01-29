@@ -17,26 +17,26 @@ for i = 1:epoch
     %% s = q(y)
     T = UT.*VT.*ST;               % q(x,z,y)
     Q = sum(T,3);                 % q(x,z): Q = U*diag(s)*V';
-    M  = log(P./Q);
+    M  = P./Q;
     MT = reshape(M,[d,d,1]);
     
-    ST = ST.*exp(sum(sum(UT.*VT.*MT,1),2));
+    ST = ST.*exp(sum(sum(UT.*VT.*log(MT),1),2));
     ST = ST./sum(ST,3);
     %% U = q(x|y)
-    T = UT.*VT.*ST;               % q(x,z,y)
-    Q = sum(T,3);                 % q(x,z) : Q = U*diag(s)*V';
-    M = log(P./Q);
+    T = UT.*VT.*ST;
+    Q = sum(T,3);
+    M = P./Q;
     MT = reshape(M,[d,d,1]);
     
-    UT = exp(sum(VT.*(MT+log(T)),2));
+    UT = exp(sum(VT.*(log(MT)+log(T)),2));
     UT = UT./sum(UT,1);
     %% V = q(z|y)
-    T = UT.*VT.*ST;               % q(x,z,y)
-    Q = sum(T,3);                 % q(x,z) : Q = U*diag(s)*V';
-    M = log(P./Q);
+    T = UT.*VT.*ST; 
+    Q = sum(T,3);                 
+    M = P./Q;
     MT = reshape(M,[d,d,1]);
 
-    VT = exp(sum(UT.*(MT+log(T)),1));
+    VT = exp(sum(UT.*(log(MT)+log(T)),1));
     VT = VT./sum(VT,2);
 end
 U = reshape(UT,size(U));
