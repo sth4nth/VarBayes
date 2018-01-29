@@ -1,6 +1,8 @@
-function [U, V, s] = psvd(P)
+function [U, V, s] = psvd(P, epoch)
 % Probabilistic SVD: renormalization for joint distribution
-epoch = 2000;
+if nargin < 2
+    epoch = 100;
+end
 [m,n] = size(P);
 d = min(m,n);
 % init
