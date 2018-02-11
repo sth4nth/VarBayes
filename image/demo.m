@@ -55,16 +55,24 @@ title('Image mean field');
 axis image;
 colormap gray;
 %% General mean field
-A = lattice(size(img));
-[s,t,e] = find(tril(A));
-e(:) = 1:numel(e);
-A = sparse([s;t],[t;s],[e;e]);
-edgePot = repmat(edgePot,[1, 1, nnz(tril(A))]);
-[nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot, epoch);
-maxdiff(nodeBel0,nodeBel)
+% A = lattice(size(img));
+% [s,t,e] = find(tril(A));
+% e(:) = 1:numel(e);
+% A = sparse([s;t],[t;s],[e;e]);
+% edgePot = repmat(edgePot,[1, 1, nnz(tril(A))]);
+% [nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot, epoch);
+% maxdiff(nodeBel0,nodeBel)
+% 
+% subplot(2,3,6);
+% imagesc(reshape(nodeBel(1,:),size(img)));
+% title('General MF');
+% axis image;
+% colormap gray;
+%% Image Gibbs sampling
+z = imIsGs(J, h, 10000);
 
 subplot(2,3,6);
-imagesc(reshape(nodeBel(1,:),size(img)));
-title('General MF');
+imagesc((z+1)/2);
+title('Ising GS');
 axis image;
 colormap gray;
