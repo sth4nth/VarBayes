@@ -10,7 +10,8 @@ for t = 1:epoch
             pos = i + m*(j-1);
             ne = pos + stride;
             ne([i,i,j,j] == [1,m,1,n]) = [];
-            mu(i,j) = tanh(J*sum(mu(ne)) + h(i,j));
+            theta = J*sum(mu(ne)) + h(i,j);
+            mu(i,j) = tanh(theta);
         end
     end
 end 

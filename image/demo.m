@@ -69,7 +69,7 @@ colormap gray;
 % axis image;
 % colormap gray;
 %% Image Gibbs sampling
-z = imIsGs(J, h, 10000);
+z = imIsGs(J, h, epoch);
 
 subplot(2,3,6);
 imagesc((z+1)/2);
