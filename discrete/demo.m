@@ -28,8 +28,8 @@ colormap gray;
 %% Mean Field
 [nodeBel, edgeBel, L] = meanField(A, nodePot, edgePot, epoch);
 
-L0 = gibbsEnergy(nodePot, edgePot, nodeBel, edgeBel);
-L1 = betheEnergy(A, nodePot, edgePot, nodeBel, edgeBel);
+L0 = gibbs(nodePot, edgePot, nodeBel, edgeBel);
+L1 = bethe(A, nodePot, edgePot, nodeBel, edgeBel);
 maxdiff(L0, L(end))
 maxdiff(L0, L1)
 
@@ -53,7 +53,7 @@ colormap gray;
 %% Expectation Propagation
 [nodeBel,edgeBel] = expProp(A, nodePot, edgePot, epoch);
 
-lnZ0 = betheEnergy(A, nodePot, edgePot, nodeBel, edgeBel);
+lnZ0 = bethe(A, nodePot, edgePot, nodeBel, edgeBel);
 
 [nodeBel0,edgeBel0] = expProp0(A, nodePot, edgePot, epoch);
 maxdiff(nodeBel,nodeBel0)
@@ -65,14 +65,22 @@ title('EP');
 axis image;
 colormap gray;
 %% EP-BP
-[nodeBel,edgeBel] = expBelProp(A, nodePot, edgePot, epoch);
-
-[nodeBel0,edgeBel0] = expBelProp0(A, nodePot, edgePot, epoch);
-maxdiff(nodeBel,nodeBel0)
-maxdiff(edgeBel,edgeBel0)
+% [nodeBel,edgeBel] = expBelProp(A, nodePot, edgePot, epoch);
+% 
+% [nodeBel0,edgeBel0] = expBelProp0(A, nodePot, edgePot, epoch);
+% maxdiff(nodeBel,nodeBel0)
+% maxdiff(edgeBel,edgeBel0)
+% 
+% subplot(2,3,6);
+% imagesc(reshape(nodeBel(1,:),size(img)));
+% title('EBP');
+% axis image;
+% colormap gray;
+%% GS
+z = mrfGs(A, nodePot, edgePot, epoch);
 
 subplot(2,3,6);
-imagesc(reshape(nodeBel(1,:),size(img)));
-title('EBP');
+imagesc(reshape(z(1,:),size(img)));
+title('GS');
 axis image;
 colormap gray;
