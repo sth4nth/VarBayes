@@ -1,4 +1,4 @@
-function [nodeBel, edgeBel] = discreteMeanField(A, nodePot, edgePot, epoch)
+function [nodeBel, edgeBel] = mrfMf(A, nodePot, edgePot, epoch)
 % Mean field for MRF
 % Assuming egdePot is symmetric
 % Input: 

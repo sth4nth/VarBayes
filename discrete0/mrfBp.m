@@ -1,4 +1,4 @@
-function [nodeBel, edgeBel] = discreteBelProp(A, nodePot, edgePot, epoch)
+function [nodeBel, edgeBel] = mrfBp(A, nodePot, edgePot, epoch)
 % Belief propagation for MRF, calculation in log scale
 % Assuming egdePot is symmetric
 % Input: 

@@ -1,5 +1,5 @@
-function [A, nodePot, edgePot] = isingGaussianMrf(im, sigma, J)
-% Contruct Ising MRF from an image
+function [A, nodePot, edgePot] = mrfIsGa(im, sigma, J)
+% Contruct a latent Ising MRF with Gaussian observation
 % Input:
 %   im: row x col image
 %   sigma: variance of Gaussian node potential
