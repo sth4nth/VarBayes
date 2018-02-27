@@ -15,6 +15,6 @@ for iter = 1:epoch
     for i = 1:n
         [~,j,e] = find(A(i,:));             % neighbors
         nodeBel = softmax(-nodePot(:,i)-reshape(edgePot(:,:,e),2,[])*reshape(z(:,j),[],1));
-        z(:,i) = mnrnd(1,nodeBel,1);
+        z(:,i) = mnrnd(1,nodeBel);
     end
 end
