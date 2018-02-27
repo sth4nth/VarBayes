@@ -8,17 +8,17 @@ epoch = 100;
 J = 1;   % ising parameter
 sigma = 1; % noise level
 
-img = double(X);
-img = sign(img-mean(img(:)));
+im = double(X);
+im = sign(im-mean(im(:)));
 
 figure;
 subplot(2,3,1);
-imagesc(img);
+imagesc(im);
 title('Original image');
 axis image;
 colormap gray;
 %% Noisy image
-x = img + sigma*randn(size(img)); % noisy signal
+x = im + sigma*randn(size(im)); % noisy signal
 subplot(2,3,2);
 imagesc(x);
 title('Noisy image');
@@ -34,7 +34,7 @@ maxdiff(L0, L(end))
 maxdiff(L0, L1)
 
 subplot(2,3,3);
-imagesc(reshape(nodeBel(1,:),size(img)));
+imagesc(reshape(nodeBel(1,:),size(im)));
 title('MF');
 axis image;
 colormap gray;
@@ -46,7 +46,7 @@ maxdiff(nodeBel,nodeBel0)
 maxdiff(edgeBel,edgeBel0)
 
 subplot(2,3,4);
-imagesc(reshape(nodeBel(1,:),size(img)));
+imagesc(reshape(nodeBel(1,:),size(im)));
 title('BP');
 axis image;
 colormap gray;
@@ -60,11 +60,11 @@ maxdiff(nodeBel,nodeBel0)
 maxdiff(edgeBel,edgeBel0)
 
 subplot(2,3,5);
-imagesc(reshape(nodeBel(1,:),size(img)));
+imagesc(reshape(nodeBel(1,:),size(im)));
 title('EP');
 axis image;
 colormap gray;
-%% EP-BP
+% %% EP-BP
 % [nodeBel,edgeBel] = expBelProp(A, nodePot, edgePot, epoch);
 % 
 % [nodeBel0,edgeBel0] = expBelProp0(A, nodePot, edgePot, epoch);
@@ -72,7 +72,7 @@ colormap gray;
 % maxdiff(edgeBel,edgeBel0)
 % 
 % subplot(2,3,6);
-% imagesc(reshape(nodeBel(1,:),size(img)));
+% imagesc(reshape(nodeBel(1,:),size(im)));
 % title('EBP');
 % axis image;
 % colormap gray;
@@ -80,7 +80,8 @@ colormap gray;
 z = mrfGs(A, nodePot, edgePot, epoch);
 
 subplot(2,3,6);
-imagesc(reshape(z(1,:),size(img)));
+imagesc(reshape(z(1,:),size(im)));
 title('GS');
 axis image;
 colormap gray;
+

@@ -10,11 +10,12 @@ function z = mrfGs(A, nodePot, edgePot, epoch)
 %   lnZ: free energy
 % Written by Mo Chen (sth4nth@gmail.com)
 [k,n] = size(nodePot);
-z = (1:k)' == max(-nodePot, [], 1);    % init nodeBel    
+[~,label] = max(nodePot, [], 1);
+z = (1:k)' == label;    % init nodeBel    
 for iter = 1:epoch
     for i = 1:n
         [~,j,e] = find(A(i,:));             % neighbors
-        nodeBel = softmax(-nodePot(:,i)-reshape(edgePot(:,:,e),2,[])*reshape(z(:,j),[],1));
+        nodeBel = softmax(nodePot(:,i)+reshape(edgePot(:,:,e),2,[])*reshape(z(:,j),[],1));
         z(:,i) = mnrnd(1,nodeBel);
     end
 end
