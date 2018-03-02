@@ -64,7 +64,7 @@ imagesc(reshape(nodeBel(1,:),size(im)));
 title('EP');
 axis image;
 colormap gray;
-% %% EP-BP
+%% EP-BP
 % [nodeBel,edgeBel] = expBelProp(A, nodePot, edgePot, epoch);
 % 
 % [nodeBel0,edgeBel0] = expBelProp0(A, nodePot, edgePot, epoch);

@@ -27,33 +27,33 @@ y = reshape(x,1,[]);
 nodePot = (y-z).^2/(2*sigma^2);
 edgePot = -J*(z*z');
 h = reshape(0.5*diff(nodePot),size(img));
-%% Ising image mean field 
+%% 2d-Ising mean field 
 mu = imIsMf(J, h, epoch);
 
-subplot(2,3,3);
+subplot(2,3,4);
 imagesc(mu);
 title('Ising MF');
 axis image;
 colormap gray;
 %% Ising image mean field with padding
-mu0 = imIsMf0(J, h, epoch);
-maxdiff(mu0,mu)
-
-subplot(2,3,4);
-imagesc(mu0);
-title('Ising MF0');
-axis image;
-colormap gray;
+% mu0 = imIsMf0(J, h, epoch);
+% maxdiff(mu0,mu)
+% 
+% subplot(2,3,4);
+% imagesc(mu0);
+% title('Ising MF0');
+% axis image;
+% colormap gray;
 %% Image mean field
-nodeBel0 = imMf(reshape(nodePot,[k,size(img)]), edgePot, epoch);
-nodeBel0 = reshape(nodeBel0,k,[]);
-maxdiff(reshape(mu,1,[]),z'*nodeBel0);
-
-subplot(2,3,5);
-imagesc(reshape(nodeBel0(1,:),size(img)));
-title('Image mean field');
-axis image;
-colormap gray;
+% nodeBel0 = imMf(reshape(nodePot,[k,size(img)]), edgePot, epoch);
+% nodeBel0 = reshape(nodeBel0,k,[]);
+% maxdiff(reshape(mu,1,[]),z'*nodeBel0);
+% 
+% subplot(2,3,5);
+% imagesc(reshape(nodeBel0(1,:),size(img)));
+% title('Image mean field');
+% axis image;
+% colormap gray;
 %% General mean field
 % A = lattice(size(img));
 % [s,t,e] = find(tril(A));
@@ -68,11 +68,19 @@ colormap gray;
 % title('General MF');
 % axis image;
 % colormap gray;
-%% Image Gibbs sampling
+%% 2d Ising Gibbs sampling
+z = imIsGs(J, h, epoch);
+
+subplot(2,3,5);
+imagesc((z+1)/2);
+title('Ising GS');
+axis image;
+colormap gray;
+%% 2d Ising Metropolis Hasting
 z = imIsGs(J, h, epoch);
 
 subplot(2,3,6);
 imagesc((z+1)/2);
-title('Ising GS');
+title('Ising MH');
 axis image;
 colormap gray;
