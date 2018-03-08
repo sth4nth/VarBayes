@@ -12,24 +12,15 @@ function [z, lnZ] = mrfBf(A, nodePot, edgePot)
 [k,n] = size(nodePot);
 lnZ = -inf;
 for i = 1:k^n
-    z0 = num2code(i,k,n)+1;
+    z0 = de2bi(i,n,k)+1;      % require communication system toolbox
     lnZ0 = potential(z0,A,nodePot,edgePot);
     if lnZ0 > lnZ
-        lnZ = lnZ0;
         z = z0;
+        lnZ = lnZ0;
     end
 end
 
 % TBD
-function code = num2code(x, k, n)
-code = zeros(1,n);
-p = 1;
-while x
-    code(p) = mod(x,k);
-    x = x-k;
-    p = p+1;
-end
-
 function pot = potential(z, A, nodePot,edgePot)
 pot = 0;
 for i = 1:size(nodePot,2)
