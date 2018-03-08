@@ -13,7 +13,7 @@ function [z, lnZ] = mrfBf(A, nodePot, edgePot)
 lnZ = -inf;
 for i = 1:k^n
     z0 = de2bi(i,n,k)+1;      % require communication system toolbox
-    lnZ0 = potential(z0,A,nodePot,edgePot);
+    lnZ0 = mrfPot(z0,A,nodePot,edgePot);
     if lnZ0 > lnZ
         z = z0;
         lnZ = lnZ0;
@@ -21,7 +21,7 @@ for i = 1:k^n
 end
 
 % TBD
-function pot = potential(z, A, nodePot,edgePot)
+function pot = mrfPot(z, A, nodePot,edgePot)
 pot = 0;
 for i = 1:size(nodePot,2)
    pot = pot+nodePot(i,z(i));
