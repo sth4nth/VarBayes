@@ -3,6 +3,7 @@ clear; close all;
 % load letterA.mat;
 % X = A;
 load letterX.mat
+X = imresize(X,[4,4]);
 %% Original image
 epoch = 100;
 J = 1;   % ising parameter
@@ -73,11 +74,19 @@ colormap gray;
 % title('EBP');
 % axis image;
 % colormap gray;
-%% GS
-z = mrfGs(A, nodePot, edgePot, epoch);
+%% Gibbs Sampling
+% z = mrfGs(A, nodePot, edgePot, epoch);
+% 
+% subplot(2,3,6);
+% imagesc(reshape(z(1,:),size(im)));
+% title('GS');
+% axis image;
+% colormap gray;
+%% Exact
+z = mrfBf(A, nodePot, edgePot);
 
 subplot(2,3,6);
 imagesc(reshape(z(1,:),size(im)));
-title('GS');
+title('Exact');
 axis image;
 colormap gray;

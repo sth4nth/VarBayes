@@ -1,4 +1,5 @@
-function [z, lnZ] = mrfBf(A, nodePot, edgePot)
+function [label, nodeBel, lnZ] = mrfBf(A, nodePot, edgePot)
+% TBD
 % Brute force method for exact MRF inference
 % Assuming egdePot is symmetric
 % Input: 
@@ -10,21 +11,33 @@ function [z, lnZ] = mrfBf(A, nodePot, edgePot)
 %   edgeBel: k x k x m edge belief
 % Written by Mo Chen (sth4nth@gmail.com)
 [k,n] = size(nodePot);
-lnZ = -inf;
-for i = 1:k^n
-    z0 = de2bi(i,n,k)+1;      % require communication system toolbox
-    lnZ0 = mrfPot(z0,A,nodePot,edgePot);
-    if lnZ0 > lnZ
-        z = z0;
-        lnZ = lnZ0;
+z = ones(1,n);
+energy = -inf;
+while true
+    pot = -mrfPot(z,A,nodePot,edgePot);
+    if pot > energy
+        label = z;
+        energy = pot;
+    end
+    % next configuration
+    for i = 1:n
+        z(i) = z(i) + 1;
+        if z(i) <= k
+            break;
+        else
+            z(i) = 1;
+        end
+    end
+    
+     if i == n && z(end) == 1
+        break;
     end
 end
 
-% TBD
 function pot = mrfPot(z, A, nodePot,edgePot)
 pot = 0;
 for i = 1:size(nodePot,2)
-   pot = pot+nodePot(i,z(i));
+   pot = pot+nodePot(z(i),i);
 end
 [s,t,e] = find(tril(A));
 for l = 1:numel(e)
