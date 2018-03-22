@@ -19,7 +19,7 @@ title('Noisy image');
 axis image;
 colormap gray;
 %% Parameter
-epoch = 10;
+epoch = 50;
 J = 1;
 z = [1;-1];
 k = numel(z);
@@ -30,38 +30,32 @@ h = reshape(0.5*diff(nodePot),size(img));
 %% 2d-Ising mean field 
 mu = imIsMf(J, h, epoch);
 
-subplot(2,3,4);
+subplot(2,3,3);
 imagesc(mu);
 title('Ising MF');
 axis image;
 colormap gray;
-%% Ising image mean field with padding
-% mu0 = imIsMf0(J, h, epoch);
-% maxdiff(mu0,mu)
-% 
-% subplot(2,3,4);
-% imagesc(mu0);
-% title('Ising MF0');
-% axis image;
-% colormap gray;
 %% Image mean field
-% nodeBel0 = imMf(reshape(nodePot,[k,size(img)]), edgePot, epoch);
-% nodeBel0 = reshape(nodeBel0,k,[]);
-% maxdiff(reshape(mu,1,[]),z'*nodeBel0);
-% 
-% subplot(2,3,5);
-% imagesc(reshape(nodeBel0(1,:),size(img)));
-% title('Image mean field');
-% axis image;
-% colormap gray;
+nodeBel0 = imMf(reshape(nodePot,[k,size(img)]), edgePot, epoch);
+nodeBel0 = reshape(nodeBel0,k,[]);
+maxdiff(reshape(mu,1,[]),z'*nodeBel0)
+
+subplot(2,3,6);
+imagesc(reshape(nodeBel0(1,:),size(img)));
+title('Image MF');
+axis image;
+colormap gray;
+%% TBD 
 %% General mean field
-% A = lattice(size(img));
-% [s,t,e] = find(tril(A));
-% e(:) = 1:numel(e);
-% A = sparse([s;t],[t;s],[e;e]);
-% edgePot = repmat(edgePot,[1, 1, nnz(tril(A))]);
-% [nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot, epoch);
-% maxdiff(nodeBel0,nodeBel)
+A = lattice(size(img));
+[s,t,e] = find(tril(A));
+e(:) = 1:numel(e);
+A = sparse([s;t],[t;s],[e;e]);
+edgePot = repmat(edgePot,[1, 1, nnz(tril(A))]);
+[nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot, epoch);
+maxdiff(nodeBel0,nodeBel)
+[nodeBel1, edgeBel1] = mrfMf(A, -nodePot, -edgePot, epoch);
+maxdiff(nodeBel0,nodeBel1)
 % 
 % subplot(2,3,6);
 % imagesc(reshape(nodeBel(1,:),size(img)));
@@ -69,18 +63,19 @@ colormap gray;
 % axis image;
 % colormap gray;
 %% 2d Ising Gibbs sampling
-z = imIsGs(J, h, epoch);
+z1 = imIsGs(J, h, epoch);
 
-subplot(2,3,5);
-imagesc((z+1)/2);
+subplot(2,3,4);
+imagesc((z1+1)/2);
 title('Ising GS');
 axis image;
 colormap gray;
 %% 2d Ising Metropolis Hasting
-z = imIsGs(J, h, epoch);
+z2 = imIsGs(J, h, epoch);
 
-subplot(2,3,6);
-imagesc((z+1)/2);
+subplot(2,3,5);
+imagesc((z2+1)/2);
 title('Ising MH');
 axis image;
 colormap gray;
+
