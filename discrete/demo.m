@@ -5,21 +5,21 @@ clear; close all;
 load letterX.mat
 % X = imresize(X,[4,4]);
 %% Original image
-epoch = 100;
+epoch = 20;
 J = 1;   % ising parameter
 sigma = 1; % noise level
 
-im = double(X);
-im = sign(im-mean(im(:)));
+img = double(X);
+img = sign(img-mean(img(:)));
 
 figure;
 subplot(2,3,1);
-imagesc(im);
+imagesc(img);
 title('Original image');
 axis image;
 colormap gray;
 %% Noisy image
-x = im + sigma*randn(size(im)); % noisy signal
+x = img + sigma*randn(size(img)); % noisy signal
 subplot(2,3,2);
 imagesc(x);
 title('Noisy image');
@@ -36,7 +36,7 @@ L1 = mrfBethe(A, nodePot, edgePot, nodeBel, edgeBel);
 maxdiff(L0, L1)
 
 subplot(2,3,3);
-imagesc(reshape(nodeBel(1,:),size(im)));
+imagesc(reshape(nodeBel(1,:),size(img)));
 title('MF');
 axis image;
 colormap gray;
@@ -44,7 +44,7 @@ colormap gray;
 [nodeBel,edgeBel] = mrfBp(A, nodePot, edgePot, epoch);
 
 subplot(2,3,4);
-imagesc(reshape(nodeBel(1,:),size(im)));
+imagesc(reshape(nodeBel(1,:),size(img)));
 title('BP');
 axis image;
 colormap gray;
@@ -58,7 +58,7 @@ colormap gray;
 % maxdiff(edgeBel,edgeBel0)
 % 
 % subplot(2,3,5);
-% imagesc(reshape(nodeBel(1,:),size(im)));
+% imagesc(reshape(nodeBel(1,:),size(img)));
 % title('EP');
 % axis image;
 % colormap gray;
@@ -70,7 +70,7 @@ colormap gray;
 % maxdiff(edgeBel,edgeBel0)
 % 
 % subplot(2,3,6);
-% imagesc(reshape(nodeBel(1,:),size(im)));
+% imagesc(reshape(nodeBel(1,:),size(img)));
 % title('EBP');
 % axis image;
 % colormap gray;
@@ -78,7 +78,7 @@ colormap gray;
 % z = mrfGs(A, nodePot, edgePot, epoch);
 % 
 % subplot(2,3,6);
-% imagesc(reshape(z(1,:),size(im)));
+% imagesc(reshape(z(1,:),size(img)));
 % title('GS');
 % axis image;
 % colormap gray;
@@ -86,7 +86,7 @@ colormap gray;
 % z = mrfBf(A, nodePot, edgePot);
 % 
 % subplot(2,3,6);
-% imagesc(reshape(z(1,:),size(im)));
+% imagesc(reshape(z(1,:),size(img)));
 % title('Exact');
 % axis image;
 % colormap gray;

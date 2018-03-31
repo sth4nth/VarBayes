@@ -12,9 +12,9 @@ axis image;
 colormap gray;
 %% Noisy image
 sigma = 1;
-x = img + sigma*randn(size(img)); % noisy signal
+img = img + sigma*randn(size(img)); % noisy signal
 subplot(2,3,2);
-imagesc(x);
+imagesc(img);
 title('Noisy image');
 axis image;
 colormap gray;
@@ -23,10 +23,10 @@ epoch = 50;
 J = 1;
 z = [1;-1];
 k = numel(z);
-y = reshape(x,1,[]);
-nodePot = (y-z).^2/(2*sigma^2);
-edgePot = -J*(z*z');
-h = reshape(0.5*diff(nodePot),size(img));
+x = reshape(img,1,[]);
+nodePot = -(x-z).^2/(2*sigma^2);
+edgePot = J*(z*z');
+h = -reshape(0.5*diff(nodePot),size(img));
 %% 2d-Ising mean field 
 mu = imIsMf(J, h, epoch);
 
@@ -45,17 +45,16 @@ imagesc(reshape(nodeBel0(1,:),size(img)));
 title('Image MF');
 axis image;
 colormap gray;
-%% TBD 
 %% General mean field
 A = lattice(size(img));
 [s,t,e] = find(tril(A));
 e(:) = 1:numel(e);
 A = sparse([s;t],[t;s],[e;e]);
 edgePot = repmat(edgePot,[1, 1, nnz(tril(A))]);
-[nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot, epoch);
-maxdiff(nodeBel0,nodeBel)
-[nodeBel1, edgeBel1] = mrfMf(A, -nodePot, -edgePot, epoch);
-maxdiff(nodeBel0,nodeBel1)
+% [nodeBel, edgeBel, lnZ] = meanField(A, nodePot, edgePot, epoch);
+% maxdiff(nodeBel0,nodeBel)
+[nodeBel1, edgeBel1] = mrfMf(A, nodePot, edgePot, epoch);
+% maxdiff(nodeBel0,nodeBel1)
 % 
 % subplot(2,3,6);
 % imagesc(reshape(nodeBel(1,:),size(img)));

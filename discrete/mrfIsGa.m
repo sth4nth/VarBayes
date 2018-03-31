@@ -16,6 +16,6 @@ e(:) = 1:m;
 A = sparse([s;t],[t;s],[e;e]);
 
 z = [1;-1];
-y = reshape(im,1,[]);
-nodePot = -(y-z).^2/(2*sigma^2);
+x = reshape(im,1,[]);
+nodePot = -(x-z).^2/(2*sigma^2);
 edgePot = repmat(J*(z*z'),[1, 1, m]);
