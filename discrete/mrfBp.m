@@ -34,7 +34,7 @@ end
 nodeBel = zeros(k,n);
 for i = 1:n
     nb = nodePot(:,i)+sum(mu(:,nonzeros(A(:,i))),2);
-    nodeBel(:,i) = nb-logsumexp(nb);
+    nodeBel(:,i) = softmax(nb);
 end
 
 edgeBel = zeros(k,k,m);
@@ -45,10 +45,9 @@ for l = 1:m
     nbt = nodeBel(:,t(l))-mu(:,eij);
     nbs = nodeBel(:,s(l))-mu(:,eji);
     eb = (nbt+nbs')+ep;
-    edgeBel(:,:,eij) = eb-logsumexp(eb(:));
+    edgeBel(:,:,eij) = softmax(eb);
 end
-nodeBel = exp(nodeBel);
-edgeBel = exp(edgeBel);
+
 
 function i = rd(i, m)
 % reverse direction edge index

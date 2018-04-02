@@ -1,4 +1,6 @@
 function [label, nodeBel, lnZ] = mrfExact(A, nodePot, edgePot)
+% TBD
+
 % Naive method for exact MRF inference (NP)
 % Assuming egdePot is symmetric
 % Input: 
