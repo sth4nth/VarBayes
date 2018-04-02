@@ -5,7 +5,7 @@ function nodeBel = imMf(nodePot, edgePot, epoch)
 % Written by Mo Chen (sth4nth@gmail.com)
 [~,m,n] = size(nodePot);
 stride = [-1,1,-m,m];
-nodeBel = softmax(-nodePot,1);
+nodeBel = softmax(nodePot,1);
 for t = 1:epoch
     for j = 1:n
         for i = 1:m
