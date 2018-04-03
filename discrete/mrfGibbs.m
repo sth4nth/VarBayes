@@ -1,5 +1,5 @@
 function lnZ = mrfGibbs(nodePot, edgePot, nodeBel, edgeBel)
-% Compute Gibbs free energy
+% Compute Gibbs energy
 edgePot = reshape(edgePot,[],size(edgePot,3));
 edgeBel = reshape(edgeBel,[],size(edgeBel,3));
 Ex = dot(nodeBel,nodePot,1);
