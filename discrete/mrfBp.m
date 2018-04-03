@@ -18,7 +18,7 @@ m = size(edgePot,3);
 
 [s,t,e] = find(tril(A));
 A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
-mu = zeros(k,2*m)-log(k);              % message
+mu = zeros(k,2*m)-log(k);              % initialize message
 for iter = 1:epoch
     for i = 1:n
         in = nonzeros(A(:,i));                      % incoming message index
