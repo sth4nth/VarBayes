@@ -1,4 +1,4 @@
-function [nodeBel, edgeBel] = mrfMf(A, nodePot, edgePot, epoch)
+function [nodeBel, edgeBel, L] = mrfMf(A, nodePot, edgePot, epoch)
 % Mean field for MRF
 % Assuming egdePot is symmetric
 % Input: 
@@ -12,13 +12,17 @@ function [nodeBel, edgeBel] = mrfMf(A, nodePot, edgePot, epoch)
 if nargin < 4
     epoch = 10;
 end
-
+L = -inf(1,epoch+1);
 [nodeBel,lnZ] = softmax(nodePot,1);    % initialization    
 for iter = 1:epoch
     for i = 1:size(nodePot,2)
         [~,j,e] = find(A(i,:));             % neighbors
         [nodeBel(:,i),lnZ(i)] = softmax(nodePot(:,i)+reshape(edgePot(:,:,e),2,[])*reshape(nodeBel(:,j),[],1));
     end
+    E = dot(nodeBel,nodePot,1);
+    H = -dot(nodeBel,log(nodeBel),1);
+    L(iter+1) = sum(lnZ+E+H)/2;
+%     if abs(L(iter+1)-L(iter))/abs(L(iter)) < tol; break; end
 end
 
 [s,t,e] = find(tril(A));

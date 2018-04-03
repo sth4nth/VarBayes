@@ -27,7 +27,7 @@ colormap gray;
 %% Construct MRF data
 [A, nodePot, edgePot] = mrfIsGa(x, sigma, J);
 %% Mean Field
-[nodeBel, edgeBel] = mrfMf(A, nodePot, edgePot, epoch);
+[nodeBel, edgeBel, L] = mrfMf(A, nodePot, edgePot, epoch);
 
 L0 = mrfGibbs(nodePot, edgePot, nodeBel, edgeBel);
 L1 = mrfBethe(A, nodePot, edgePot, nodeBel, edgeBel);
