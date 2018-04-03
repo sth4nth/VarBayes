@@ -17,8 +17,8 @@ end
 m = size(edgePot,3);
 
 [s,t,e] = find(tril(A));
-A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
-mu = zeros(k,2*m)-log(k);              % initialize message
+A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where the edge is the message index
+mu = zeros(k,2*m);              % initialize message
 for iter = 1:epoch
     for i = 1:n
         in = nonzeros(A(:,i));                      % incoming message index
@@ -33,21 +33,21 @@ end
 
 nodeBel = zeros(k,n);
 for i = 1:n
-    nb = nodePot(:,i)+sum(mu(:,nonzeros(A(:,i))),2);
-    nodeBel(:,i) = softmax(nb);
+    in = nonzeros(A(:,i));
+    nb = nodePot(:,i)+sum(mu(:,in),2);
+    nodeBel(:,i) = exp(nb-logsumexp(nb));
 end
 
 edgeBel = zeros(k,k,m);
 for l = 1:m
     eij = e(l);
     eji = eij+m;
-    ep = edgePot(:,:,eij);
     nbt = nodeBel(:,t(l))-mu(:,eij);
     nbs = nodeBel(:,s(l))-mu(:,eji);
+    ep = edgePot(:,:,eij);
     eb = (nbt+nbs')+ep;
-    edgeBel(:,:,eij) = softmax(eb);
+    edgeBel(:,:,eij) = exp(eb-logsumexp(eb(:)));
 end
-
 
 function i = rd(i, m)
 % reverse direction edge index
