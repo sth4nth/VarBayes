@@ -1,8 +1,11 @@
-function lnZ = mrfGibbs(nodePot, edgePot, nodeBel, edgeBel)
+function lnZ = mrfGibbs(A, nodePot, edgePot, nodeBel)
 % Compute Gibbs energy
-edgePot = reshape(edgePot,[],size(edgePot,3));
-edgeBel = reshape(edgeBel,[],size(edgeBel,3));
-Ex = dot(nodeBel,nodePot,1);
-Exy = dot(edgeBel,edgePot,1);
-Hx = -dot(nodeBel,log(nodeBel),1);
-lnZ = sum(Ex)+sum(Exy)+sum(Hx);
+[s,t,e] = find(tril(A));
+edgeBel = zeros(size(edgePot));
+for l = 1:numel(e)
+    edgeBel(:,:,e(l)) = nodeBel(:,s(l))*nodeBel(:,t(l))';
+end
+Ex = dot(nodeBel(:),nodePot(:));
+Exy = dot(edgeBel(:),edgePot(:));
+Hx = -dot(nodeBel(:),log(nodeBel(:)));
+lnZ = Ex+Exy+Hx;
