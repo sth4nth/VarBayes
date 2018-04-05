@@ -42,7 +42,6 @@ n = numel(mu);
 dg = sub2ind([n,n],1:n,1:n);
 Sigma(dg) = sigma;
 
-% TBD
 % function lnZ = gaBetheEnergy(eta, Lambda, h, J)
 % % Bethe energy of Gaussian MRF, valid for intermediate solutions during iterations
 % % Written by Mo Chen (sth4nth@gmail.com)
