@@ -22,39 +22,21 @@ m = size(edgePot,3);
 [s,t,e] = find(tril(A));
 A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
 mu = ones(k,2*m)/k;                     % message f->n
-nu =                                    % message n->f
+nu = ones(k,2*m)/k;                                   % message n->f
+nodeBel = zeros(k,n);
+edgeBel = zeros(k,k,m);
 for iter = 1:epoch
     for i = 1:n
         in = nonzeros(A(:,i));                      % incoming message index
-        nb = nodePot(:,i).*prod(mu(:,in),2);        % product of incoming message
-        for l = in'
-            ep = edgePot(:,:,ud(l,m));
-            mu(:,rd(l,m)) = normalize(ep*(nb./mu(:,l)));
-        end
+        nodeBel(:,i) = normalize(nodePot(:,i).*prod(mu(:,in),2),1);        % product of incoming message
+        nu(:,in) = nodeBel(:,i)./mu(:,in);
     end
+    
+    for l = 1:m
+        in = nonzeros(A(l,:));
+        ep = edgePot(:,:,l);
+        edgeBel(:,:,l) =
+        mu(:,in) = 
+    end
+    L(iter+1) = mrfBethe(A,nodePot,edgePot,nodeBel,edgeBel);
 end
-
-nodeBel = zeros(k,n);
-for i = 1:n
-    nb = nodePot(:,i).*prod(mu(:,nonzeros(A(:,i))),2);
-    nodeBel(:,i) = nb./sum(nb(:));
-end
-
-edgeBel = zeros(k,k,m);
-for l = 1:m
-    eij = e(l);
-    eji = eij+m;
-    ep = edgePot(:,:,eij);
-    nbt = nodeBel(:,t(l))./mu(:,eij);
-    nbs = nodeBel(:,s(l))./mu(:,eji);
-    eb = (nbt*nbs').*ep;
-    edgeBel(:,:,eij) = eb./sum(eb(:));
-end
-
-function i = rd(i, m)
-% reverse direction edge index
-i = mod(i+m-1,2*m)+1;
-
-function i = ud(i, m)
-% undirected edge index
-i = mod(i-1,m)+1;
