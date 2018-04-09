@@ -22,10 +22,13 @@ title('Noisy image');
 axis image;
 colormap gray;
 %% Construct graph
-[B,nodePot,factorPot] = im2fg(x,sigma,J);
-% [A, nodeBel, edgeBel] = im2mrf(x,sigma,J);
+[B,nodePot,factorPot] = fgIsGa(x,sigma,J);
 %% Mean field on a factor graph
 nodeBel0 = fgMf(B, nodePot, factorPot, epoch);
+
+% lnZ = fgBethe(B, nodePot, factorPot, nb, fb);
+% lnZ0 = bethe(A,nodePot,edgePot,nodeBel,edgeBel);
+% maxdiff(lnZ,lnZ0)
 
 subplot(2,2,3);
 imagesc(reshape(nodeBel0(1,:),size(img)));
@@ -33,16 +36,10 @@ title('Mean Field');
 axis image;
 colormap gray;
 %% Belief propagation on a factor graph
-[nb,fb] = fgBp(B, nodePot, factorPot, epoch);
-% [nodeBel,edgeBel] = belProp(A, nodePot, edgePot, epoch);
-% maxdiff(nb, nodeBel)
-
-% lnZ = fgBethe(B, nodePot, factorPot, nb, fb);
-% lnZ0 = bethe(A,nodePot,edgePot,nodeBel,edgeBel);
-% maxdiff(lnZ,lnZ0)
+[nodeBel1,factorBel1] = fgBp(B, nodePot, factorPot, epoch);
 
 subplot(2,2,4);
-imagesc(reshape(nb(1,:),size(img)));
+imagesc(reshape(nodeBel1(1,:),size(img)));
 title('Belief Propagation');
 axis image;
 colormap gray;

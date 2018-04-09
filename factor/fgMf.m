@@ -19,6 +19,6 @@ for t = 1:epoch
         for l = 1:d
             mu(:,l) = marginalize(factorPot{idx(l)},nodeBel(:,J(l,:)));
         end
-        nodeBel(:,i) = softmax(+nodePot(:,i)+sum(mu,2));
+        nodeBel(:,i) = softmax(nodePot(:,i)+sum(mu,2));
     end
 end
