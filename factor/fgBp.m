@@ -10,24 +10,25 @@ factorPot = cellfun(@exp,factorPot,'UniformOutput',false);
 k = size(nodePot,1);
 
 [nodeIdx,factorIdx,edge] = find(B);
-nEdge = numel(edge);
-edge(:) = 1:nEdge;
+t = numel(edge);
+edge(:) = 1:t;
 B = sparse(nodeIdx,factorIdx,edge);
 
-mu = ones(k,nEdge)/k;                     % message
-nu = ones(k,nEdge)/k;                     % message
-
-nodeBel = zeros(k,n);
+mu = ones(k,t)/k;                     % message
+nu = ones(k,t)/k;                     % message
 for t = 1:epoch
     for i = 1:n               % iterate through nodes
         msgIdx = nonzeros(B(:,i));  
-        nodeBel(:,i) = normalize(prod(mu(:,msgIdx),2).*nodePot(:,i),1);
-        nu(:,msgIdx) = nodeBel(:,i)./mu(:,msgIdx);
+        np = nodePot(:,i);
+        for l = msgIdx(:)'
+            other = setdiff(msgIdx,l);
+            nu(:,l) = normalize(np.*prod(mu(:,other),2));
+        end
     end
     
-    for k = 1:m             % iterate through factors
-        msgIdx = nonzeros(B(k,:));
-        fp = factorPot{k};
+    for l = 1:m             % iterate through factors
+        msgIdx = nonzeros(B(l,:));
+        fp = factorPot{l};
         for j = msgIdx(:)'              
             other = setdiff(msgIdx,j);
             mu(:,j) = normalize(marginalize(fp,nu(:,other)));
@@ -35,9 +36,16 @@ for t = 1:epoch
     end
 end
 
+nodeBel = zeros(k,n);
+for i = 1:n               % iterate through nodes
+    msgIdx = nonzeros(B(:,i));  
+    nb = nodePot(:,i).*prod(mu(:,msgIdx),2);
+    nodeBel(:,i) = nb/sum(nb(:));
+end
+
 factorBel = cell(1,m);
-for k = 1:m
-    in = nonzeros(B(k,:));
-    fb = factorPot{k}.*outerprod(nu(:,in));
-    factorBel{k} = fb/sum(fb(:));
+for l = 1:m
+    msgIdx = nonzeros(B(l,:));
+    fb = factorPot{l}.*outerprod(nu(:,msgIdx));
+    factorBel{l} = fb/sum(fb(:));
 end
