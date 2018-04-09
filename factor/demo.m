@@ -26,10 +26,6 @@ colormap gray;
 %% Mean field on a factor graph
 nodeBel0 = fgMf(B, nodePot, factorPot, epoch);
 
-% lnZ = fgBethe(B, nodePot, factorPot, nb, fb);
-% lnZ0 = bethe(A,nodePot,edgePot,nodeBel,edgeBel);
-% maxdiff(lnZ,lnZ0)
-
 subplot(2,2,3);
 imagesc(reshape(nodeBel0(1,:),size(img)));
 title('Mean Field');
