@@ -10,18 +10,19 @@ function [nodeBel, edgeBel, L] = mrfBp(A, nodePot, edgePot, epoch)
 %   edgeBel: k x k x m edge belief
 %   L: variational lower bound (Bethe energy)
 % Written by Mo Chen (sth4nth@gmail.com)
-nodePot = exp(nodePot);  
-edgePot = exp(edgePot);
-
 if nargin < 4
     epoch = 10;
 end
+nodePot = exp(nodePot);  
+edgePot = exp(edgePot);
 [k,n] = size(nodePot);
 m = size(edgePot,3);
 
 [s,t,e] = find(tril(A));
 A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
-mu = ones(k,2*m)/k;                     % message
+mu = ones(k,2*m)/k;                     % message factor to node
+nu = ones(k,2*m)/k;                     % message node to factor
+
 nodeBel = zeros(k,n);
 edgeBel = zeros(k,k,m);
 L = -inf(1,epoch+1);
