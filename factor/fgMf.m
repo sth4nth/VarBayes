@@ -6,7 +6,7 @@ function nodeBel = fgMf(B, nodePot, factorPot, epoch)
 % Written by Mo Chen (sth4nth@gmail.com)
 B = logical(B);
 [k,n] = size(nodePot);
-nodeBel = softmax(-nodePot,1);    % init nodeBel    
+nodeBel = softmax(nodePot,1);    % init nodeBel    
 for t = 1:epoch
     for i = 1:n              % iterate through nodes
         f = B(:,i);  % neighbor factor indicator vector
@@ -19,6 +19,6 @@ for t = 1:epoch
         for l = 1:d
             mu(:,l) = marginalize(factorPot{idx(l)},nodeBel(:,J(l,:)));
         end
-        nodeBel(:,i) = softmax(-nodePot(:,i)-sum(mu,2));
+        nodeBel(:,i) = softmax(+nodePot(:,i)+sum(mu,2));
     end
 end

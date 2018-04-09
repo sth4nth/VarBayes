@@ -4,8 +4,8 @@ function [nodeBel, factorBel] = fgBp(B, nodePot, factorPot, epoch)
 %   nodePot: node potential
 %   factorPot: factor potential
 % Written by Mo Chen (sth4nth@gmail.com)
-nodePot = exp(-nodePot); 
-factorPot = cellfun(@(x) exp(-x),factorPot,'UniformOutput',false);
+nodePot = exp(nodePot); 
+factorPot = cellfun(@exp,factorPot,'UniformOutput',false);
 [m,n] = size(B);
 k = size(nodePot,1);
 
@@ -37,19 +37,7 @@ end
 
 factorBel = cell(1,m);
 for k = 1:m
-    fp = factorPot{k};
-    nuk = nu(:,nonzeros(B(k,:)));
-    for i = 1:size(nuk,2)
-        fp = tvm(fp,nuk(:,i),i);
-    end
-    factorBel{k} = fp/sum(fp(:));
+    in = nonzeros(B(k,:));
+    fb = factorPot{k}.*outerprod(nu(:,in));
+    factorBel{k} = fb/sum(fb(:));
 end
-
-function T = tvm(T, v, d)
-% Tensor vector multiplication
-assert(size(v,2)==1 && size(v,1)==size(T,d));
-sz = ones(1,ndims(T));
-sz(d) = numel(v);
-T = T.*reshape(v,sz);
-
-

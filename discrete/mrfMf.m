@@ -24,6 +24,7 @@ for iter = 1:epoch
     L(iter+1) = sum(lnZ+E+H)/2;
 %     if abs(L(iter+1)-L(iter))/abs(L(iter)) < tol; break; end
 end
+L = L(1,2:iter+1);
 
 [s,t,e] = find(tril(A));
 edgeBel = zeros(size(edgePot));
