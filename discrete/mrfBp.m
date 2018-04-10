@@ -21,7 +21,6 @@ m = size(edgePot,3);
 [s,t,e] = find(tril(A));
 A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
 mu = ones(k,2*m)/k;                     % message factor to node
-nu = ones(k,2*m)/k;                     % message node to factor
 
 nodeBel = zeros(k,n);
 edgeBel = zeros(k,k,m);
