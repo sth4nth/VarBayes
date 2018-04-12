@@ -36,6 +36,7 @@ for iter = 1:epoch
         nodeBel(:,i) = nb/sum(nb);
     end
     
+%     TBD
     for l = 1:m
         eij = e(l);
         eji = eij+m;

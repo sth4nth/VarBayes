@@ -1,5 +1,6 @@
 clear; close all;
 
+epoch = 10;
 nSamples = 100;
 nNodes = 4;
 nStates = 2;
@@ -33,6 +34,10 @@ edgePot = log(edgePot);
 [nodeBel,edgeBel,lnZ] = mrfExact(A,nodePot,edgePot);
 lnZ0 = mrfBethe(A,nodePot,edgePot,nodeBel,edgeBel);
 lnZ-lnZ0     % to be fixed
-%% BP for chain model
-[nb,eb,L] = mrfBp(A,nodePot,edgePot,50);
-
+%% BP (exact for chain)
+[nodeBel1,edgeBel1,L1] = mrfBp(A,nodePot,edgePot,epoch);
+lnZ-L1(end)
+%% Mean Field
+[nodeBel2,edgeBel2,L2] = mrfMf(A,nodePot,edgePot,epoch);
+lnZ2 = mrfGibbs(A,nodePot,edgePot,nodeBel2);
+lnZ2-L2(end)
