@@ -18,7 +18,7 @@ expEdgePot = exp(edgePot);
 [k,n] = size(nodePot);
 m = size(edgePot,3);
 
-[s,t,e] = find(tril(A));
+[s,t,e] = find(triu(A));
 A = sparse([s;t],[t;s],[e;e+m]);       % digraph adjacent matrix, where value is message index
 mu = ones(k,2*m)/k;                     % message factor to node
 

@@ -7,7 +7,7 @@ function B = ug2fg(A)
 %   B: m x n adjacent matrix of bipartite factor graph 
 %       where m and n are # of edges and nodes
 % Written by Mo Chen (sth4nth@gmail.com)
-[s,t,w] = find(tril(A));
+[s,t,w] = find(triu(A));
 m = numel(w);
 n = size(A,1);
 idx = 1:m;

@@ -47,10 +47,11 @@ axis image;
 colormap gray;
 %% General mean field
 A = lattice(size(img));
-[s,t,e] = find(tril(A));
-e(:) = 1:numel(e);
+[s,t,e] = find(triu(A));
+m = numel(e);
+e(:) = 1:m;
 A = sparse([s;t],[t;s],[e;e]);
-edgePot = repmat(edgePot,[1, 1, nnz(tril(A))]);
+edgePot = repmat(edgePot,[1,1,m]);
 [nodeBel1, edgeBel1] = mrfMf(A, nodePot, edgePot, epoch);
 maxdiff(nodeBel0,nodeBel1)
 

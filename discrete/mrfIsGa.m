@@ -10,7 +10,7 @@ function [A, nodePot, edgePot] = mrfIsGa(im, sigma, J)
 %   edgePot: 2 x 2 x m edge potential
 % Written by Mo Chen (sth4nth@gmail.com)
 A = lattice(size(im));
-[s,t,e] = find(tril(A));
+[s,t,e] = find(triu(A));
 m = numel(e);
 e(:) = 1:m;
 A = sparse([s;t],[t;s],[e;e]);

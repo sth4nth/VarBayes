@@ -34,5 +34,5 @@ edgePot = log(edgePot);
 lnZ0 = mrfBethe(A,nodePot,edgePot,nodeBel,edgeBel);
 lnZ-lnZ0     % to be fixed
 %% BP for chain model
-[nb,eb,L] = mrfBp(A,nodePot,edgePot,10);
+[nb,eb,L] = mrfBp(A,nodePot,edgePot,50);
 

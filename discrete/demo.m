@@ -4,7 +4,7 @@ clear; close all;
 % X = A;
 load letterX.mat
 %% Original image
-epoch = 10;
+epoch = 50;
 J = 1;   % ising parameter
 sigma = 1; % noise level
 
@@ -55,14 +55,6 @@ imagesc(reshape(z(1,:),size(img)));
 title('Gibbs Sampling');
 axis image;
 colormap gray;
-%% Exact: TBD
-% z = mrfExact(A, nodePot, edgePot);
-% 
-% subplot(2,3,3);
-% imagesc(reshape(z(1,:),size(img)));
-% title('Exact');
-% axis image;
-% colormap gray;
 %% Energy comparation
 figure
 epochs = 1:epoch;
