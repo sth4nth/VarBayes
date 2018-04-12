@@ -1,6 +1,4 @@
-function [label, nodeBel, lnZ] = mrfExact(A, nodePot, edgePot)
-% TBD
-
+function [nodeBel, edgeBel, lnZ] = mrfExact(A, nodePot, edgePot)
 % Naive method for exact MRF inference (NP)
 % Assuming egdePot is symmetric
 % Input: 
@@ -12,14 +10,25 @@ function [label, nodeBel, lnZ] = mrfExact(A, nodePot, edgePot)
 %   edgeBel: k x k x m edge belief
 % Written by Mo Chen (sth4nth@gmail.com)
 [k,n] = size(nodePot);
+[s,t,e] = find(tril(A));
+m = numel(e);
+
 z = ones(1,n);
-energy = -inf;
+nodeBel = zeros(size(nodePot));
+edgeBel = zeros(size(edgePot));
+Z = 0;
 while true
     pot = mrfPot(z,A,nodePot,edgePot);
-    if pot > energy
-        label = z;
-        energy = pot;
+    % update nodeBel
+    for i = 1:n
+        nodeBel(z(i),i) = nodeBel(z(i),i)+pot;
     end
+    % update edgeBel
+    for l = 1:m
+        edgeBel(z(s(l)),z(t(l)),e(l)) = edgeBel(z(s(l)),z(t(l)),e(l))+pot;
+    end
+    % update Z
+    Z = Z+pot;
     % next configuration
     for i = 1:n
         z(i) = z(i) + 1;
@@ -29,11 +38,14 @@ while true
             z(i) = 1;
         end
     end
-    
+    % stop when finish all configuration
      if i == n && z(end) == 1
         break;
     end
 end
+nodeBel = nodeBel/Z;
+edgeBel = edgeBel/Z;
+lnZ = log(Z);
 
 function pot = mrfPot(z, A, nodePot,edgePot)
 pot = 0;
@@ -44,4 +56,4 @@ end
 for l = 1:numel(e)
    pot = pot+edgePot(z(s(l)),z(t(l)),e(l));
 end
-pot = -pot;
+pot = exp(pot);
