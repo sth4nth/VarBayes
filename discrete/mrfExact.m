@@ -10,7 +10,7 @@ function [nodeBel, edgeBel, lnZ] = mrfExact(A, nodePot, edgePot)
 %   edgeBel: k x k x m edge belief
 % Written by Mo Chen (sth4nth@gmail.com)
 [k,n] = size(nodePot);
-[s,t,e] = find(tril(A));
+[s,t,e] = find(triu(A));
 m = numel(e);
 
 z = ones(1,n);

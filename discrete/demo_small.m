@@ -24,13 +24,14 @@ edgePot = repmat([2,1;1,2],[1,1,nEdges]);
 % Make adjacency matrix
 A = zeros(nNodes,nNodes);
 A(1,2) = 1;
-A(2,3) = 1;
-A(3,4) = 1;
+A(2,3) = 2;
+A(3,4) = 3;
 A = A+A';
-
 nodePot = log(nodePot);
 edgePot = log(edgePot);
 
 [nodeBel,edgeBel,lnZ] = mrfExact(A,nodePot,edgePot);
 
-[nb,eb,L] = mrfBp(A,nodePot,edgePot,2);
+%% BP for chain model
+
+[nb,eb,L] = mrfBp(A,nodePot,edgePot,10);
