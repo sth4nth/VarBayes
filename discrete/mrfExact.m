@@ -19,16 +19,17 @@ edgeBel = zeros(size(edgePot));
 Z = 0;
 while true
     pot = mrfPot(z,A,nodePot,edgePot);
+    expPot = exp(pot);
     % update nodeBel
     for i = 1:n
-        nodeBel(z(i),i) = nodeBel(z(i),i)+pot;
+        nodeBel(z(i),i) = nodeBel(z(i),i)+expPot;
     end
     % update edgeBel
     for l = 1:m
-        edgeBel(z(s(l)),z(t(l)),e(l)) = edgeBel(z(s(l)),z(t(l)),e(l))+pot;
+        edgeBel(z(s(l)),z(t(l)),e(l)) = edgeBel(z(s(l)),z(t(l)),e(l))+expPot;
     end
     % update Z
-    Z = Z+pot;
+    Z = Z+expPot;
     % next configuration
     for i = 1:n
         z(i) = z(i) + 1;
@@ -56,4 +57,3 @@ end
 for l = 1:numel(e)
    pot = pot+edgePot(z(s(l)),z(t(l)),e(l));
 end
-pot = exp(pot);

@@ -13,8 +13,8 @@ function [nodeBel, edgeBel, L] = mrfBp(A, nodePot, edgePot, epoch)
 if nargin < 4
     epoch = 10;
 end
-nodePot = exp(nodePot);  
-edgePot = exp(edgePot);
+expNodePot = exp(nodePot);  
+expEdgePot = exp(edgePot);
 [k,n] = size(nodePot);
 m = size(edgePot,3);
 
@@ -28,9 +28,9 @@ L = -inf(1,epoch+1);
 for iter = 1:epoch
     for i = 1:n
         in = nonzeros(A(:,i));                      % incoming message index
-        nb = nodePot(:,i).*prod(mu(:,in),2);                       % product of incoming message
+        nb = expNodePot(:,i).*prod(mu(:,in),2);                       % product of incoming message
         for l = in'
-            ep = edgePot(:,:,ud(l,m));
+            ep = expEdgePot(:,:,ud(l,m));
             mu(:,rd(l,m)) = normalize(ep*(nb./mu(:,l)));
         end
         nodeBel(:,i) = nb/sum(nb);
@@ -39,7 +39,7 @@ for iter = 1:epoch
     for l = 1:m
         eij = e(l);
         eji = eij+m;
-        ep = edgePot(:,:,eij);
+        ep = expEdgePot(:,:,eij);
         nbt = nodeBel(:,t(l))./mu(:,eij);
         nbs = nodeBel(:,s(l))./mu(:,eji);
         eb = (nbt*nbs').*ep;
