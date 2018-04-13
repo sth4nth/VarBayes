@@ -40,7 +40,7 @@ for iter = 1:epoch
         st = e(l);
         nut = nodeBel(:,t(l))./mu(:,st);
         nus = nodeBel(:,s(l))./mu(:,st+m);
-        eb = (nus*nut').*expEdgePot(:,:,st);
+        eb = expEdgePot(:,:,st).*(nus*nut');
         edgeBel(:,:,st) = eb./sum(eb(:));
     end
     L(iter+1) = mrfBethe(A,nodePot,edgePot,nodeBel,edgeBel);
