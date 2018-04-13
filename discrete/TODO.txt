@@ -1,0 +1,2 @@
+finish mrfAprox
+get samples from sampling method
