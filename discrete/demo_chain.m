@@ -32,9 +32,10 @@ nodePot = log(nodePot);
 edgePot = log(edgePot);
 
 [nodeBel,edgeBel,lnZ] = mrfExact(A,nodePot,edgePot);
+%% Bethe energy for chain is free energy 
 lnZ0 = mrfBethe(A,nodePot,edgePot,nodeBel,edgeBel);
-lnZ-lnZ0     % to be fixed
-%% BP (exact for chain)
+lnZ-lnZ0     
+%% BP chain is exact
 [nodeBel1,edgeBel1,L1] = mrfBp(A,nodePot,edgePot,epoch);
 lnZ-L1(end)
 %% Mean Field

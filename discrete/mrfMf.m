@@ -19,9 +19,10 @@ for iter = 1:epoch
         [~,j,e] = find(A(i,:));             % neighbors
         [nodeBel(:,i),lnZ(i)] = softmax(nodePot(:,i)+reshape(edgePot(:,:,e),2,[])*reshape(nodeBel(:,j),[],1));
     end
-    E = dot(nodeBel,nodePot,1);
-    H = -dot(nodeBel,log(nodeBel),1);
-    L(iter+1) = sum(lnZ+E+H)/2;
+%     E = dot(nodeBel,nodePot,1);
+%     H = -dot(nodeBel,log(nodeBel),1);
+%     L(iter+1) = sum(lnZ+E+H)/2;
+    L(iter+1) = mrfGibbs(A,nodePot,edgePot,nodeBel);
 %     if abs(L(iter+1)-L(iter))/abs(L(iter)) < tol; break; end
 end
 L = L(1,2:iter+1);

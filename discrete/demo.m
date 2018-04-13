@@ -4,7 +4,7 @@ clear; close all;
 % X = A;
 load letterX.mat
 %% Original image
-epoch = 50;
+epoch = 20;
 J = 1;   % ising parameter
 sigma = 1; % noise level
 
