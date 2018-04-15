@@ -25,14 +25,14 @@ title('Noisy image');
 axis image;
 colormap gray;
 %% Construct MRF data
-[A, nodePot, edgePot] = mrfIsGa(x, sigma, J);
+[A,nodePot,edgePot] = mrfIsGa(x,sigma,J);
 %% Mean Field
-[nodeBel, edgeBel, lnZ0] = mrfMf(A, nodePot, edgePot, epoch);
+[nodeBel,edgeBel,lnZ0] = mrfMf(A,nodePot,edgePot,epoch);
 
-L0 = mrfGibbs(A, nodePot, edgePot, nodeBel);
-L1 = mrfBethe(A, nodePot, edgePot, nodeBel, edgeBel);
-maxdiff(L0, lnZ0(end))
-maxdiff(L0, L1)
+L0 = mrfGibbs(A,nodePot,edgePot,nodeBel);
+L1 = mrfBethe(A,nodePot,edgePot,nodeBel,edgeBel);
+maxdiff(L0,lnZ0(end))
+maxdiff(L0,L1)
 
 subplot(2,3,4);
 imagesc(reshape(nodeBel(1,:),size(img)));
@@ -40,7 +40,7 @@ title('Mean Field');
 axis image;
 colormap gray;
 %% Undirected Graph Belief Propagation
-[nodeBel, edgeBel, lnZ1] = mrfBp(A, nodePot, edgePot, epoch);
+[nodeBel,edgeBel,lnZ1] = mrfBp(A,nodePot,edgePot,epoch);
 
 subplot(2,3,5);
 imagesc(reshape(nodeBel(1,:),size(img)));
@@ -48,7 +48,7 @@ title('Belief Propagation');
 axis image;
 colormap gray;
 %% Gibbs Sampling
-z = mrfGs(A, nodePot, edgePot, epoch);
+z = mrfGs(A,nodePot,edgePot,epoch);
 
 subplot(2,3,6);
 imagesc(reshape(z(1,:),size(img)));
