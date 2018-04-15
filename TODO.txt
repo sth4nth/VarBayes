@@ -1,0 +1,3 @@
+finish mrfAprox
+get samples from sampling method
+verify factor/* for edge and energy

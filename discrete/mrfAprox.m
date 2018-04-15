@@ -24,7 +24,7 @@ for d = 1:nSamples
         edgeBel(Sample(d,s(l)),Samples(d,t(l)),e(l)) = edgeBel(Sample(d,s(l)),Samples(d,t(l)),e(l))+1;
     end
     
-    Z = Z+mrfPot(Samples(s,:),A,nodePot,edgePot);
+    Z = Z+exp(mrfPot(Samples(s,:),A,nodePot,edgePot));
 end
 nodeBel = nodeBel/nSamples;
 edgeBel = edgeBel/nSamples;
