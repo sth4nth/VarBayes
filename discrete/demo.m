@@ -49,9 +49,10 @@ axis image;
 colormap gray;
 %% Gibbs Sampling
 z = mrfGs(A,nodePot,edgePot,epoch);
+[nodeBel,edgeBel,lnZ] = mrfAprox(z,A,nodePot,edgePot);
 
 subplot(2,3,6);
-imagesc(reshape(z(1,:),size(img)));
+imagesc(reshape(nodeBel(1,:),size(img)));
 title('Gibbs Sampling');
 axis image;
 colormap gray;
