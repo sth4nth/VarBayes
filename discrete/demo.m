@@ -26,23 +26,23 @@ epoch = 20;
 J = 1;   % ising parameter
 [A,nodePot,edgePot] = mrfIsGa(x,sigma,J);
 %% Mean Field
-[nodeBel,edgeBel,lnZ0] = mrfMf(A,nodePot,edgePot,epoch);
+[nodeBel0,edgeBel0,lnZ0] = mrfMf(A,nodePot,edgePot,epoch);
 
-L0 = mrfGibbs(A,nodePot,edgePot,nodeBel);
-L1 = mrfBethe(A,nodePot,edgePot,nodeBel,edgeBel);
+L0 = mrfGibbs(A,nodePot,edgePot,nodeBel0);
+L1 = mrfBethe(A,nodePot,edgePot,nodeBel0,edgeBel0);
 maxdiff(L0,lnZ0(end))
 maxdiff(L0,L1)
 
 subplot(2,3,4);
-imagesc(reshape(nodeBel(1,:),size(img)));
+imagesc(reshape(nodeBel0(1,:),size(img)));
 title('Mean Field');
 axis image;
 colormap gray;
 %% Undirected Graph Belief Propagation
-[nodeBel,edgeBel,lnZ1] = mrfBp(A,nodePot,edgePot,epoch);
+[nodeBel1,edgeBel1,lnZ1] = mrfBp(A,nodePot,edgePot,epoch);
 
 subplot(2,3,5);
-imagesc(reshape(nodeBel(1,:),size(img)));
+imagesc(reshape(nodeBel1(1,:),size(img)));
 title('Belief Propagation');
 axis image;
 colormap gray;
@@ -60,10 +60,11 @@ colormap gray;
 %% Energy comparation
 figure
 epochs = 1:epoch;
+lnZ = lnZ*ones(1,epoch);
 plot( epochs,lnZ0,'-', ...
       epochs,lnZ1,'-',...
-      epochs,lnZ*ones(1,epoch),'-');
+      epochs,lnZ,'-');
 xlabel('epoch');       %  add axis labels and plot title
 ylabel('energy');
-title('Energy');
+title('Energy Comparation');
 legend('MF','BP','GS');

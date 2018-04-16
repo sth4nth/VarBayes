@@ -75,5 +75,5 @@ plot( epochs,lnZ,'b-', ...
       epochs,lnZ1,'k-');
 xlabel('epoch');       %  add axis labels and plot title
 ylabel('energy');
-title('Energy');
+title('Energy Comparation');
 legend('Exact','MF','BP');

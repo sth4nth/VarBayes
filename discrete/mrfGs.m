@@ -10,7 +10,7 @@ function Z = mrfGs(A, nodePot, edgePot, epoch, T)
 % Output:
 %   Z: T x n node label
 % Written by Mo Chen (sth4nth@gmail.com)
-[~,z] = max(nodePot,[],1);
+[~,z] = max(nodePot,[],1);   % initialization
 for t = 1:epoch
     z = nextSample(z, A, nodePot, edgePot);
 end
@@ -23,7 +23,8 @@ end
 
 function z = nextSample(z, A, nodePot, edgePot)
 n = size(nodePot,2);
-E = (1:size(nodePot,1))' == z;    % init nodeBel    
+E = (1:size(nodePot,1))' == z;    % init nodeBel   
+E = double(E);
 for i = 1:n
     [~,j,e] = find(A(i,:));             % neighbors
     p = softmax(nodePot(:,i)+reshape(edgePot(:,:,e),2,[])*reshape(E(:,j),[],1));

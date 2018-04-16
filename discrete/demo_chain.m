@@ -38,6 +38,8 @@ lnZ-lnZ0
 %% BP chain is exact
 [nodeBel1,edgeBel1,L1] = mrfBp(A,nodePot,edgePot,epoch);
 lnZ-L1(end)
+maxdiff(nodeBel,nodeBel1)
+maxdiff(edgeBel,edgeBel1)
 %% Mean Field
 [nodeBel2,edgeBel2,L2] = mrfMf(A,nodePot,edgePot,epoch);
 lnZ2 = mrfGibbs(A,nodePot,edgePot,nodeBel2);
