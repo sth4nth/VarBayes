@@ -4,10 +4,6 @@ clear; close all;
 % X = A;
 load letterX.mat
 %% Original image
-epoch = 20;
-J = 1;   % ising parameter
-sigma = 1; % noise level
-
 img = double(X);
 img = sign(img-mean(img(:)));
 
@@ -18,6 +14,7 @@ title('Original image');
 axis image;
 colormap gray;
 %% Noisy image
+sigma = 1; % noise level
 x = img + sigma*randn(size(img)); % noisy signal
 subplot(2,3,2);
 imagesc(x);
@@ -25,6 +22,8 @@ title('Noisy image');
 axis image;
 colormap gray;
 %% Construct MRF data
+epoch = 20;
+J = 1;   % ising parameter
 [A,nodePot,edgePot] = mrfIsGa(x,sigma,J);
 %% Mean Field
 [nodeBel,edgeBel,lnZ0] = mrfMf(A,nodePot,edgePot,epoch);
@@ -48,7 +47,9 @@ title('Belief Propagation');
 axis image;
 colormap gray;
 %% Gibbs Sampling
-z = mrfGs(A,nodePot,edgePot,);
+burnin = 100;
+t = 20;
+z = mrfGs(A,nodePot,edgePot,burnin,t);
 [nodeBel,edgeBel,lnZ] = mrfAprox(z,A,nodePot,edgePot);
 
 subplot(2,3,6);

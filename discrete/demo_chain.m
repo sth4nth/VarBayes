@@ -30,7 +30,7 @@ A(3,4) = 3;
 A = A+A';
 nodePot = log(nodePot);
 edgePot = log(edgePot);
-
+%% Exact
 [nodeBel,edgeBel,lnZ] = mrfExact(A,nodePot,edgePot);
 %% Bethe energy for chain is free energy 
 lnZ0 = mrfBethe(A,nodePot,edgePot,nodeBel,edgeBel);

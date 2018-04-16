@@ -13,7 +13,7 @@ A = A+A';
 nodePot = zeros(numel(z),n);
 edgePot = repmat(z*z',[1,1,nnz(triu(A))]);
 
-
+epoch = 20;
 [nodeBel,edgeBel,lnZ] = mrfExact(A,nodePot,edgePot);
-[nodeBel0,edgeBel0,L] = mrfBp(A,nodePot,edgePot,10);
+[nodeBel0,edgeBel0,L] = mrfBp(A,nodePot,edgePot,epoch);
 plot(L)
