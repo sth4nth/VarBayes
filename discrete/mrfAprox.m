@@ -17,7 +17,7 @@ M = size(edgePot,3);
 [src,des,edge] = find(triu(A));
 nodeBel = zeros(size(nodePot));
 edgeBel = zeros(size(edgePot));
-Z = 0;
+pot = zeros(T,1);
 for t = 1:T
     for n = 1:N
         nodeBel(Samples(t,n),n) = nodeBel(Samples(t,n),n)+1;
@@ -27,8 +27,8 @@ for t = 1:T
         edgeBel(Samples(t,src(m)),Samples(t,des(m)),edge(m)) = edgeBel(Samples(t,src(m)),Samples(t,des(m)),edge(m))+1;
     end
     
-    Z = Z+exp(mrfPot(Samples(t,:),A,nodePot,edgePot));
+    pot(t) = mrfPot(Samples(t,:),A,nodePot,edgePot);
 end
 nodeBel = nodeBel/T;
 edgeBel = edgeBel/T;
-lnZ = log(Z);
+lnZ = logsumexp(pot);

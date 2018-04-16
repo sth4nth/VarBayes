@@ -48,7 +48,7 @@ title('Belief Propagation');
 axis image;
 colormap gray;
 %% Gibbs Sampling
-z = mrfGs(A,nodePot,edgePot,epoch);
+z = mrfGs(A,nodePot,edgePot,);
 [nodeBel,edgeBel,lnZ] = mrfAprox(z,A,nodePot,edgePot);
 
 subplot(2,3,6);
@@ -60,8 +60,9 @@ colormap gray;
 figure
 epochs = 1:epoch;
 plot( epochs,lnZ0,'-', ...
-      epochs,lnZ1,'-');
+      epochs,lnZ1,'-',...
+      epochs,lnZ*ones(1,epoch),'-');
 xlabel('epoch');       %  add axis labels and plot title
 ylabel('energy');
 title('Energy');
-legend('MF','BP');
+legend('MF','BP','GS');
