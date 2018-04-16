@@ -31,4 +31,4 @@ for t = 1:T
 end
 nodeBel = nodeBel/T;
 edgeBel = edgeBel/T;
-lnZ = 0;
+lnZ = 0;     % TBD
