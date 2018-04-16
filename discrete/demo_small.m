@@ -37,8 +37,8 @@ colormap gray;
 %% Mean Field
 [nodeBel0,edgeBel0,lnZ0] = mrfMf(A,nodePot,edgePot,epoch);
 
-L0 = mrfGibbs(A,nodePot,edgePot,nodeBel);
-L1 = mrfBethe(A,nodePot,edgePot,nodeBel,edgeBel);
+L0 = mrfGibbs(A,nodePot,edgePot,nodeBel0);
+L1 = mrfBethe(A,nodePot,edgePot,nodeBel0,edgeBel0);
 maxdiff(L0,lnZ0(end))
 maxdiff(L0,L1)
 
@@ -55,17 +55,6 @@ imagesc(reshape(nodeBel1(1,:),size(img)));
 title('Belief Propagation');
 axis image;
 colormap gray;
-% %% Gibbs Sampling
-% burnin = 100;
-% t = 20;
-% z = mrfGs(A,nodePot,edgePot,burnin,t);
-% [nodeBel,edgeBel,lnZ] = mrfAprox(z,A,nodePot,edgePot);
-% 
-% subplot(2,3,6);
-% imagesc(reshape(nodeBel(1,:),size(img)));
-% title('Gibbs Sampling');
-% axis image;
-% colormap gray;
 %% Energy comparation
 figure
 lnZ = lnZ*ones(1,epoch);
