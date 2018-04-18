@@ -57,7 +57,7 @@ axis image;
 colormap gray;
 %% Gibbs Sampling
 burnin = 200;
-t = 100;
+t = 10000;
 z = mrfGs(A,nodePot,edgePot,burnin,t);
 [nodeBel2,edgeBel2,lnZ2] = mrfAprox(z,A,nodePot,edgePot);
 
@@ -70,7 +70,6 @@ colormap gray;
 figure
 lnZ = lnZ*ones(1,epoch);
 lnZ2 = lnZ2*ones(1,epoch);
-
 epochs = 1:epoch;
 plot( epochs,lnZ,'b-', ...
       epochs,lnZ0,'r-', ...

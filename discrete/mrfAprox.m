@@ -31,5 +31,5 @@ for t = 1:T
 end
 nodeBel = nodeBel/T;
 edgeBel = edgeBel/T;
-lnZ = logsumexp(pot)+N*log(K)-log(T);
-
+% lnZ = logsumexp(pot)+N*log(K)-log(T);
+lnZ = -logsumexp(-pot)+N*log(K)+log(T); % Ogata-Tanemura
