@@ -12,7 +12,7 @@ function [nodeBel, edgeBel, lnZ] = mrfAprox(Samples, A, nodePot, edgePot)
 %   lnZ: free energy
 % Written by Mo Chen (sth4nth@gmail.com)
 T = size(Samples,1);
-N = size(nodePot,2);
+[K,N] = size(nodePot);
 M = size(edgePot,3);
 [src,des,edge] = find(triu(A));
 nodeBel = zeros(size(nodePot));
@@ -31,4 +31,4 @@ for t = 1:T
 end
 nodeBel = nodeBel/T;
 edgeBel = edgeBel/T;
-lnZ = logsumexp(pot);
+lnZ = logsumexp(pot)+N*log(K)-log(T);

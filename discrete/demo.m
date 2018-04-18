@@ -48,7 +48,7 @@ axis image;
 colormap gray;
 %% Gibbs Sampling
 burnin = 100;
-t = 20;
+t = 2000;
 z = mrfGs(A,nodePot,edgePot,burnin,t);
 [nodeBel,edgeBel,lnZ] = mrfAprox(z,A,nodePot,edgePot);
 
