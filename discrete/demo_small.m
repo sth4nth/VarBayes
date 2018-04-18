@@ -47,7 +47,7 @@ imagesc(reshape(nodeBel0(1,:),size(img)));
 title('Mean Field');
 axis image;
 colormap gray;
-%% Undirected Graph Belief Propagation
+%% Belief Propagation
 [nodeBel1,edgeBel1,lnZ1] = mrfBp(A,nodePot,edgePot,epoch);
 
 subplot(2,3,5);
@@ -55,14 +55,28 @@ imagesc(reshape(nodeBel1(1,:),size(img)));
 title('Belief Propagation');
 axis image;
 colormap gray;
+%% Gibbs Sampling
+burnin = 200;
+t = 100;
+z = mrfGs(A,nodePot,edgePot,burnin,t);
+[nodeBel2,edgeBel2,lnZ2] = mrfAprox(z,A,nodePot,edgePot);
+
+subplot(2,3,6);
+imagesc(reshape(nodeBel2(1,:),size(img)));
+title('Gibbs Sampling');
+axis image;
+colormap gray;
 %% Energy comparation
 figure
 lnZ = lnZ*ones(1,epoch);
+lnZ2 = lnZ2*ones(1,epoch);
+
 epochs = 1:epoch;
 plot( epochs,lnZ,'b-', ...
       epochs,lnZ0,'r-', ...
-      epochs,lnZ1,'k-');
+      epochs,lnZ1,'m-',...
+      epochs,lnZ2,'k-');
 xlabel('epoch');       %  add axis labels and plot title
 ylabel('energy');
 title('Energy Comparation');
-legend('Exact','MF','BP');
+legend('Exact','MF','BP','GS');

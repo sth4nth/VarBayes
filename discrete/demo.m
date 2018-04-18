@@ -38,7 +38,7 @@ imagesc(reshape(nodeBel0(1,:),size(img)));
 title('Mean Field');
 axis image;
 colormap gray;
-%% Undirected Graph Belief Propagation
+%% Belief Propagation
 [nodeBel1,edgeBel1,lnZ1] = mrfBp(A,nodePot,edgePot,epoch);
 
 subplot(2,3,5);

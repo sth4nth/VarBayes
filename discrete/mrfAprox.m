@@ -32,3 +32,4 @@ end
 nodeBel = nodeBel/T;
 edgeBel = edgeBel/T;
 lnZ = logsumexp(pot)+N*log(K)-log(T);
+
