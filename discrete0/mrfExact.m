@@ -1,6 +1,5 @@
-function [label, nodeBel, lnZ] = mrfBf(A, nodePot, edgePot)
-% TBD
-% Brute force method for exact MRF inference
+function [label, nodeBel, lnZ] = mrfExact(A, nodePot, edgePot)
+% Naive method for exact MRF inference (NP)
 % Assuming egdePot is symmetric
 % Input: 
 %   A: n x n adjacent matrix of undirected graph, where value is edge index
@@ -14,7 +13,7 @@ function [label, nodeBel, lnZ] = mrfBf(A, nodePot, edgePot)
 z = ones(1,n);
 energy = -inf;
 while true
-    pot = -mrfPot(z,A,nodePot,edgePot);
+    pot = mrfPot(z,A,nodePot,edgePot);
     if pot > energy
         label = z;
         energy = pot;
@@ -43,3 +42,4 @@ end
 for l = 1:numel(e)
    pot = pot+edgePot(z(s(l)),z(t(l)),e(l));
 end
+pot = -pot;

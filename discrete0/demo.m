@@ -3,7 +3,7 @@ clear; close all;
 % load letterA.mat;
 % X = A;
 load letterX.mat
-X = imresize(X,[4,4]);
+% X = imresize(X,[4,4]);
 %% Original image
 epoch = 100;
 J = 1;   % ising parameter
@@ -83,10 +83,10 @@ colormap gray;
 % axis image;
 % colormap gray;
 %% Exact
-z = mrfBf(A, nodePot, edgePot);
-
-subplot(2,3,6);
-imagesc(reshape(z(1,:),size(im)));
-title('Exact');
-axis image;
-colormap gray;
+% z = mrfBf(A, nodePot, edgePot);
+% 
+% subplot(2,3,6);
+% imagesc(reshape(z(1,:),size(im)));
+% title('Exact');
+% axis image;
+% colormap gray;
