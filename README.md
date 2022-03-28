@@ -1,1 +1,1 @@
-Variational Bayesian Inference Toolbox
+Variational Bayesian Inference for MRF
